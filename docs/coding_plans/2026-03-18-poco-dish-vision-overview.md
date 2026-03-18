@@ -24,6 +24,7 @@
 - 使用当前执行时可用的 Android Studio 稳定版、JDK 17 与兼容 `Compose for TV` 的稳定依赖版本
 - `minSdk` 暂定为 28，`targetSdk` 取执行时最新稳定版本
 - 首轮开发默认以 Android TV Emulator 为主，后续在真实电视上做性能复核
+- 真实部署环境以 55 寸 `4K` 高位壁挂电视为基准，设计优先适配约 2 米观看距离与轻仰视角
 - `Phase 1` 只依赖本地 `assets` 菜单与本地图片
 - `Phase 2` 的 LAN 服务为局域网电脑上的 `HTTP + JSON` 服务，不做自动发现
 
@@ -117,9 +118,9 @@
 - `core/ui/theme/...`
   - 设计 token、主题、液态玻璃视觉基础组件
 - `feature/home/...`
-  - `Attract mode`
+  - `Attract mode` 与中下视觉重心首页
 - `feature/menu/...`
-  - `Browse mode`、分类浏览、详情浮层、空闲超时状态机
+  - `Browse mode`、分类浏览、底部 `detail dock`、详情浮层、空闲超时状态机
 - `feature/settings/...`
   - 数据源切换、LAN 地址输入、同步状态
 - `benchmark/...`
@@ -132,7 +133,7 @@
 - 目标：
   - 让项目能编译、安装、启动
   - 打通 `Local JSON -> Room -> Repository -> UI`
-  - 完成首页、浏览页、详情浮层与双模式切换
+  - 完成中下重心首页、浏览页底部 `detail dock`、详情浮层与双模式切换
 - 退出条件：
   - 本地菜单可展示
   - 遥控器可操作
@@ -163,7 +164,7 @@
 - 退出条件：
   - 玻璃质感稳定可控
   - 焦点移动与模式切换掉帧受控
-  - TV 观看距离与对比度达标
+  - 55 寸高位壁挂场景下的 2 米观看距离与对比度达标
   - 发布前核验清单完整
 - 详细计划：
   - `docs/coding_plans/2026-03-18-phase-3-visual-polish-and-hardening.md`
@@ -218,6 +219,7 @@
 - `Compose for TV` 的焦点管理如果前期状态设计不清，会在 `Phase 1` 就埋下回归点
 - LAN 同步如果绕过 `Room` 直接更新 UI，会破坏 `SSOT`
 - 玻璃风格如果用大面积实时 `blur` 来实现，会在 `Phase 3` 直接拖垮性能
+- 如果仍按客厅平视布局把关键信息放在顶部或右侧边缘，会直接损害高位壁挂场景下的可读性
 - 未尽早建立 `benchmark` 与导航测试，会导致“看起来能跑，实际上不稳”
 
 ## 完成标准

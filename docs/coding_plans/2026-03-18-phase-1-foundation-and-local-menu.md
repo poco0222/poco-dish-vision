@@ -4,7 +4,7 @@
 
 **Goal:** 从零搭建 Android TV 工程骨架，完成本地菜单展示闭环与 `Hybrid` 交互模式的 MVP。
 
-**Architecture:** Phase 1 只接入本地 `assets` 数据，但从一开始就按最终架构拆分模块与数据流，确保 `Local JSON -> Room -> Repository -> ViewModel -> UiState -> Compose for TV UI` 一次成型。UI 优先保证焦点路径、双模式切换与大屏可读性，视觉先建立基础玻璃组件而不做重特效。
+**Architecture:** Phase 1 只接入本地 `assets` 数据，但从一开始就按最终架构拆分模块与数据流，确保 `Local JSON -> Room -> Repository -> ViewModel -> UiState -> Compose for TV UI` 一次成型。UI 优先保证焦点路径、双模式切换与高位壁挂场景下的大屏可读性，首页采用中下视觉重心，浏览页采用左侧分类加底部 `detail dock` 的信息布局。
 
 **Tech Stack:** Kotlin, Compose for TV, TV Material 3, Hilt, Room, DataStore, Coil, JUnit, Turbine, Compose UI Test, Macrobenchmark
 
@@ -15,7 +15,7 @@
 - 应用可在 Android TV Emulator 安装并启动
 - 首页默认进入 `Attract mode`
 - 遥控器可切换到 `Browse mode`
-- 浏览页可以查看分类、菜品卡片与详情浮层
+- 浏览页可以查看分类、菜品卡片、底部 `detail dock` 与详情浮层
 - 菜单数据来自本地 `assets`，并通过 `Room` 提供给 UI
 - `Settings` 页面可看到当前数据源模式与本地数据状态
 - 最少一条冷启动 benchmark 可运行
@@ -327,7 +327,7 @@ git add app core/data/src/main/java/com/poco/dishvision/core/data/di
 git commit -m "接入 Hilt 与应用导航壳层"
 ```
 
-### Task 5: Build `Attract mode` Home Screen
+### Task 5: Build `Attract mode` Home Screen with Lower Visual Center
 
 **Files:**
 - Create: `feature/home/src/main/java/com/poco/dishvision/feature/home/HomeRoute.kt`
@@ -344,6 +344,7 @@ git commit -m "接入 Hilt 与应用导航壳层"
 fun home_screen_renders_featured_section() {
     composeTestRule.onNodeWithText("本店推荐").assertExists()
     composeTestRule.onNodeWithTag("attract-carousel").assertExists()
+    composeTestRule.onNodeWithTag("home-lower-hero-zone").assertExists()
 }
 ```
 
@@ -357,10 +358,16 @@ Expected: FAIL with missing route or UI tags
 ```kotlin
 data class HomeUiState(
     val heroTitle: String,
+    val heroSubtitle: String,
     val featuredItems: List<MenuItem>,
     val autoAdvanceEnabled: Boolean,
 )
 ```
+
+实现要求：
+- 首屏主文案、价格提示和推荐内容落在中下区域
+- 顶部仅保留轻量品牌或状态栏
+- 底部提供“按方向键浏览菜单”之类的轻提示
 
 - [ ] **Step 4: Re-run the home UI test**
 
@@ -374,7 +381,7 @@ git add feature/home core/ui/src/main/java/com/poco/dishvision/core/ui/component
 git commit -m "实现首页 attract 模式基础展示"
 ```
 
-### Task 6: Build Browse Screen, Category Rail, and Detail Panel
+### Task 6: Build Browse Screen, Category Rail, and Bottom Detail Dock
 
 **Files:**
 - Create: `feature/menu/src/main/java/com/poco/dishvision/feature/menu/MenuRoute.kt`
@@ -402,7 +409,7 @@ fun dpad_right_moves_focus_from_category_to_first_menu_item() {
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`  
 Expected: FAIL with missing focusable nodes
 
-- [ ] **Step 3: Implement menu route, category rail, item row, and detail panel**
+- [ ] **Step 3: Implement menu route, category rail, item row, bottom `detail dock`, and expandable detail panel**
 
 ```kotlin
 data class MenuUiState(
@@ -413,6 +420,11 @@ data class MenuUiState(
 )
 ```
 
+实现要求：
+- 浏览态底部持续显示当前焦点菜品的名称、价格、标签和短描述
+- 避免在浏览态把详情信息固定放在右侧边缘
+- 按确认键可从底部 `detail dock` 进入详情浮层
+
 - [ ] **Step 4: Re-run the browse focus test**
 
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`  
@@ -422,7 +434,7 @@ Expected: PASS
 
 ```bash
 git add feature/menu core/ui/src/main/java/com/poco/dishvision/core/ui/components/FocusableMenuCard.kt
-git commit -m "实现浏览页焦点导航与详情浮层"
+git commit -m "实现浏览页焦点导航与底部详情区"
 ```
 
 ### Task 7: Implement Hybrid Mode State Machine
@@ -539,4 +551,6 @@ git commit -m "补齐设置页与首轮性能基线"
   - 应用启动进入 `Attract mode`
   - 任意方向键能进入浏览态
   - `Back` 行为线性可预测
-  - 文本在电视观看距离下清晰可读
+  - 重要文案位于中下区域而非顶部
+  - 浏览态详情信息主要位于底部 `detail dock`
+  - 文本在约 2 米观看距离下清晰可读

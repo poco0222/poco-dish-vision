@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 在已有本地与 LAN 数据闭环之上，完成高质量液态玻璃风格、焦点动画、性能基线与 TV 可读性硬化，形成发布前候选版本。
+**Goal:** 在已有本地与 LAN 数据闭环之上，完成高质量液态玻璃风格、焦点动画、性能基线与高位壁挂 TV 可读性硬化，形成发布前候选版本。
 
 **Architecture:** Phase 3 主要作用于 `core:ui`、`feature:home`、`feature:menu` 与 `benchmark`。所有视觉增强都必须建立在已有状态流与焦点模型之上，不得引入绕过 `UiState` 的动画逻辑；性能优化必须通过 benchmark 与 profile 量化验证。
 
@@ -15,7 +15,7 @@
 - 形成稳定的玻璃视觉 token 与组件
 - 首页与浏览页拥有统一的焦点反馈、层次与过渡
 - benchmark 结果稳定，未引入明显掉帧回归
-- 文本与对比度适合 3 到 5 米电视观看距离
+- 文本与对比度适合 55 寸高位壁挂电视约 2 米观看距离
 - 发布前核验清单与回归路径可执行
 
 ## Phase 3 主要文件
@@ -87,7 +87,7 @@ git add core/ui/src/main/java/com/poco/dishvision/core/ui/theme core/ui/src/main
 git commit -m "建立液态玻璃视觉 token 与基础组件"
 ```
 
-### Task 2: Polish Home Screen Hero Layer and Carousel Motion
+### Task 2: Polish Home Screen Hero Layer and Lower Visual Hierarchy
 
 **Files:**
 - Create: `core/ui/src/main/java/com/poco/dishvision/core/ui/components/GlassHeroBackdrop.kt`
@@ -101,6 +101,7 @@ git commit -m "建立液态玻璃视觉 token 与基础组件"
 @Test
 fun home_screen_shows_glass_hero_backdrop() {
     composeTestRule.onNodeWithTag("glass-hero-backdrop").assertExists()
+    composeTestRule.onNodeWithTag("home-lower-hero-zone").assertExists()
 }
 ```
 
@@ -109,7 +110,7 @@ fun home_screen_shows_glass_hero_backdrop() {
 Run: `./gradlew :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`  
 Expected: FAIL because hero backdrop tags are missing
 
-- [ ] **Step 3: Implement layered gradient, image tint, and restrained auto-advance motion**
+- [ ] **Step 3: Implement layered gradient, image tint, restrained auto-advance motion, and lower-centered hero composition**
 
 ```kotlin
 GlassHeroBackdrop(
@@ -117,6 +118,11 @@ GlassHeroBackdrop(
     gradientStrength = GlassTokens.heroGradientStrength,
 )
 ```
+
+实现要求：
+- 强化中下区域的菜名、价格和短描述
+- 顶部信息保持轻量，避免把主信息堆在高位区域
+- 玻璃层更偏 `frosted glass`，避免强反射感
 
 - [ ] **Step 4: Re-run home UI test**
 
@@ -130,7 +136,7 @@ git add core/ui/src/main/java/com/poco/dishvision/core/ui/components/GlassHeroBa
 git commit -m "打磨首页 hero 区与轮播动效"
 ```
 
-### Task 3: Polish Browse Screen Focus Feedback and Detail Hierarchy
+### Task 3: Polish Browse Screen Focus Feedback and Bottom Detail Hierarchy
 
 **Files:**
 - Modify: `feature/menu/src/main/java/com/poco/dishvision/feature/menu/MenuRoute.kt`
@@ -143,21 +149,20 @@ git commit -m "打磨首页 hero 区与轮播动效"
 
 ```kotlin
 @Test
-fun focused_item_uses_enlarged_card_and_detail_panel_updates() {
-    composeTestRule.onNodeWithTag("menu-item-mains-0").performKeyInput {
-        keyDown(Key.DirectionCenter)
-        keyUp(Key.DirectionCenter)
-    }
-    composeTestRule.onNodeWithTag("detail-panel").assertExists()
+fun focused_item_updates_bottom_detail_dock_and_can_expand_overlay() {
+    composeTestRule.onNodeWithTag("menu-item-mains-0").requestFocus()
+    composeTestRule.onNodeWithTag("detail-dock").assertExists()
+    composeTestRule.onRoot().performKeyInput { keyDown(Key.DirectionCenter); keyUp(Key.DirectionCenter) }
+    composeTestRule.onNodeWithTag("detail-overlay").assertExists()
 }
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.MenuReadabilityTest`  
-Expected: FAIL with missing detail panel hierarchy or focus styling hooks
+Expected: FAIL with missing bottom detail hierarchy or focus styling hooks
 
-- [ ] **Step 3: Implement focused scale, highlight, and readable detail layout**
+- [ ] **Step 3: Implement focused scale, highlight, readable bottom detail dock, and optional center-lower detail overlay**
 
 ```kotlin
 Modifier.graphicsLayer {
@@ -165,6 +170,11 @@ Modifier.graphicsLayer {
     scaleY = if (focused) GlassTokens.focusedScale else 1f
 }
 ```
+
+实现要求：
+- 浏览态优先强化底部 `detail dock`
+- 详情浮层展开位置保持在中下区域
+- 避免把说明文本和价格固定在右边缘
 
 - [ ] **Step 4: Re-run focus and readability tests**
 
@@ -238,7 +248,8 @@ git commit -m "量化并优化关键 TV 场景性能"
 - [ ] **Step 1: Create release checklist covering TV quality, readability, and fallback behavior**
 
 ```markdown
-- [ ] 3-5 米观看距离下主要标题可读
+- [ ] 约 2 米观看距离下主要标题和价格可读
+- [ ] 高位壁挂场景下主信息不依赖顶部区域
 - [ ] 焦点始终可见且无丢失
 - [ ] LAN 失效时不阻塞菜单展示
 - [ ] `Back` 行为无死循环
@@ -275,4 +286,4 @@ git commit -m "完成 TV 质量核验与发布清单"
   - 焦点切换无明显掉帧
   - 玻璃卡片不会影响文本可读性
   - 不依赖全屏实时 `blur` 也能保持高级质感
-  - 真实电视观看距离下层级清晰
+  - 约 2 米高位壁挂观看场景下层级清晰
