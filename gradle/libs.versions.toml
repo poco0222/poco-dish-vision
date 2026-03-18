@@ -30,7 +30,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 
 # Compose for TV（Android TV 版 Compose）
 androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "androidxTv" }
-androidx-tv-material3 = { module = "androidx.tv:tv-material", version.ref = "androidxTv" }
+androidx-tv-material3 = { module = "androidx.tv:tv-material3", version.ref = "androidxTv" }
 
 # Room（SQLite ORM）
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }

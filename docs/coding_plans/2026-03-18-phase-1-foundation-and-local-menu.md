@@ -15,6 +15,7 @@
 - 当前工作分支：`codex/phase-1-foundation-local-menu`
 - 当前检查点：`Task 1` 已完成并通过 `:app:assembleDebug` 验证
 - 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
+- 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`
 
 ---
 
