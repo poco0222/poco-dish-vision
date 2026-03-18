@@ -331,7 +331,7 @@ Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunn
 Expected: PASS
 Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add app core/data/src/main/java/com/poco/dishvision/core/data/di
