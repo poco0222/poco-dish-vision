@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  @file app/src/main/res/drawable/tv_banner.xml
+  @author PopoY
+  @date 2026-03-18
+  @description Android TV Launcher banner 资源，提供最小可用的 TV 入口视觉。
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <size
+                android:width="320dp"
+                android:height="180dp" />
+            <corners android:radius="20dp" />
+            <gradient
+                android:angle="0"
+                android:startColor="#102D47"
+                android:centerColor="#164C75"
+                android:endColor="#1C6A9E" />
+        </shape>
+    </item>
+
+    <item
+        android:left="24dp"
+        android:top="24dp"
+        android:right="184dp"
+        android:bottom="24dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <solid android:color="#26FFFFFF" />
+        </shape>
+    </item>
+
+    <item
+        android:left="40dp"
+        android:top="40dp"
+        android:right="212dp"
+        android:bottom="104dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="#FFF1D0" />
+        </shape>
+    </item>
+
+    <item
+        android:left="40dp"
+        android:top="120dp"
+        android:right="120dp"
+        android:bottom="36dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="14dp" />
+            <solid android:color="#33FFFFFF" />
+        </shape>
+    </item>
+
+</layer-list>

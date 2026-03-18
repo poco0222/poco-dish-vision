@@ -17,6 +17,8 @@
     <application
         android:name=".PocoDishVisionApplication"
         android:allowBackup="true"
+        android:banner="@drawable/tv_banner"
+        android:icon="@drawable/ic_app_icon"
         android:label="POCO Dish Vision"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
