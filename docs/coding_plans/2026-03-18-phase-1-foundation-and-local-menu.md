@@ -13,7 +13,7 @@
 - 执行状态：`In Progress`
 - 文档基线提交：`7373cfc`
 - 当前工作分支：`codex/phase-1-foundation-local-menu`
-- 当前检查点：`Task 2` 已完成，领域模型与本地 fixture 已通过 schema test
+- 当前检查点：`Task 3` 已完成，Room 持久化与本地 Repository 已通过单测
 - 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
 - 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`
 
@@ -243,7 +243,7 @@ git commit -m "定义菜单领域模型与本地 fixture"
 - Create: `core/data/src/test/java/com/poco/dishvision/core/data/local/MenuCatalogImporterTest.kt`
 - Create: `core/data/src/test/java/com/poco/dishvision/core/data/repository/DefaultMenuRepositoryTest.kt`
 
-- [ ] **Step 1: Write the failing importer test**
+- [x] **Step 1: Write the failing importer test**
 
 ```kotlin
 @Test
@@ -254,12 +254,13 @@ fun `importer stores fixture categories and items into room`() = runTest {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`  
 Expected: FAIL with missing importer or DAO implementation
+Actual: FAIL，`MenuDatabase/MenuCategoryDao/MenuItemDao/MenuMetadataDao/MenuCatalogImporter` 等符号缺失，fresh run 结果为 `:core:data:compileDebugUnitTestKotlin FAILED`
 
-- [ ] **Step 3: Implement entities, DAO, importer, repository**
+- [x] **Step 3: Implement entities, DAO, importer, repository**
 
 ```kotlin
 interface MenuRepository {
@@ -268,7 +269,7 @@ interface MenuRepository {
 }
 ```
 
-- [ ] **Step 4: Write and pass repository flow test**
+- [x] **Step 4: Write and pass repository flow test**
 
 ```kotlin
 @Test
@@ -281,8 +282,9 @@ fun `repository emits imported catalog`() = runTest {
 
 Run: `./gradlew :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`  
 Expected: PASS
+Actual: PASS，fresh run 结果为 `:core:data:testDebugUnitTest BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/data

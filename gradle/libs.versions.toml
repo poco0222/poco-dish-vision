@@ -5,9 +5,11 @@
 [versions]
 agp = "8.13.2"
 kotlin = "2.2.21"
+ksp = "2.2.21-2.0.4"
 androidxCore = "1.15.0"
 junit4 = "4.13.2"
 androidxTestExtJunit = "1.2.1"
+androidxTestCore = "1.6.1"
 espressoCore = "3.6.1"
 androidxTv = "1.1.0-beta01"
 room = "2.8.4"
@@ -15,12 +17,16 @@ hilt = "2.57.1"
 coil = "3.4.0"
 benchmark = "1.4.1"
 kotlinxSerializationJson = "1.9.0"
+kotlinxCoroutines = "1.10.2"
+robolectric = "4.16.1"
+truth = "1.4.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
@@ -51,3 +57,8 @@ androidx-benchmark-macro-junit4 = { module = "androidx.benchmark:benchmark-macro
 
 # Kotlinx Serialization（序列化）
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
