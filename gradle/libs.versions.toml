@@ -1,0 +1,48 @@
+# @file libs.versions.toml
+# @author PopoY
+# @date 2026-03-18
+# @description 统一管理插件与依赖版本（Version Catalog）。
+[versions]
+agp = "8.13.2"
+kotlin = "2.2.21"
+androidxCore = "1.15.0"
+junit4 = "4.13.2"
+androidxTestExtJunit = "1.2.1"
+espressoCore = "3.6.1"
+androidxTv = "1.1.0-beta01"
+room = "2.8.4"
+hilt = "2.57.1"
+coil = "3.4.0"
+benchmark = "1.4.1"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+junit4 = { module = "junit:junit", version.ref = "junit4" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExtJunit" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+
+# Compose for TV（Android TV 版 Compose）
+androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "androidxTv" }
+androidx-tv-material3 = { module = "androidx.tv:tv-material", version.ref = "androidxTv" }
+
+# Room（SQLite ORM）
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# Hilt（依赖注入）
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+
+# Coil（图片加载，Coil 3 已迁移到 coil3 group）
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+
+# Benchmark（性能基准）
+androidx-benchmark-macro-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "benchmark" }

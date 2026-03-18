@@ -8,6 +8,14 @@
 
 **Tech Stack:** Kotlin, Compose for TV, TV Material 3, Hilt, Room, DataStore, Coil, JUnit, Turbine, Compose UI Test, Macrobenchmark
 
+## 执行状态
+
+- 执行状态：`In Progress`
+- 文档基线提交：`7373cfc`
+- 当前工作分支：`codex/phase-1-foundation-local-menu`
+- 当前检查点：`Task 1` 已完成并通过 `:app:assembleDebug` 验证
+- 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
+
 ---
 
 ## Phase 1 验收标准
@@ -110,7 +118,7 @@
 - Create: `feature/settings/build.gradle.kts`
 - Create: `benchmark/build.gradle.kts`
 
-- [ ] **Step 1: Register all modules and plugin management**
+- [x] **Step 1: Register all modules and plugin management**
 
 ```kotlin
 include(
@@ -125,7 +133,7 @@ include(
 )
 ```
 
-- [ ] **Step 2: Add version catalog entries for Compose for TV, Room, Hilt, Coil, benchmark**
+- [x] **Step 2: Add version catalog entries for Compose for TV, Room, Hilt, Coil, benchmark**
 
 ```toml
 [libraries]
@@ -136,7 +144,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 ```
 
-- [ ] **Step 3: Create minimal `app` skeleton with TV launcher activity**
+- [x] **Step 3: Create minimal `app` skeleton with TV launcher activity**
 
 ```xml
 <intent-filter>
@@ -145,12 +153,12 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 </intent-filter>
 ```
 
-- [ ] **Step 4: Verify the project can sync and assemble**
+- [x] **Step 4: Verify the project can sync and assemble**
 
 Run: `./gradlew :app:assembleDebug`  
 Expected: `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add settings.gradle.kts build.gradle.kts gradle.properties gradle/libs.versions.toml app core feature benchmark
