@@ -16,7 +16,6 @@ android {
             minorApiLevel = 1
         }
     }
-    buildToolsVersion = "36.1.0"
 
     defaultConfig {
         applicationId = "com.poco.dishvision"
@@ -25,16 +24,6 @@ android {
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
     }
 
     compileOptions {

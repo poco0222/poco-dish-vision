@@ -16,7 +16,6 @@ android {
             minorApiLevel = 1
         }
     }
-    buildToolsVersion = "36.1.0"
 
     defaultConfig {
         minSdk = 24
