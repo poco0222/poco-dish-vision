@@ -13,9 +13,9 @@
 - 执行状态：`In Progress`
 - 文档基线提交：`7373cfc`
 - 当前工作分支：`codex/phase-1-foundation-local-menu`
-- 当前检查点：`Task 3` 已完成，Room 持久化与本地 Repository 已通过单测
+- 当前检查点：`Task 4` 已完成并准备进入 `Task 5`
 - 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
-- 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`
+- 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon --no-build-cache :core:data:testDebugUnitTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`
 
 ---
 
@@ -258,7 +258,7 @@ fun `importer stores fixture categories and items into room`() = runTest {
 
 Run: `./gradlew :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`  
 Expected: FAIL with missing importer or DAO implementation
-Actual: FAIL，`MenuDatabase/MenuCategoryDao/MenuItemDao/MenuMetadataDao/MenuCatalogImporter` 等符号缺失，fresh run 结果为 `:core:data:compileDebugUnitTestKotlin FAILED`
+Actual: FAIL，`MenuCatalogImporter.importCatalog(...)` 未实现，fresh run 结果为 `:core:data:compileDebugUnitTestKotlin FAILED`
 
 - [x] **Step 3: Implement entities, DAO, importer, repository**
 
@@ -276,7 +276,7 @@ interface MenuRepository {
 fun `repository emits imported catalog`() = runTest {
     repository.refreshFromLocalAsset()
     val catalog = repository.observeCatalog().first()
-    assertEquals("POCO Dish Vision", catalog.restaurantName)
+    assertEquals("POCO Dish Vision Kitchen", catalog.restaurantName)
 }
 ```
 
@@ -302,7 +302,7 @@ git commit -m "实现本地菜单导入与 Room Repository"
 - Create: `app/src/androidTest/java/com/poco/dishvision/AppNavigationSmokeTest.kt`
 - Create: `core/data/src/main/java/com/poco/dishvision/core/data/di/DataModule.kt`
 
-- [ ] **Step 1: Write the failing smoke navigation test**
+- [x] **Step 1: Write the failing smoke navigation test**
 
 ```kotlin
 @Test
@@ -311,25 +311,25 @@ fun app_launch_shows_home_destination() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`  
 Expected: FAIL because root navigation graph is missing
+Actual: FAIL，fresh run 结果为 `No compose hierarchies found in the app`
 
-- [ ] **Step 3: Implement `Application`, Hilt setup, and `NavHost`**
+- [x] **Step 3: Implement `Application`, Hilt setup, and `NavHost`**
 
 ```kotlin
 setContent {
-    PocoTheme {
-        AppNavHost(startDestination = AppDestination.Home)
-    }
+    AppNavHost(startDestination = startDestination)
 }
 ```
 
-- [ ] **Step 4: Re-run smoke test on emulator**
+- [x] **Step 4: Re-run smoke test on emulator**
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`  
 Expected: PASS
+Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`
 
 - [ ] **Step 5: Commit**
 

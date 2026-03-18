@@ -7,10 +7,12 @@
 package com.poco.dishvision
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
 /**
  * 应用级生命周期入口。
  */
+@HiltAndroidApp
 class PocoDishVisionApplication : Application() {
 
     /**
@@ -18,6 +20,6 @@ class PocoDishVisionApplication : Application() {
      */
     override fun onCreate() {
         super.onCreate()
-        // 当前阶段保持空实现，避免越界到 Task 2+ 业务初始化。
+        // Task 4 仅完成 Hilt 进程初始化，业务初始化仍留到后续任务。
     }
 }

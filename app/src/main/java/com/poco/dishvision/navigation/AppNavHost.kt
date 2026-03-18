@@ -1,0 +1,55 @@
+/**
+ * @file AppNavHost.kt
+ * @author PopoY
+ * @date 2026-03-18
+ * @description 定义应用根导航图与最小 Home 占位界面。
+ */
+package com.poco.dishvision.navigation
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.tv.material3.Text
+
+/**
+ * 应用根导航宿主。
+ *
+ * @param startDestination 启动目的地。
+ * @param modifier 外层 Modifier。
+ */
+@androidx.compose.runtime.Composable
+fun AppNavHost(
+    startDestination: AppDestination,
+    modifier: Modifier = Modifier,
+) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = startDestination.route,
+        modifier = modifier,
+    ) {
+        composable(AppDestination.Home.route) {
+            HomePlaceholderScreen()
+        }
+    }
+}
+
+/**
+ * Task 4 的最小 Home 占位界面，仅用于验证导航壳层已挂起。
+ */
+@androidx.compose.runtime.Composable
+private fun HomePlaceholderScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("home-screen"),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = "POCO Dish Vision")
+    }
+}
