@@ -13,7 +13,7 @@
 - 执行状态：`In Progress`
 - 文档基线提交：`7373cfc`
 - 当前工作分支：`codex/phase-1-foundation-local-menu`
-- 当前检查点：`Task 1` 已完成并通过 `:app:assembleDebug` 验证
+- 当前检查点：`Task 2` 已完成，领域模型与本地 fixture 已通过 schema test
 - 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
 - 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`
 
@@ -180,7 +180,7 @@ git commit -m "初始化 Android TV 多模块工程骨架"
 - Create: `core/model/src/test/resources/menu/catalog.json`
 - Create: `app/src/main/assets/menu/catalog.json`
 
-- [ ] **Step 1: Write the failing schema test**
+- [x] **Step 1: Write the failing schema test**
 
 ```kotlin
 @Test
@@ -191,12 +191,12 @@ fun `menu catalog fixture uses supported schema and contains categories`() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
-Run: `./gradlew :core:model:test --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
+Run: `./gradlew :core:model:testDebugUnitTest --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
 Expected: FAIL with missing model or fixture loader error
 
-- [ ] **Step 3: Implement domain models and a real sample fixture**
+- [x] **Step 3: Implement domain models and a real sample fixture**
 
 ```kotlin
 data class MenuCatalog(
@@ -213,12 +213,12 @@ data class MenuCatalog(
 - `core/model/src/test/resources/menu/catalog.json`
 - `app/src/main/assets/menu/catalog.json`
 
-- [ ] **Step 4: Re-run the model test**
+- [x] **Step 4: Re-run the model test**
 
-Run: `./gradlew :core:model:test --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
+Run: `./gradlew :core:model:testDebugUnitTest --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/model app/src/main/assets/menu/catalog.json
