@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import com.poco.dishvision.core.data.repository.MenuRepository
+import com.poco.dishvision.feature.home.HomeRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,6 +27,7 @@ import androidx.tv.material3.Text
 @androidx.compose.runtime.Composable
 fun AppNavHost(
     startDestination: AppDestination,
+    menuRepository: MenuRepository,
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
@@ -34,22 +37,7 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         composable(AppDestination.Home.route) {
-            HomePlaceholderScreen()
+            HomeRoute(menuRepository = menuRepository)
         }
-    }
-}
-
-/**
- * Task 4 的最小 Home 占位界面，仅用于验证导航壳层已挂起。
- */
-@androidx.compose.runtime.Composable
-private fun HomePlaceholderScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .testTag("home-screen"),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text = "POCO Dish Vision")
     }
 }

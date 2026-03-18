@@ -7,6 +7,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -26,6 +27,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    buildFeatures {
+        compose = true
+    }
 }
 
 kotlin {
@@ -35,6 +39,12 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.androidx.tv.material3)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.tv.material)
     implementation(libs.coil.compose)
+
+    debugImplementation(libs.androidx.compose.ui.tooling)
 }
