@@ -8,6 +8,15 @@
 
 **Tech Stack:** Kotlin, Compose for TV, TV Material 3, Hilt, Room, DataStore, Coil, JUnit, Turbine, Compose UI Test, Macrobenchmark
 
+## 执行状态
+
+- 执行状态：`Completed`
+- 文档基线提交：`7373cfc`
+- 当前工作分支：`codex/phase-1-foundation-local-menu`
+- 当前检查点：`Phase 1 Final Verification` 已完成，自动化验证全部通过，人工 emulator 复核待补
+- 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
+- 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon --no-build-cache :core:data:testDebugUnitTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:settings:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.settings.SettingsScreenTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :benchmark:connectedCheck`，结果 `BUILD SUCCESSFUL`，并生成 `benchmark/build/outputs/connected_android_test_additional_output/benchmark/connected/TV55C(AVD) - 14/com.poco.dishvision.benchmark-benchmarkData.json`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug :core:model:test :core:data:testDebugUnitTest :feature:home:connectedDebugAndroidTest :feature:menu:connectedDebugAndroidTest :feature:settings:connectedDebugAndroidTest :benchmark:connectedCheck`，结果 `BUILD SUCCESSFUL`，并在 `TV55C(AVD) - 14` 上顺序完成 `feature:settings`、`feature:menu`、`feature:home` 与 `benchmark` 验证
+
 ---
 
 ## Phase 1 验收标准
@@ -110,7 +119,7 @@
 - Create: `feature/settings/build.gradle.kts`
 - Create: `benchmark/build.gradle.kts`
 
-- [ ] **Step 1: Register all modules and plugin management**
+- [x] **Step 1: Register all modules and plugin management**
 
 ```kotlin
 include(
@@ -125,7 +134,7 @@ include(
 )
 ```
 
-- [ ] **Step 2: Add version catalog entries for Compose for TV, Room, Hilt, Coil, benchmark**
+- [x] **Step 2: Add version catalog entries for Compose for TV, Room, Hilt, Coil, benchmark**
 
 ```toml
 [libraries]
@@ -136,7 +145,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 ```
 
-- [ ] **Step 3: Create minimal `app` skeleton with TV launcher activity**
+- [x] **Step 3: Create minimal `app` skeleton with TV launcher activity**
 
 ```xml
 <intent-filter>
@@ -145,12 +154,12 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 </intent-filter>
 ```
 
-- [ ] **Step 4: Verify the project can sync and assemble**
+- [x] **Step 4: Verify the project can sync and assemble**
 
 Run: `./gradlew :app:assembleDebug`  
 Expected: `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add settings.gradle.kts build.gradle.kts gradle.properties gradle/libs.versions.toml app core feature benchmark
@@ -171,7 +180,7 @@ git commit -m "初始化 Android TV 多模块工程骨架"
 - Create: `core/model/src/test/resources/menu/catalog.json`
 - Create: `app/src/main/assets/menu/catalog.json`
 
-- [ ] **Step 1: Write the failing schema test**
+- [x] **Step 1: Write the failing schema test**
 
 ```kotlin
 @Test
@@ -182,12 +191,12 @@ fun `menu catalog fixture uses supported schema and contains categories`() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
-Run: `./gradlew :core:model:test --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
+Run: `./gradlew :core:model:testDebugUnitTest --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
 Expected: FAIL with missing model or fixture loader error
 
-- [ ] **Step 3: Implement domain models and a real sample fixture**
+- [x] **Step 3: Implement domain models and a real sample fixture**
 
 ```kotlin
 data class MenuCatalog(
@@ -204,12 +213,12 @@ data class MenuCatalog(
 - `core/model/src/test/resources/menu/catalog.json`
 - `app/src/main/assets/menu/catalog.json`
 
-- [ ] **Step 4: Re-run the model test**
+- [x] **Step 4: Re-run the model test**
 
-Run: `./gradlew :core:model:test --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
+Run: `./gradlew :core:model:testDebugUnitTest --tests "com.poco.dishvision.core.model.menu.MenuCatalogSchemaTest"`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/model app/src/main/assets/menu/catalog.json
@@ -234,7 +243,7 @@ git commit -m "定义菜单领域模型与本地 fixture"
 - Create: `core/data/src/test/java/com/poco/dishvision/core/data/local/MenuCatalogImporterTest.kt`
 - Create: `core/data/src/test/java/com/poco/dishvision/core/data/repository/DefaultMenuRepositoryTest.kt`
 
-- [ ] **Step 1: Write the failing importer test**
+- [x] **Step 1: Write the failing importer test**
 
 ```kotlin
 @Test
@@ -245,12 +254,13 @@ fun `importer stores fixture categories and items into room`() = runTest {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`  
 Expected: FAIL with missing importer or DAO implementation
+Actual: FAIL，`MenuCatalogImporter.importCatalog(...)` 未实现，fresh run 结果为 `:core:data:compileDebugUnitTestKotlin FAILED`
 
-- [ ] **Step 3: Implement entities, DAO, importer, repository**
+- [x] **Step 3: Implement entities, DAO, importer, repository**
 
 ```kotlin
 interface MenuRepository {
@@ -259,21 +269,22 @@ interface MenuRepository {
 }
 ```
 
-- [ ] **Step 4: Write and pass repository flow test**
+- [x] **Step 4: Write and pass repository flow test**
 
 ```kotlin
 @Test
 fun `repository emits imported catalog`() = runTest {
     repository.refreshFromLocalAsset()
     val catalog = repository.observeCatalog().first()
-    assertEquals("POCO Dish Vision", catalog.restaurantName)
+    assertEquals("POCO Dish Vision Kitchen", catalog.restaurantName)
 }
 ```
 
 Run: `./gradlew :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`  
 Expected: PASS
+Actual: PASS，fresh run 结果为 `:core:data:testDebugUnitTest BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/data
@@ -291,7 +302,7 @@ git commit -m "实现本地菜单导入与 Room Repository"
 - Create: `app/src/androidTest/java/com/poco/dishvision/AppNavigationSmokeTest.kt`
 - Create: `core/data/src/main/java/com/poco/dishvision/core/data/di/DataModule.kt`
 
-- [ ] **Step 1: Write the failing smoke navigation test**
+- [x] **Step 1: Write the failing smoke navigation test**
 
 ```kotlin
 @Test
@@ -300,27 +311,27 @@ fun app_launch_shows_home_destination() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`  
 Expected: FAIL because root navigation graph is missing
+Actual: FAIL，fresh run 结果为 `No compose hierarchies found in the app`
 
-- [ ] **Step 3: Implement `Application`, Hilt setup, and `NavHost`**
+- [x] **Step 3: Implement `Application`, Hilt setup, and `NavHost`**
 
 ```kotlin
 setContent {
-    PocoTheme {
-        AppNavHost(startDestination = AppDestination.Home)
-    }
+    AppNavHost(startDestination = startDestination)
 }
 ```
 
-- [ ] **Step 4: Re-run smoke test on emulator**
+- [x] **Step 4: Re-run smoke test on emulator**
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`  
 Expected: PASS
+Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add app core/data/src/main/java/com/poco/dishvision/core/data/di
@@ -337,7 +348,7 @@ git commit -m "接入 Hilt 与应用导航壳层"
 - Create: `feature/home/src/androidTest/java/com/poco/dishvision/feature/home/HomeScreenTest.kt`
 - Create: `core/ui/src/main/java/com/poco/dishvision/core/ui/components/PocoAsyncImage.kt`
 
-- [ ] **Step 1: Write the failing home UI test**
+- [x] **Step 1: Write the failing home UI test**
 
 ```kotlin
 @Test
@@ -348,12 +359,13 @@ fun home_screen_renders_featured_section() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`  
 Expected: FAIL with missing route or UI tags
+Actual: FAIL，`HomeRoute` 缺失，fresh run 结果为 `:feature:home:compileDebugAndroidTestKotlin FAILED`
 
-- [ ] **Step 3: Implement `HomeViewModel` and carousel UI backed by repository state**
+- [x] **Step 3: Implement `HomeViewModel` and carousel UI backed by repository state**
 
 ```kotlin
 data class HomeUiState(
@@ -369,12 +381,13 @@ data class HomeUiState(
 - 顶部仅保留轻量品牌或状态栏
 - 底部提供“按方向键浏览菜单”之类的轻提示
 
-- [ ] **Step 4: Re-run the home UI test**
+- [x] **Step 4: Re-run the home UI test**
 
 Run: `./gradlew :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`  
 Expected: PASS
+Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add feature/home core/ui/src/main/java/com/poco/dishvision/core/ui/components/PocoAsyncImage.kt
@@ -393,7 +406,7 @@ git commit -m "实现首页 attract 模式基础展示"
 - Create: `feature/menu/src/androidTest/java/com/poco/dishvision/feature/menu/BrowseScreenFocusTest.kt`
 - Create: `core/ui/src/main/java/com/poco/dishvision/core/ui/components/FocusableMenuCard.kt`
 
-- [ ] **Step 1: Write the failing browse focus test**
+- [x] **Step 1: Write the failing browse focus test**
 
 ```kotlin
 @Test
@@ -404,12 +417,13 @@ fun dpad_right_moves_focus_from_category_to_first_menu_item() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`  
 Expected: FAIL with missing focusable nodes
+Actual: FAIL，初次失败先暴露 `feature:menu` Compose Compiler plugin 缺口；修正测试基础设施后，fresh run 失败点收敛到 `MenuRoute` 缺失
 
-- [ ] **Step 3: Implement menu route, category rail, item row, bottom `detail dock`, and expandable detail panel**
+- [x] **Step 3: Implement menu route, category rail, item row, bottom `detail dock`, and expandable detail panel**
 
 ```kotlin
 data class MenuUiState(
@@ -425,12 +439,13 @@ data class MenuUiState(
 - 避免在浏览态把详情信息固定放在右侧边缘
 - 按确认键可从底部 `detail dock` 进入详情浮层
 
-- [ ] **Step 4: Re-run the browse focus test**
+- [x] **Step 4: Re-run the browse focus test**
 
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`  
 Expected: PASS
+Actual: PASS，使用 `TV55C` emulator（Android TV AVD）fresh run 结果 `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add feature/menu core/ui/src/main/java/com/poco/dishvision/core/ui/components/FocusableMenuCard.kt
@@ -446,7 +461,7 @@ git commit -m "实现浏览页焦点导航与底部详情区"
 - Modify: `feature/menu/src/main/java/com/poco/dishvision/feature/menu/MenuRoute.kt`
 - Modify: `app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt`
 
-- [ ] **Step 1: Write the failing state machine test**
+- [x] **Step 1: Write the failing state machine test**
 
 ```kotlin
 @Test
@@ -458,12 +473,13 @@ fun `user input enters browse mode and idle timeout returns to attract mode`() =
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`  
 Expected: FAIL with missing controller implementation
+Actual: FAIL，fresh run 报告 `BrowseModeController` / `UiMode` 未解析，符合状态机尚未实现的预期
 
-- [ ] **Step 3: Implement timeout-based mode controller and route switching**
+- [x] **Step 3: Implement timeout-based mode controller and route switching**
 
 ```kotlin
 class BrowseModeController(
@@ -472,15 +488,17 @@ class BrowseModeController(
 )
 ```
 
-- [ ] **Step 4: Re-run controller test and smoke navigation**
+- [x] **Step 4: Re-run controller test and smoke navigation**
 
 Run: `./gradlew :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`  
 Expected: PASS
+Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`  
 Expected: PASS
+Actual: PASS，使用 `TV55C` emulator（Android TV AVD）fresh run 结果 `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add feature/menu feature/home app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt
@@ -498,7 +516,7 @@ git commit -m "实现 attract 与 browse 双模式状态机"
 - Create: `benchmark/src/main/AndroidManifest.xml`
 - Create: `benchmark/src/main/java/com/poco/dishvision/benchmark/StartupBenchmark.kt`
 
-- [ ] **Step 1: Write the failing settings persistence test**
+- [x] **Step 1: Write the failing settings persistence test**
 
 ```kotlin
 @Test
@@ -508,12 +526,13 @@ fun settings_screen_shows_local_data_source_mode() {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :feature:settings:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.settings.SettingsScreenTest`  
 Expected: FAIL with missing settings route
+Actual: FAIL，fresh run 失败点为 `SettingsRoute` 未解析，符合设置页尚未实现的预期
 
-- [ ] **Step 3: Implement `SettingsViewModel`, `AppPreferences`, and benchmark module**
+- [x] **Step 3: Implement `SettingsViewModel`, `AppPreferences`, and benchmark module**
 
 ```kotlin
 data class SettingsUiState(
@@ -523,15 +542,17 @@ data class SettingsUiState(
 )
 ```
 
-- [ ] **Step 4: Run settings test and startup benchmark smoke**
+- [x] **Step 4: Run settings test and startup benchmark smoke**
 
 Run: `./gradlew :feature:settings:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.settings.SettingsScreenTest`  
 Expected: PASS
+Actual: PASS，使用 `TV55C` emulator（Android TV AVD）fresh run 结果 `BUILD SUCCESSFUL`
 
 Run: `./gradlew :benchmark:connectedCheck`  
 Expected: PASS with at least one startup benchmark result
+Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`，并生成 `benchmark/build/outputs/connected_android_test_additional_output/benchmark/connected/TV55C(AVD) - 14/com.poco.dishvision.benchmark-benchmarkData.json` 与 `.perfetto-trace`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add feature/settings core/data/src/main/java/com/poco/dishvision/core/data/preferences benchmark
@@ -540,14 +561,14 @@ git commit -m "补齐设置页与首轮性能基线"
 
 ## Phase 1 Final Verification
 
-- [ ] Run: `./gradlew :app:assembleDebug`
-- [ ] Run: `./gradlew :core:model:test`
-- [ ] Run: `./gradlew :core:data:testDebugUnitTest`
-- [ ] Run: `./gradlew :feature:home:connectedDebugAndroidTest`
-- [ ] Run: `./gradlew :feature:menu:connectedDebugAndroidTest`
-- [ ] Run: `./gradlew :feature:settings:connectedDebugAndroidTest`
-- [ ] Run: `./gradlew :benchmark:connectedCheck`
-- [ ] Manual check on emulator:
+- [x] Run: `./gradlew :app:assembleDebug`
+- [x] Run: `./gradlew :core:model:test`
+- [x] Run: `./gradlew :core:data:testDebugUnitTest`
+- [x] Run: `./gradlew :feature:home:connectedDebugAndroidTest`
+- [x] Run: `./gradlew :feature:menu:connectedDebugAndroidTest`
+- [x] Run: `./gradlew :feature:settings:connectedDebugAndroidTest`
+- [x] Run: `./gradlew :benchmark:connectedCheck`
+- [ ] Manual check on emulator: 本轮未执行人工复核，以下条目保留待确认
   - 应用启动进入 `Attract mode`
   - 任意方向键能进入浏览态
   - `Back` 行为线性可预测

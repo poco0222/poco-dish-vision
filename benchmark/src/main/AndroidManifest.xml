@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  @file benchmark/src/main/AndroidManifest.xml
+  @author PopoY
+  @date 2026-03-19
+  @description Macrobenchmark 模块清单，声明自举 instrumentation。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <instrumentation
+        android:name="androidx.test.runner.AndroidJUnitRunner"
+        android:functionalTest="false"
+        android:handleProfiling="true"
+        android:targetPackage="com.poco.dishvision" />
+
+</manifest>

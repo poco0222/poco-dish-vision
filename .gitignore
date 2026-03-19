@@ -1,1 +1,5 @@
 .worktrees/
+.gradle/
+.kotlin/
+**/build/
+local.properties

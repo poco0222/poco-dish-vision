@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "poco-shanghai-001",
+  "restaurantName": "POCO Dish Vision Kitchen",
+  "lastUpdatedAt": "2026-03-18T08:30:00Z",
+  "themeConfig": {
+    "primaryColorHex": "#FF6A2A",
+    "accentColorHex": "#FFD166",
+    "backgroundColorHex": "#10151F",
+    "surfaceColorHex": "#1D2635",
+    "textColorHex": "#F4F7FB"
+  },
+  "categories": [
+    {
+      "categoryId": "starters",
+      "displayName": "Starters",
+      "subtitle": "开场小食，轻松开启味蕾",
+      "sortOrder": 1,
+      "items": [
+        {
+          "itemId": "starter-crispy-calamari",
+          "name": "Crispy Calamari",
+          "description": "蒜香脆炸鱿鱼配柠檬胡椒蘸酱",
+          "imageUrl": "https://images.unsplash.com/photo-1604909053333-7e5f1f7f5c9a",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 4800,
+            "originalAmountMinor": 5200,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            {
+              "badgeId": "badge-popular",
+              "label": "POPULAR",
+              "styleKey": "warning"
+            }
+          ],
+          "tags": [
+            "fried",
+            "seafood"
+          ]
+        },
+        {
+          "itemId": "starter-garden-salad",
+          "name": "Garden Salad",
+          "description": "羽衣甘蓝、番茄与坚果的轻食沙拉",
+          "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 3600,
+            "originalAmountMinor": 3600,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            {
+              "badgeId": "badge-fresh",
+              "label": "FRESH",
+              "styleKey": "success"
+            }
+          ],
+          "tags": [
+            "vegetarian",
+            "light"
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "mains",
+      "displayName": "Mains",
+      "subtitle": "招牌主菜，满足主餐场景",
+      "sortOrder": 2,
+      "items": [
+        {
+          "itemId": "main-smoked-ribeye",
+          "name": "Smoked Ribeye",
+          "description": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+          "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 12800,
+            "originalAmountMinor": 13800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "startTime": "11:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            {
+              "badgeId": "badge-signature",
+              "label": "SIGNATURE",
+              "styleKey": "brand"
+            }
+          ],
+          "tags": [
+            "beef",
+            "grill"
+          ]
+        },
+        {
+          "itemId": "main-truffle-pasta",
+          "name": "Truffle Pasta",
+          "description": "黑松露奶油意面，入口香浓",
+          "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 7600,
+            "originalAmountMinor": 7600,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "startTime": "11:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            {
+              "badgeId": "badge-new",
+              "label": "NEW",
+              "styleKey": "info"
+            }
+          ],
+          "tags": [
+            "pasta",
+            "truffle"
+          ]
+        }
+      ]
+    },
+    {
+      "categoryId": "desserts",
+      "displayName": "Desserts",
+      "subtitle": "甜点与咖啡，补齐餐后体验",
+      "sortOrder": 3,
+      "items": [
+        {
+          "itemId": "dessert-burnt-cheesecake",
+          "name": "Burnt Cheesecake",
+          "description": "巴斯克风味芝士蛋糕，绵密细腻",
+          "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 3600,
+            "originalAmountMinor": 4200,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "startTime": "11:30",
+              "endTime": "22:30"
+            }
+          ],
+          "displayBadges": [
+            {
+              "badgeId": "badge-recommended",
+              "label": "CHEF PICK",
+              "styleKey": "warning"
+            }
+          ],
+          "tags": [
+            "dessert",
+            "cake"
+          ]
+        },
+        {
+          "itemId": "dessert-cold-brew",
+          "name": "Cold Brew Latte",
+          "description": "冷萃与鲜奶调和，口感顺滑",
+          "imageUrl": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 2800,
+            "originalAmountMinor": 2800,
+            "unitLabel": "杯"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "startTime": "10:30",
+              "endTime": "22:30"
+            }
+          ],
+          "displayBadges": [
+            {
+              "badgeId": "badge-classic",
+              "label": "CLASSIC",
+              "styleKey": "neutral"
+            }
+          ],
+          "tags": [
+            "coffee",
+            "drink"
+          ]
+        }
+      ]
+    }
+  ]
+}
