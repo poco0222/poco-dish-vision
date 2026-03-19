@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -33,6 +32,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Text
 import com.poco.dishvision.core.data.repository.MenuRepository
+import com.poco.dishvision.core.ui.theme.ColorTokens
+import com.poco.dishvision.core.ui.theme.Dimens
+import com.poco.dishvision.core.ui.theme.PocoTheme
 
 /**
  * 首页入口 Route。未注入仓储时回退到 preview 状态，便于 UI 测试先行。
@@ -47,11 +49,13 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null) {
-        HomeScreen(
-            uiState = previewHomeUiState(),
-            onBrowseRequested = onBrowseRequested,
-            modifier = modifier,
-        )
+        PocoTheme {
+            HomeScreen(
+                uiState = previewHomeUiState(),
+                onBrowseRequested = onBrowseRequested,
+                modifier = modifier,
+            )
+        }
         return
     }
 
@@ -59,11 +63,13 @@ fun HomeRoute(
         factory = HomeViewModel.provideFactory(menuRepository),
     )
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-    HomeScreen(
-        uiState = uiState,
-        onBrowseRequested = onBrowseRequested,
-        modifier = modifier,
-    )
+    PocoTheme {
+        HomeScreen(
+            uiState = uiState,
+            onBrowseRequested = onBrowseRequested,
+            modifier = modifier,
+        )
+    }
 }
 
 /**
@@ -91,11 +97,7 @@ private fun HomeScreen(
             }
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF10151F),
-                        Color(0xFF182235),
-                        Color(0xFF0C1118),
-                    ),
+                    colors = ColorTokens.HomeBackgroundGradient,
                 ),
             )
             .testTag("home-screen"),
@@ -104,32 +106,35 @@ private fun HomeScreen(
             text = "POCO Dish Vision",
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 40.dp, top = 28.dp),
-            color = Color(0xFFF4F7FB),
+                .padding(start = Dimens.ScreenHorizontalPadding, top = Dimens.ScreenTopPadding),
+            color = ColorTokens.TextMuted,
         )
 
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp, vertical = 48.dp)
+                .padding(
+                    horizontal = Dimens.ScreenHorizontalPadding,
+                    vertical = Dimens.HeroBottomPadding,
+                )
                 .testTag("home-lower-hero-zone"),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+            verticalArrangement = Arrangement.spacedBy(Dimens.HeroSpacing),
         ) {
             Text(
                 text = uiState.heroTitle,
-                color = Color.White,
+                color = ColorTokens.TextPrimary,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 text = uiState.heroSubtitle,
-                color = Color(0xFFE4EAF4),
+                color = ColorTokens.TextSecondary,
             )
             AttractCarousel(featuredItems = uiState.featuredItems)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "按方向键浏览菜单",
-                color = Color(0xCCF4F7FB),
+                color = ColorTokens.TextMuted,
             )
         }
     }

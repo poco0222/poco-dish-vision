@@ -6,23 +6,25 @@
  */
 package com.poco.dishvision.feature.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.poco.dishvision.core.model.menu.MenuItem
+import com.poco.dishvision.core.ui.components.GlassSurface
 import com.poco.dishvision.core.ui.components.PocoAsyncImage
+import com.poco.dishvision.core.ui.theme.ColorTokens
+import com.poco.dishvision.core.ui.theme.Dimens
 
 /**
  * 推荐轮播区，当前以首个推荐菜品作为主卡展示。
@@ -36,41 +38,48 @@ fun AttractCarousel(
     modifier: Modifier = Modifier,
 ) {
     val featuredItem = featuredItems.firstOrNull()
-    Box(
+    GlassSurface(
         modifier = modifier
             .fillMaxWidth()
-            .height(260.dp)
-            .background(
-                color = Color(0x331D2635),
-                shape = RoundedCornerShape(32.dp),
-            )
             .testTag("attract-carousel"),
+        containerColor = ColorTokens.GlassSurfaceSoft,
+        borderColor = ColorTokens.GlassBorderSubtle,
+        contentPadding = PaddingValues(0.dp),
     ) {
-        PocoAsyncImage(
-            model = featuredItem?.imageUrl?.takeIf { it.isNotBlank() },
-            contentDescription = featuredItem?.name,
-            modifier = Modifier.matchParentSize(),
-        )
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 28.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .height(260.dp),
         ) {
-            Text(
-                text = "本店推荐",
-                color = Color.White,
-                fontWeight = FontWeight.SemiBold,
+            PocoAsyncImage(
+                model = featuredItem?.imageUrl?.takeIf { it.isNotBlank() },
+                contentDescription = featuredItem?.name,
+                modifier = Modifier.fillMaxSize(),
             )
-            Text(
-                text = featuredItem?.name ?: "POCO Dish Vision",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = featuredItem?.description ?: "高位壁挂场景下的中下视觉重心展示",
-                color = Color(0xFFE4EAF4),
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = Dimens.SurfaceLargeCorner,
+                        vertical = Dimens.ScreenTopPadding,
+                    ),
+                verticalArrangement = Arrangement.spacedBy(Dimens.SurfaceContentSpacing),
+            ) {
+                Text(
+                    text = "本店推荐",
+                    color = ColorTokens.TextPrimary,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    text = featuredItem?.name ?: "POCO Dish Vision",
+                    color = ColorTokens.TextPrimary,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    text = featuredItem?.description ?: "高位壁挂场景下的中下视觉重心展示",
+                    color = ColorTokens.TextSecondary,
+                )
+            }
         }
     }
 }

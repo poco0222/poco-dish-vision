@@ -10,15 +10,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,6 +26,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Text
 import com.poco.dishvision.core.data.preferences.AppPreferences
 import com.poco.dishvision.core.data.repository.MenuRepository
+import com.poco.dishvision.core.ui.components.GlassSurface
+import com.poco.dishvision.core.ui.theme.ColorTokens
+import com.poco.dishvision.core.ui.theme.Dimens
+import com.poco.dishvision.core.ui.theme.PocoTheme
 
 /**
  * 设置页入口 Route。未注入真实依赖时回退到 preview，便于先完成 UI 测试。
@@ -42,10 +45,12 @@ fun SettingsRoute(
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null || appPreferences == null) {
-        SettingsScreen(
-            uiState = previewSettingsUiState(),
-            modifier = modifier,
-        )
+        PocoTheme {
+            SettingsScreen(
+                uiState = previewSettingsUiState(),
+                modifier = modifier,
+            )
+        }
         return
     }
 
@@ -57,10 +62,12 @@ fun SettingsRoute(
     )
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
 
-    SettingsScreen(
-        uiState = uiState,
-        modifier = modifier,
-    )
+    PocoTheme {
+        SettingsScreen(
+            uiState = uiState,
+            modifier = modifier,
+        )
+    }
 }
 
 /**
@@ -79,11 +86,7 @@ private fun SettingsScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF0E1520),
-                        Color(0xFF182437),
-                        Color(0xFF0A1018),
-                    ),
+                    colors = ColorTokens.SettingsBackgroundGradient,
                 ),
             )
             .testTag("settings-screen"),
@@ -91,17 +94,17 @@ private fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 40.dp, vertical = 32.dp),
+                .padding(horizontal = Dimens.ScreenHorizontalPadding, vertical = 32.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             Text(
                 text = "设置",
-                color = Color.White,
+                color = ColorTokens.TextPrimary,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 text = "查看当前数据源与本地目录状态",
-                color = Color(0xCCE4EAF4),
+                color = ColorTokens.TextSecondary,
             )
             SettingsInfoCard(
                 label = "当前数据源",
@@ -130,23 +133,21 @@ private fun SettingsInfoCard(
     label: String,
     value: String,
 ) {
-    Column(
+    GlassSurface(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = Color(0xCC152131),
-                shape = RoundedCornerShape(26.dp),
-            )
-            .padding(horizontal = 24.dp, vertical = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+            .fillMaxWidth(),
+        containerColor = ColorTokens.GlassSurface,
+        borderColor = ColorTokens.GlassBorderSubtle,
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 20.dp),
+        contentSpacing = 8.dp,
     ) {
         Text(
             text = label,
-            color = Color(0xCCF4F7FB),
+            color = ColorTokens.TextMuted,
         )
         Text(
             text = value,
-            color = Color.White,
+            color = ColorTokens.TextPrimary,
             fontWeight = FontWeight.SemiBold,
         )
     }

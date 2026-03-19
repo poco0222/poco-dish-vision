@@ -6,14 +6,13 @@
  */
 package com.poco.dishvision.core.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,13 +26,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.poco.dishvision.core.model.menu.MenuItem
 import com.poco.dishvision.core.model.menu.PriceInfo
+import com.poco.dishvision.core.ui.theme.ColorTokens
+import com.poco.dishvision.core.ui.theme.Dimens
 import java.util.Locale
 
 /**
@@ -54,16 +54,21 @@ fun FocusableMenuCard(
     onClick: () -> Unit = {},
 ) {
     var isFocused by remember { mutableStateOf(false) }
-    val shape = RoundedCornerShape(28.dp)
+    val shape = RoundedCornerShape(Dimens.SurfaceMediumCorner)
     val interactionSource = remember { MutableInteractionSource() }
-    val borderColor = if (isFocused) Color(0xFFFFD166) else Color(0x33FFFFFF)
-    val containerColor = if (isFocused) Color(0xFF263750) else Color(0xCC172130)
+    val borderColor = if (isFocused) {
+        ColorTokens.GlassBorderFocused
+    } else {
+        ColorTokens.GlassBorderSubtle
+    }
+    val containerColor = if (isFocused) {
+        ColorTokens.CardFocusedSurface
+    } else {
+        ColorTokens.GlassSurface
+    }
 
-    Column(
+    GlassSurface(
         modifier = modifier
-            .clip(shape)
-            .background(containerColor)
-            .border(width = 2.dp, color = borderColor, shape = shape)
             .onFocusChanged { focusState ->
                 val focusedNow = focusState.isFocused
                 isFocused = focusedNow
@@ -78,13 +83,22 @@ fun FocusableMenuCard(
                 onClick = onClick,
             )
             .testTag(testTag),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        containerColor = containerColor,
+        borderColor = borderColor,
+        shape = shape,
+        contentPadding = PaddingValues(0.dp),
+        contentSpacing = Dimens.SurfaceContentSpacing,
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(176.dp)
-                .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)),
+                .height(Dimens.CardImageHeight)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = Dimens.SurfaceMediumCorner,
+                        topEnd = Dimens.SurfaceMediumCorner,
+                    ),
+                ),
         ) {
             PocoAsyncImage(
                 model = item.imageUrl.takeIf { it.isNotBlank() },
@@ -95,22 +109,26 @@ fun FocusableMenuCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                .padding(
+                    start = Dimens.SurfaceVerticalPadding,
+                    end = Dimens.SurfaceVerticalPadding,
+                    bottom = Dimens.SurfaceVerticalPadding,
+                ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 text = item.name,
-                color = Color.White,
+                color = ColorTokens.TextPrimary,
                 fontWeight = FontWeight.SemiBold,
             )
             Text(
                 text = formatPrice(item.priceInfo),
-                color = Color(0xFFFFD166),
+                color = ColorTokens.Accent,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 text = item.description,
-                color = Color(0xFFE4EAF4),
+                color = ColorTokens.TextSecondary,
                 maxLines = 2,
             )
         }

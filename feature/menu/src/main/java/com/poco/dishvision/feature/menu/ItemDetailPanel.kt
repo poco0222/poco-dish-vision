@@ -10,13 +10,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,6 +23,9 @@ import androidx.tv.material3.Text
 import com.poco.dishvision.core.model.menu.DisplayBadge
 import com.poco.dishvision.core.model.menu.MenuItem
 import com.poco.dishvision.core.model.menu.PriceInfo
+import com.poco.dishvision.core.ui.components.GlassSurface
+import com.poco.dishvision.core.ui.theme.ColorTokens
+import androidx.compose.foundation.shape.RoundedCornerShape
 import java.util.Locale
 
 /**
@@ -49,61 +51,63 @@ fun ItemDetailPanel(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        Column(
+        GlassSurface(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = Color(0xDD142030), shape = RoundedCornerShape(28.dp))
-                .padding(horizontal = 28.dp, vertical = 24.dp)
                 .testTag("detail-dock"),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            containerColor = ColorTokens.GlassSurface,
+            borderColor = ColorTokens.GlassBorderSubtle,
+            contentPadding = PaddingValues(horizontal = 28.dp, vertical = 24.dp),
+            contentSpacing = 10.dp,
         ) {
             Text(
                 text = item.name,
-                color = Color.White,
+                color = ColorTokens.TextPrimary,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 text = formatDockPrice(item.priceInfo),
-                color = Color(0xFFFFD166),
+                color = ColorTokens.Accent,
                 fontWeight = FontWeight.SemiBold,
             )
             BadgeRow(badges = item.displayBadges)
             Text(
                 text = item.description,
-                color = Color(0xFFE4EAF4),
+                color = ColorTokens.TextSecondary,
             )
             Text(
                 text = "按确认键展开详情",
-                color = Color(0xCCF4F7FB),
+                color = ColorTokens.TextMuted,
             )
         }
 
         if (isExpanded) {
-            Column(
+            GlassSurface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color(0xF2253550), shape = RoundedCornerShape(32.dp))
                     .clickable(onClick = onDismissRequest)
-                    .padding(horizontal = 28.dp, vertical = 24.dp)
                     .testTag("detail-panel"),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                containerColor = ColorTokens.GlassSurfaceStrong,
+                borderColor = ColorTokens.GlassBorderFocused,
+                contentPadding = PaddingValues(horizontal = 28.dp, vertical = 24.dp),
+                contentSpacing = 12.dp,
             ) {
                 Text(
                     text = "菜品详情",
-                    color = Color.White,
+                    color = ColorTokens.TextPrimary,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
                     text = item.description,
-                    color = Color(0xFFE4EAF4),
+                    color = ColorTokens.TextSecondary,
                 )
                 Text(
                     text = "标签：${item.tags.joinToString(separator = " / ")}",
-                    color = Color(0xCCF4F7FB),
+                    color = ColorTokens.TextMuted,
                 )
                 Text(
                     text = "按返回键或点击详情面板任意区域返回浏览",
-                    color = Color(0xCCF4F7FB),
+                    color = ColorTokens.TextMuted,
                 )
             }
         }
@@ -126,9 +130,9 @@ private fun BadgeRow(badges: List<DisplayBadge>) {
             Text(
                 text = badge.label,
                 modifier = Modifier
-                    .background(color = Color(0x332B3E58), shape = RoundedCornerShape(999.dp))
+                    .background(color = ColorTokens.BadgeSurface, shape = RoundedCornerShape(999.dp))
                     .padding(horizontal = 12.dp, vertical = 6.dp),
-                color = Color(0xFFFFD166),
+                color = ColorTokens.Accent,
             )
         }
     }
