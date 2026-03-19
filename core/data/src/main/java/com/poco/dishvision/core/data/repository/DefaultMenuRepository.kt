@@ -12,7 +12,9 @@ import com.poco.dishvision.core.data.local.db.dao.MenuItemDao
 import com.poco.dishvision.core.data.local.db.dao.MenuMetadataDao
 import com.poco.dishvision.core.data.local.importer.MenuCatalogImporter
 import com.poco.dishvision.core.data.local.mapper.MenuEntityMapper
+import com.poco.dishvision.core.data.preferences.AppPreferences
 import com.poco.dishvision.core.model.menu.MenuCatalog
+import java.time.Instant
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
@@ -29,6 +31,7 @@ class DefaultMenuRepository(
     private val categoryDao: MenuCategoryDao,
     private val itemDao: MenuItemDao,
     private val menuEntityMapper: MenuEntityMapper,
+    private val appPreferences: AppPreferences? = null,
 ) : MenuRepository {
 
     override fun observeCatalog(): Flow<MenuCatalog> {
@@ -50,5 +53,6 @@ class DefaultMenuRepository(
     override suspend fun refreshFromLocalAsset() {
         val catalogFromAsset = localDataSource.loadCatalog()
         menuCatalogImporter.importCatalog(catalogFromAsset)
+        appPreferences?.markLocalSourceRefreshed(refreshedAt = Instant.now())
     }
 }

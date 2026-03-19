@@ -7,6 +7,10 @@
 package com.poco.dishvision.core.data.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.poco.dishvision.core.data.local.AssetMenuLocalDataSource
 import com.poco.dishvision.core.data.local.LocalMenuCatalogDataSource
@@ -16,6 +20,7 @@ import com.poco.dishvision.core.data.local.db.dao.MenuItemDao
 import com.poco.dishvision.core.data.local.db.dao.MenuMetadataDao
 import com.poco.dishvision.core.data.local.importer.MenuCatalogImporter
 import com.poco.dishvision.core.data.local.mapper.MenuEntityMapper
+import com.poco.dishvision.core.data.preferences.AppPreferences
 import com.poco.dishvision.core.data.repository.DefaultMenuRepository
 import com.poco.dishvision.core.data.repository.MenuRepository
 import dagger.Module
@@ -32,6 +37,8 @@ import kotlinx.serialization.json.Json
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
+
+    private const val APP_PREFERENCES_FILE_NAME = "poco_dish_vision.preferences_pb"
 
     /**
      * 提供严格 JSON 解析器，避免静默吞掉 schema 字段问题。
@@ -73,6 +80,38 @@ object DataModule {
             MenuDatabase::class.java,
             MenuDatabase.DATABASE_NAME,
         ).build()
+    }
+
+    /**
+     * 提供 DataStore 实例，用于保存轻量应用偏好。
+     *
+     * @param context Application context（应用上下文）。
+     * @return Preferences DataStore。
+     */
+    @Provides
+    @Singleton
+    fun providePreferencesDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = {
+                context.preferencesDataStoreFile(APP_PREFERENCES_FILE_NAME)
+            },
+        )
+    }
+
+    /**
+     * 提供应用偏好封装。
+     *
+     * @param dataStore Preferences DataStore。
+     * @return AppPreferences 实例。
+     */
+    @Provides
+    @Singleton
+    fun provideAppPreferences(
+        dataStore: DataStore<Preferences>,
+    ): AppPreferences {
+        return AppPreferences(dataStore = dataStore)
     }
 
     /**
@@ -166,6 +205,7 @@ object DataModule {
         categoryDao: MenuCategoryDao,
         itemDao: MenuItemDao,
         menuEntityMapper: MenuEntityMapper,
+        appPreferences: AppPreferences,
     ): MenuRepository {
         return DefaultMenuRepository(
             localDataSource = localDataSource,
@@ -174,6 +214,7 @@ object DataModule {
             categoryDao = categoryDao,
             itemDao = itemDao,
             menuEntityMapper = menuEntityMapper,
+            appPreferences = appPreferences,
         )
     }
 }

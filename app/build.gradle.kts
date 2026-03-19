@@ -37,6 +37,15 @@ android {
     buildFeatures {
         compose = true
     }
+
+    buildTypes {
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = getByName("debug").signingConfig
+            isDebuggable = false
+            matchingFallbacks += listOf("release")
+        }
+    }
 }
 
 kotlin {
