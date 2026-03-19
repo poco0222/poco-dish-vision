@@ -1,0 +1,1433 @@
+{
+  "version": "2.9",
+  "children": [
+    {
+      "type": "frame",
+      "id": "j1lSm",
+      "x": 0,
+      "y": 0,
+      "name": "Home Screen",
+      "width": 1920,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "$--bg-home-start",
+            "position": 0
+          },
+          {
+            "color": "$--bg-home-mid",
+            "position": 0.5
+          },
+          {
+            "color": "$--bg-home-end",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "x1E8S",
+          "x": 40,
+          "y": 28,
+          "name": "brand",
+          "fill": "$--text-muted",
+          "content": "POCO Dish Vision",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "500"
+        },
+        {
+          "type": "frame",
+          "id": "W3VPX",
+          "x": 40,
+          "y": 560,
+          "name": "hero",
+          "width": 1840,
+          "layout": "vertical",
+          "gap": 18,
+          "children": [
+            {
+              "type": "text",
+              "id": "73suo",
+              "name": "heroTitle",
+              "fill": "$--text-primary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "今晚主厨精选",
+              "fontFamily": "Inter",
+              "fontSize": 56,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "x3Myb",
+              "name": "heroSubtitle",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "按方向键浏览菜单",
+              "fontFamily": "Inter",
+              "fontSize": 24
+            },
+            {
+              "type": "frame",
+              "id": "w61gN",
+              "name": "carousel",
+              "clip": true,
+              "width": "fill_container",
+              "height": 260,
+              "fill": "$--glass-surface-soft",
+              "cornerRadius": "$--corner-large",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "J7O4I",
+                  "x": 0,
+                  "y": 0,
+                  "name": "heroImage",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "barncreative",
+                    "link": "https://unsplash.com/@barncreative",
+                    "author": "Fábio  Alves"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1546470967-8bde9681a1d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM4OTk1ODZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "width": 1840,
+                  "height": 260
+                },
+                {
+                  "type": "rectangle",
+                  "id": "t3UFx",
+                  "x": 0,
+                  "y": 0,
+                  "name": "overlay",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 90,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#AA10151F",
+                        "position": 0
+                      },
+                      {
+                        "color": "#6610151F",
+                        "position": 0.35
+                      },
+                      {
+                        "color": "#0010151F",
+                        "position": 0.72
+                      }
+                    ]
+                  },
+                  "width": 1840,
+                  "height": 260
+                },
+                {
+                  "type": "frame",
+                  "id": "U5fQg",
+                  "x": 32,
+                  "y": 28,
+                  "name": "carouselContent",
+                  "width": 760,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TInwY",
+                      "name": "carouselLabel",
+                      "fill": "$--text-primary",
+                      "content": "本店推荐",
+                      "fontFamily": "Inter",
+                      "fontSize": 26,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "3cTlQ",
+                      "name": "carouselTitle",
+                      "fill": "$--text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Smoked Ribeye",
+                      "fontFamily": "Inter",
+                      "fontSize": 48,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YVcAx",
+                      "name": "carouselDesc",
+                      "fill": "$--text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+                      "fontFamily": "Inter",
+                      "fontSize": 24
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zzLQ6",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 8
+            },
+            {
+              "type": "text",
+              "id": "MhEI4",
+              "name": "prompt",
+              "fill": "$--text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "按方向键浏览菜单",
+              "fontFamily": "Inter",
+              "fontSize": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "NuvY5",
+      "x": 2040,
+      "y": 0,
+      "name": "Menu Screen",
+      "width": 1920,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "$--bg-browse-start",
+            "position": 0
+          },
+          {
+            "color": "$--bg-browse-mid",
+            "position": 0.5
+          },
+          {
+            "color": "$--bg-browse-end",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "sOnhm",
+          "x": 40,
+          "y": 28,
+          "name": "content",
+          "width": 1840,
+          "height": 836,
+          "layout": "vertical",
+          "gap": 24,
+          "children": [
+            {
+              "type": "text",
+              "id": "eYCPz",
+              "name": "brand",
+              "fill": "$--text-primary",
+              "content": "POCO Dish Vision",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "UjkM3",
+              "name": "helper",
+              "fill": "$--text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "按方向键切换分类，按确认键展开详情",
+              "fontFamily": "Inter",
+              "fontSize": 24
+            },
+            {
+              "type": "frame",
+              "id": "0e2xy",
+              "name": "body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dlwoE",
+                  "name": "rail",
+                  "width": 248,
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "JEeA8",
+                      "name": "railLabel",
+                      "fill": "$--text-muted",
+                      "content": "分类",
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qfTt7",
+                      "name": "startersCard",
+                      "width": "fill_container",
+                      "fill": "$--glass-surface",
+                      "cornerRadius": "$--corner-medium",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border-subtle"
+                      },
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        18,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "TlSdd",
+                          "name": "startersTitle",
+                          "fill": "$--text-primary",
+                          "content": "Starters",
+                          "fontFamily": "Inter",
+                          "fontSize": 28,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bCr5D",
+                          "name": "startersSub",
+                          "fill": "$--text-secondary",
+                          "content": "开场小食",
+                          "fontFamily": "Inter",
+                          "fontSize": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sVmCS",
+                      "name": "mainsCard",
+                      "width": "fill_container",
+                      "fill": "$--category-selected",
+                      "cornerRadius": "$--corner-medium",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border-focused"
+                      },
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        18,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "w60Cw",
+                          "name": "mainsTitle",
+                          "fill": "$--text-primary",
+                          "content": "Mains",
+                          "fontFamily": "Inter",
+                          "fontSize": 28,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Zvuy5",
+                          "name": "mainsSub",
+                          "fill": "$--text-secondary",
+                          "content": "招牌主菜",
+                          "fontFamily": "Inter",
+                          "fontSize": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tVHZq",
+                      "name": "dessertsCard",
+                      "width": "fill_container",
+                      "fill": "$--glass-surface",
+                      "cornerRadius": "$--corner-medium",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border-subtle"
+                      },
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        18,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "vZuFu",
+                          "name": "dessertsTitle",
+                          "fill": "$--text-primary",
+                          "content": "Desserts",
+                          "fontFamily": "Inter",
+                          "fontSize": 28,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "X4mhU",
+                          "name": "dessertsSub",
+                          "fill": "$--text-secondary",
+                          "content": "甜点与饮品",
+                          "fontFamily": "Inter",
+                          "fontSize": 20
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "867pt",
+                  "name": "itemsArea",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "XaFgq",
+                      "name": "itemsLabel",
+                      "fill": "$--text-muted",
+                      "content": "菜品",
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SzoUn",
+                      "name": "cardsRow",
+                      "width": "fill_container",
+                      "gap": 18,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "8ub7D",
+                          "name": "ribeyeCard",
+                          "clip": true,
+                          "width": 280,
+                          "fill": "$--card-focused",
+                          "cornerRadius": "$--corner-medium",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$--border-focused"
+                          },
+                          "layout": "vertical",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "id": "xPrjL",
+                              "name": "ribeyeImage",
+                              "metadata": {
+                                "type": "unsplash",
+                                "username": "mattconnor",
+                                "link": "https://unsplash.com/@mattconnor",
+                                "author": "Matt Connor"
+                              },
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "https://images.unsplash.com/photo-1614119068601-483274e9dcb7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM4OTkyODZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                                "mode": "fill"
+                              },
+                              "width": "fill_container",
+                              "height": 176
+                            },
+                            {
+                              "type": "frame",
+                              "id": "B38T6",
+                              "name": "ribeyeContent",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "padding": [
+                                0,
+                                20,
+                                20,
+                                20
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "mgkQm",
+                                  "name": "ribeyeTitle",
+                                  "fill": "$--text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Smoked Ribeye",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 28,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "wBXxF",
+                                  "name": "ribeyePrice",
+                                  "fill": "$--accent",
+                                  "content": "¥128.00 / 份",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 24,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "KeNK6",
+                                  "name": "ribeyeDesc",
+                                  "fill": "$--text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 20
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "L3TbH",
+                          "name": "pastaCard",
+                          "clip": true,
+                          "width": 280,
+                          "fill": "$--glass-surface",
+                          "cornerRadius": "$--corner-medium",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$--border-subtle"
+                          },
+                          "layout": "vertical",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "id": "Q875v",
+                              "name": "pastaImage",
+                              "metadata": {
+                                "type": "unsplash",
+                                "username": "alimentosfotogenicos",
+                                "link": "https://unsplash.com/@alimentosfotogenicos",
+                                "author": "Alimentos Fotogénicos"
+                              },
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "https://images.unsplash.com/photo-1722239309560-774f60c78489?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM4OTkyODd8&ixlib=rb-4.1.0&q=80&w=1080",
+                                "mode": "fill"
+                              },
+                              "width": "fill_container",
+                              "height": 176
+                            },
+                            {
+                              "type": "frame",
+                              "id": "zg1gz",
+                              "name": "pastaContent",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "padding": [
+                                0,
+                                20,
+                                20,
+                                20
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "rELI0",
+                                  "name": "pastaTitle",
+                                  "fill": "$--text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Truffle Pasta",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 28,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "yxpAV",
+                                  "name": "pastaPrice",
+                                  "fill": "$--accent",
+                                  "content": "¥76.00 / 份",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 24,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "lhq75",
+                                  "name": "pastaDesc",
+                                  "fill": "$--text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "黑松露奶油意面，入口香浓",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 20
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "9Rtm9",
+          "x": 40,
+          "y": 794,
+          "name": "dock",
+          "width": 1840,
+          "fill": "$--glass-surface",
+          "cornerRadius": "$--corner-medium",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--border-subtle"
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            24,
+            28
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "5LXbv",
+              "name": "dockTitle",
+              "fill": "$--text-primary",
+              "content": "Smoked Ribeye",
+              "fontFamily": "Inter",
+              "fontSize": 34,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "amYml",
+              "name": "dockPrice",
+              "fill": "$--accent",
+              "content": "¥128.00",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Sy4Oj",
+              "name": "badgeRow",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Uai6i",
+                  "name": "badge",
+                  "fill": "$--badge-surface",
+                  "cornerRadius": "$--corner-pill",
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "h44oT",
+                      "name": "badgeText",
+                      "fill": "$--accent",
+                      "content": "SIGNATURE",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "FXSX8",
+              "name": "dockDesc",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+              "fontFamily": "Inter",
+              "fontSize": 22
+            },
+            {
+              "type": "text",
+              "id": "mo5FK",
+              "name": "dockPrompt",
+              "fill": "$--text-muted",
+              "content": "按确认键展开详情",
+              "fontFamily": "Inter",
+              "fontSize": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "aK8WI",
+      "x": 4080,
+      "y": 0,
+      "name": "Detail Screen",
+      "width": 1920,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "$--bg-browse-start",
+            "position": 0
+          },
+          {
+            "color": "$--bg-browse-mid",
+            "position": 0.5
+          },
+          {
+            "color": "$--bg-browse-end",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "iSKoU",
+          "x": 40,
+          "y": 28,
+          "name": "content",
+          "width": 1840,
+          "height": 836,
+          "layout": "vertical",
+          "gap": 24,
+          "children": [
+            {
+              "type": "text",
+              "id": "h3ab8",
+              "name": "brand",
+              "fill": "$--text-primary",
+              "content": "POCO Dish Vision",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "fp2Nu",
+              "name": "helper",
+              "fill": "$--text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "按方向键切换分类，按确认键展开详情",
+              "fontFamily": "Inter",
+              "fontSize": 24
+            },
+            {
+              "type": "frame",
+              "id": "qpyNn",
+              "name": "body",
+              "width": "fill_container",
+              "height": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JlRft",
+                  "name": "rail",
+                  "width": 248,
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tT3ok",
+                      "name": "railLabel",
+                      "fill": "$--text-muted",
+                      "content": "分类",
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "0U84A",
+                      "name": "startersCard",
+                      "width": "fill_container",
+                      "fill": "$--glass-surface",
+                      "cornerRadius": "$--corner-medium",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border-subtle"
+                      },
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        18,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "6Jjmq",
+                          "name": "startersTitle",
+                          "fill": "$--text-primary",
+                          "content": "Starters",
+                          "fontFamily": "Inter",
+                          "fontSize": 28,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Xk4ql",
+                          "name": "startersSub",
+                          "fill": "$--text-secondary",
+                          "content": "开场小食",
+                          "fontFamily": "Inter",
+                          "fontSize": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IKAbZ",
+                      "name": "mainsCard",
+                      "width": "fill_container",
+                      "fill": "$--category-selected",
+                      "cornerRadius": "$--corner-medium",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border-focused"
+                      },
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        18,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YlI3J",
+                          "name": "mainsTitle",
+                          "fill": "$--text-primary",
+                          "content": "Mains",
+                          "fontFamily": "Inter",
+                          "fontSize": 28,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "AjyR4",
+                          "name": "mainsSub",
+                          "fill": "$--text-secondary",
+                          "content": "招牌主菜",
+                          "fontFamily": "Inter",
+                          "fontSize": 20
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "b1qQc",
+                      "name": "dessertsCard",
+                      "width": "fill_container",
+                      "fill": "$--glass-surface",
+                      "cornerRadius": "$--corner-medium",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "$--border-subtle"
+                      },
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        18,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Z6PjB",
+                          "name": "dessertsTitle",
+                          "fill": "$--text-primary",
+                          "content": "Desserts",
+                          "fontFamily": "Inter",
+                          "fontSize": 28,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Ard69",
+                          "name": "dessertsSub",
+                          "fill": "$--text-secondary",
+                          "content": "甜点与饮品",
+                          "fontFamily": "Inter",
+                          "fontSize": 20
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xN8gr",
+                  "name": "itemsArea",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "0nrOh",
+                      "name": "itemsLabel",
+                      "fill": "$--text-muted",
+                      "content": "菜品",
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Hbw4Z",
+                      "name": "cardsRow",
+                      "width": "fill_container",
+                      "gap": 18,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "yqekB",
+                          "name": "ribeyeCard",
+                          "clip": true,
+                          "width": 280,
+                          "fill": "$--card-focused",
+                          "cornerRadius": "$--corner-medium",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$--border-focused"
+                          },
+                          "layout": "vertical",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "id": "LLFoc",
+                              "name": "ribeyeImage",
+                              "metadata": {
+                                "type": "unsplash",
+                                "username": "mattconnor",
+                                "link": "https://unsplash.com/@mattconnor",
+                                "author": "Matt Connor"
+                              },
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "https://images.unsplash.com/photo-1614119068601-483274e9dcb7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM4OTkyODZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                                "mode": "fill"
+                              },
+                              "width": "fill_container",
+                              "height": 176
+                            },
+                            {
+                              "type": "frame",
+                              "id": "LljHl",
+                              "name": "ribeyeContent",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "padding": [
+                                0,
+                                20,
+                                20,
+                                20
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "hRYpC",
+                                  "name": "ribeyeTitle",
+                                  "fill": "$--text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Smoked Ribeye",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 28,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Y3Hu4",
+                                  "name": "ribeyePrice",
+                                  "fill": "$--accent",
+                                  "content": "¥128.00 / 份",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 24,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "lynrk",
+                                  "name": "ribeyeDesc",
+                                  "fill": "$--text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 20
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "e4X7o",
+                          "name": "pastaCard",
+                          "clip": true,
+                          "width": 280,
+                          "fill": "$--glass-surface",
+                          "cornerRadius": "$--corner-medium",
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$--border-subtle"
+                          },
+                          "layout": "vertical",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "id": "f1jby",
+                              "name": "pastaImage",
+                              "metadata": {
+                                "type": "unsplash",
+                                "username": "alimentosfotogenicos",
+                                "link": "https://unsplash.com/@alimentosfotogenicos",
+                                "author": "Alimentos Fotogénicos"
+                              },
+                              "fill": {
+                                "type": "image",
+                                "enabled": true,
+                                "url": "https://images.unsplash.com/photo-1722239309560-774f60c78489?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzM4OTkyODd8&ixlib=rb-4.1.0&q=80&w=1080",
+                                "mode": "fill"
+                              },
+                              "width": "fill_container",
+                              "height": 176
+                            },
+                            {
+                              "type": "frame",
+                              "id": "E932s",
+                              "name": "pastaContent",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "padding": [
+                                0,
+                                20,
+                                20,
+                                20
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "t0bZf",
+                                  "name": "pastaTitle",
+                                  "fill": "$--text-primary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Truffle Pasta",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 28,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "dCIN4",
+                                  "name": "pastaPrice",
+                                  "fill": "$--accent",
+                                  "content": "¥76.00 / 份",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 24,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Gn3vi",
+                                  "name": "pastaDesc",
+                                  "fill": "$--text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "黑松露奶油意面，入口香浓",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 20
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cwHsh",
+          "x": 40,
+          "y": 794,
+          "name": "dock",
+          "width": 1840,
+          "fill": "$--glass-surface",
+          "cornerRadius": "$--corner-medium",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--border-subtle"
+          },
+          "layout": "vertical",
+          "gap": 10,
+          "padding": [
+            24,
+            28
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "AxFpJ",
+              "name": "dockTitle",
+              "fill": "$--text-primary",
+              "content": "Smoked Ribeye",
+              "fontFamily": "Inter",
+              "fontSize": 34,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "IRgGn",
+              "name": "dockPrice",
+              "fill": "$--accent",
+              "content": "¥128.00",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "s9nZm",
+              "name": "badgeRow",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "xedSd",
+                  "name": "badge",
+                  "fill": "$--badge-surface",
+                  "cornerRadius": "$--corner-pill",
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qTjiQ",
+                      "name": "badgeText",
+                      "fill": "$--accent",
+                      "content": "SIGNATURE",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "3iMmp",
+              "name": "dockDesc",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+              "fontFamily": "Inter",
+              "fontSize": 22
+            },
+            {
+              "type": "text",
+              "id": "JlECa",
+              "name": "dockPrompt",
+              "fill": "$--text-muted",
+              "content": "按确认键展开详情",
+              "fontFamily": "Inter",
+              "fontSize": 20
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qNO5C",
+          "x": 40,
+          "y": 557,
+          "name": "panel",
+          "width": 1840,
+          "fill": "$--glass-surface-strong",
+          "cornerRadius": "$--corner-medium",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--border-focused"
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            28
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "IciRw",
+              "name": "panelTitle",
+              "fill": "$--text-primary",
+              "content": "菜品详情",
+              "fontFamily": "Inter",
+              "fontSize": 34,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "Mc3Of",
+              "name": "panelDesc",
+              "fill": "$--text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
+              "fontFamily": "Inter",
+              "fontSize": 22
+            },
+            {
+              "type": "text",
+              "id": "ltesj",
+              "name": "panelTags",
+              "fill": "$--text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "标签：poco / featured",
+              "fontFamily": "Inter",
+              "fontSize": 20
+            },
+            {
+              "type": "text",
+              "id": "wQZSm",
+              "name": "panelPrompt",
+              "fill": "$--text-muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "按返回键或点击详情面板任意区域返回浏览",
+              "fontFamily": "Inter",
+              "fontSize": 20
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "--accent": {
+      "type": "color",
+      "value": "#FFD166"
+    },
+    "--badge-surface": {
+      "type": "color",
+      "value": "#332B3E58"
+    },
+    "--bg-browse-end": {
+      "type": "color",
+      "value": "#0B1018"
+    },
+    "--bg-browse-mid": {
+      "type": "color",
+      "value": "#162336"
+    },
+    "--bg-browse-start": {
+      "type": "color",
+      "value": "#0F1723"
+    },
+    "--bg-home-end": {
+      "type": "color",
+      "value": "#0C1118"
+    },
+    "--bg-home-mid": {
+      "type": "color",
+      "value": "#182235"
+    },
+    "--bg-home-start": {
+      "type": "color",
+      "value": "#10151F"
+    },
+    "--border-focused": {
+      "type": "color",
+      "value": "#FFD166"
+    },
+    "--border-subtle": {
+      "type": "color",
+      "value": "#26FFFFFF"
+    },
+    "--card-focused": {
+      "type": "color",
+      "value": "#263750"
+    },
+    "--card-image-h": {
+      "type": "number",
+      "value": 176
+    },
+    "--card-width": {
+      "type": "number",
+      "value": 280
+    },
+    "--category-selected": {
+      "type": "color",
+      "value": "#253552"
+    },
+    "--corner-large": {
+      "type": "number",
+      "value": 32
+    },
+    "--corner-medium": {
+      "type": "number",
+      "value": 28
+    },
+    "--corner-pill": {
+      "type": "number",
+      "value": 999
+    },
+    "--glass-surface": {
+      "type": "color",
+      "value": "#CC152131"
+    },
+    "--glass-surface-soft": {
+      "type": "color",
+      "value": "#331D2635"
+    },
+    "--glass-surface-strong": {
+      "type": "color",
+      "value": "#F2253550"
+    },
+    "--hero-bottom": {
+      "type": "number",
+      "value": 48
+    },
+    "--screen-top": {
+      "type": "number",
+      "value": 28
+    },
+    "--screen-x": {
+      "type": "number",
+      "value": 40
+    },
+    "--surface-h": {
+      "type": "number",
+      "value": 24
+    },
+    "--surface-v": {
+      "type": "number",
+      "value": 20
+    },
+    "--text-muted": {
+      "type": "color",
+      "value": "#CCF4F7FB"
+    },
+    "--text-primary": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "--text-secondary": {
+      "type": "color",
+      "value": "#E4EAF4"
+    }
+  }
+}

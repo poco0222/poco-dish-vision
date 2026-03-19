@@ -1,0 +1,2924 @@
+{
+  "version": "2.9",
+  "children": [
+    {
+      "type": "frame",
+      "id": "R3XHK",
+      "x": 0,
+      "y": 0,
+      "name": "湘味首屏",
+      "width": 1920,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "$--bg-top",
+            "position": 0
+          },
+          {
+            "color": "$--bg-mid",
+            "position": 0.45
+          },
+          {
+            "color": "$--bg-bottom",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "Us7mx",
+          "x": 48,
+          "y": 32,
+          "name": "brand",
+          "fill": "$--text-primary",
+          "content": "新华饭店",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "t5MuK",
+          "x": 48,
+          "y": 68,
+          "name": "brandSub",
+          "fill": "$--text-muted",
+          "content": "剁椒热炒 · 腊味土菜 · 今日现炒",
+          "fontFamily": "Inter",
+          "fontSize": 18
+        },
+        {
+          "type": "frame",
+          "id": "GqZTL",
+          "x": 1630,
+          "y": 32,
+          "name": "seasonTag",
+          "fill": "$--surface-deep",
+          "cornerRadius": "$--corner-pill",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--gold-soft"
+          },
+          "padding": [
+            10,
+            18
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "sG6ZM",
+              "name": "seasonText",
+              "fill": "$--gold",
+              "content": "老牌湘菜 · 热锅上桌",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "pCBno",
+          "x": 720,
+          "y": 112,
+          "name": "hero",
+          "clip": true,
+          "width": 1152,
+          "height": 660,
+          "fill": "$--surface-card",
+          "cornerRadius": "$--corner-xl",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$--gold-soft"
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "zsVD4",
+              "x": 0,
+              "y": 0,
+              "name": "heroImg",
+              "metadata": {
+                "type": "unsplash",
+                "username": "mettyunuabona",
+                "link": "https://unsplash.com/@mettyunuabona",
+                "author": "Ehimetalor Akhere Unuabona"
+              },
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1773901990214.png",
+                "mode": "fill"
+              },
+              "width": 1152,
+              "height": 660
+            },
+            {
+              "type": "rectangle",
+              "id": "yH1JA",
+              "x": 0,
+              "y": 0,
+              "name": "heroOverlay",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 90,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#1F0E0900",
+                    "position": 0
+                  },
+                  {
+                    "color": "#66140C09",
+                    "position": 0.65
+                  },
+                  {
+                    "color": "#CC140C09",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 1152,
+              "height": 660
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "9FyG1",
+          "x": 48,
+          "y": 196,
+          "name": "label",
+          "fill": "$--gold",
+          "content": "当前主推",
+          "fontFamily": "Inter",
+          "fontSize": 22,
+          "fontWeight": "500"
+        },
+        {
+          "type": "text",
+          "id": "49zVu",
+          "x": 48,
+          "y": 238,
+          "name": "title1",
+          "fill": "$--text-primary",
+          "content": "茶油炒鸡",
+          "fontFamily": "Inter",
+          "fontSize": 78,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "olJzS",
+          "x": 48,
+          "y": 328,
+          "name": "title2",
+          "fill": "$--text-primary",
+          "content": "鲜辣上桌",
+          "fontFamily": "Inter",
+          "fontSize": 78,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "e0jzO",
+          "x": 48,
+          "y": 438,
+          "name": "desc",
+          "fill": "$--text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 560,
+          "content": "茶油一爆香，鸡肉紧实带汁，红椒和蒜香一起起锅，这一屏先看这道最稳的下饭菜。",
+          "lineHeight": 1.35,
+          "fontFamily": "Inter",
+          "fontSize": 24
+        },
+        {
+          "type": "frame",
+          "id": "JcOYt",
+          "x": 48,
+          "y": 560,
+          "name": "chips",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Dk0Cs",
+              "name": "chip1",
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--gold-soft"
+              },
+              "padding": [
+                10,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nMzek",
+                  "name": "chip1Text",
+                  "fill": "$--text-primary",
+                  "content": "热锅现炒",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KYDk6",
+              "name": "chip2",
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--gold-soft"
+              },
+              "padding": [
+                10,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VCYaC",
+                  "name": "chip2Text",
+                  "fill": "$--text-primary",
+                  "content": "剁椒头牌",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KXbwm",
+              "name": "chip3",
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-pill",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--gold-soft"
+              },
+              "padding": [
+                10,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TPtYq",
+                  "name": "chip3Text",
+                  "fill": "$--text-primary",
+                  "content": "腊味土菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "q9HWw",
+          "x": 48,
+          "y": 820,
+          "name": "recommendationStrip",
+          "width": 1824,
+          "gap": 18,
+          "children": [
+            {
+              "type": "frame",
+              "id": "N0aRn",
+              "name": "dishCard1",
+              "width": "fill_container",
+              "height": 200,
+              "fill": "$--surface-card-strong",
+              "cornerRadius": "$--corner-lg",
+              "stroke": {
+                "align": "inside",
+                "thickness": 2,
+                "fill": "$--gold"
+              },
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "09VFP",
+                  "name": "featureTitle",
+                  "fill": "$--text-primary",
+                  "content": "茶油炒鸡",
+                  "fontFamily": "Inter",
+                  "fontSize": 25,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "DzFQP",
+                  "name": "featurePrice",
+                  "fill": "$--gold",
+                  "content": "¥88 / 例",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "6FNH7",
+                  "name": "featureDesc",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "茶油爆香，鸡肉紧实，香辣下饭。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                },
+                {
+                  "type": "text",
+                  "id": "t6a0Y",
+                  "name": "featurePrompt",
+                  "fill": "$--text-muted",
+                  "content": "当前轮播",
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Vi40g",
+              "name": "dishCard2",
+              "width": "fill_container",
+              "height": 200,
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-lg",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cuNde",
+                  "name": "featureTitle",
+                  "fill": "$--text-primary",
+                  "content": "青花椒鱼片",
+                  "fontFamily": "Inter",
+                  "fontSize": 25,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "d5YA7",
+                  "name": "featurePrice",
+                  "fill": "$--gold",
+                  "content": "¥96 / 例",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "wr66I",
+                  "name": "featureDesc",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "鲜麻先起，鱼片嫩滑，越吃越开胃。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                },
+                {
+                  "type": "text",
+                  "id": "cH12p",
+                  "name": "featurePrompt",
+                  "fill": "$--text-muted",
+                  "content": "鲜麻开胃",
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "lOaUA",
+              "name": "dishCard3",
+              "width": "fill_container",
+              "height": 200,
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-lg",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Hiu0J",
+                  "name": "featureTitle",
+                  "fill": "$--text-primary",
+                  "content": "钵钵茶油鸭",
+                  "fontFamily": "Inter",
+                  "fontSize": 25,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "pUqFt",
+                  "name": "featurePrice",
+                  "fill": "$--gold",
+                  "content": "¥108 / 例",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "G0FdV",
+                  "name": "featureDesc",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "鸭香厚实，茶油提香，适合多人分享。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                },
+                {
+                  "type": "text",
+                  "id": "ouepY",
+                  "name": "featurePrompt",
+                  "fill": "$--text-muted",
+                  "content": "茶油头牌",
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "5pKSJ",
+              "name": "dishCard4",
+              "width": "fill_container",
+              "height": 200,
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-lg",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "KkPxr",
+                  "name": "featureTitle",
+                  "fill": "$--text-primary",
+                  "content": "跳水鱼",
+                  "fontFamily": "Inter",
+                  "fontSize": 25,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "btnUo",
+                  "name": "featurePrice",
+                  "fill": "$--gold",
+                  "content": "¥118 / 份",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "8COXy",
+                  "name": "featureDesc",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "汤底鲜辣，鱼肉入味，整桌先抢这一锅。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                },
+                {
+                  "type": "text",
+                  "id": "oBVlm",
+                  "name": "featurePrompt",
+                  "fill": "$--text-muted",
+                  "content": "锅气足",
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "eDB4Y",
+              "name": "dishCard5",
+              "width": "fill_container",
+              "height": 200,
+              "fill": "$--surface-card",
+              "cornerRadius": "$--corner-lg",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 7,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "W16ZM",
+                  "name": "featureTitle",
+                  "fill": "$--text-primary",
+                  "content": "水煮活鱼",
+                  "fontFamily": "Inter",
+                  "fontSize": 25,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "Anau6",
+                  "name": "featurePrice",
+                  "fill": "$--gold",
+                  "content": "¥128 / 份",
+                  "fontFamily": "Inter",
+                  "fontSize": 19,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "z05qV",
+                  "name": "featureDesc",
+                  "fill": "$--text-secondary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "红油沸香，鱼肉滑嫩，重口一桌必点。",
+                  "lineHeight": 1.35,
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                },
+                {
+                  "type": "text",
+                  "id": "GGTqY",
+                  "name": "featurePrompt",
+                  "fill": "$--text-muted",
+                  "content": "重辣过瘾",
+                  "fontFamily": "Inter",
+                  "fontSize": 15
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "SVMLB",
+      "x": 0,
+      "y": 1318,
+      "name": "湘味分类/招牌热炒",
+      "width": 1920,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "$--bg-browse-top",
+            "position": 0
+          },
+          {
+            "color": "$--bg-browse-mid",
+            "position": 0.45
+          },
+          {
+            "color": "$--bg-browse-bottom",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "3oNi2",
+          "x": 48,
+          "y": 32,
+          "name": "brand",
+          "fill": "$--text-primary",
+          "content": "新华饭店",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "2ohYl",
+          "x": 48,
+          "y": 68,
+          "name": "helper",
+          "fill": "$--text-muted",
+          "content": "44道湘味热菜 · 按分类浏览",
+          "fontFamily": "Inter",
+          "fontSize": 18
+        },
+        {
+          "type": "text",
+          "id": "BkYcD",
+          "x": 48,
+          "y": 156,
+          "name": "railLabel",
+          "fill": "$--gold",
+          "content": "分类",
+          "fontFamily": "Inter",
+          "fontSize": 20,
+          "fontWeight": "500"
+        },
+        {
+          "type": "frame",
+          "id": "Kdo3p",
+          "x": 48,
+          "y": 190,
+          "name": "rail",
+          "width": 240,
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "SiOFP",
+              "name": "cat1",
+              "width": "fill_container",
+              "fill": "#B63A27",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#C9A45E"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "QTO1b",
+                  "fill": "#F7F1E8",
+                  "content": "招牌热炒",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IxIRm",
+              "name": "cat2",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "0N9vH",
+                  "fill": "#D8C8B3",
+                  "content": "香辣口味",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aQYrI",
+              "name": "cat3",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NLYlv",
+                  "fill": "#D8C8B3",
+                  "content": "鱼鲜大菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HKv2Z",
+              "name": "cat4",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oCDzB",
+                  "fill": "#D8C8B3",
+                  "content": "风味小菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "j7ozi",
+              "name": "cat5",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "uGYOu",
+                  "fill": "#D8C8B3",
+                  "content": "家常土菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "I0m8v",
+          "x": 328,
+          "y": 32,
+          "name": "mainLabel",
+          "fill": "$--gold",
+          "content": "热锅现炒",
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "500"
+        },
+        {
+          "type": "text",
+          "id": "siq6l",
+          "x": 328,
+          "y": 64,
+          "name": "mainTitle",
+          "fill": "$--text-primary",
+          "content": "招牌热炒",
+          "fontFamily": "Inter",
+          "fontSize": 40,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "KiJ6K",
+          "x": 328,
+          "y": 120,
+          "name": "mainSub",
+          "fill": "$--text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 1180,
+          "content": "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
+          "fontFamily": "Inter",
+          "fontSize": 18
+        },
+        {
+          "type": "frame",
+          "id": "meUva",
+          "x": 328,
+          "y": 174,
+          "name": "hotGrid",
+          "width": 1544,
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Tm2bg",
+              "name": "rowA",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DBKKg",
+                  "name": "cardA1",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "#E5341D17",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#C9A45E"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "JrIYx",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914273952.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iueOC",
+                      "name": "body1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "H3U1U",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "茶油炒鸡",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "OG69v",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "茶油爆香，锅气足，越吃越香。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Oo0qF",
+                  "name": "cardA2",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "6P29K",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914294127.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "njJKW",
+                      "name": "body2",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "C30m4",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "小炒黄牛肉",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eAK5I",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "鲜辣现炒，肉嫩椒脆，湘味代表。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aZlDt",
+                  "name": "cardA3",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "0d41G",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914382264.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hO6z4",
+                      "name": "body3",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DmAfK",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "醴陵小炒肉",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "tn29r",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "辣椒鲜香，肉香直接，家常头牌。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oXEUm",
+              "name": "rowB",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CAIVx",
+                  "name": "cardB1",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "d6PH8",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914398281.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ehTq0",
+                      "name": "body4",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SJAGN",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "攸县杀猪肉",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "i4aom",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "土味厚香，口感扎实，越吃越耐。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZjoL4",
+                  "name": "cardB2",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "0FRUa",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914415007.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CzlS9",
+                      "name": "body5",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "P1Ajn",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "生炒肥肠",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UkE0F",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "爆香重口，肥肠越嚼越香。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dBuMw",
+                  "name": "cardB3",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "jvjW8",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914447318.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eCU3y",
+                      "name": "body6",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iwJZG",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "爆炒腰花",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "RQLgK",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "脆嫩见火候，香辣利落。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jCGA2",
+              "name": "rowC",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "KP8Jd",
+                  "name": "cardC1",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "o0GUm",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914473772.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QH8cU",
+                      "name": "body7",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "W0o0w",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "酸辣脆肚",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "aEBBM",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "脆爽酸辣，开胃带劲。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UM59D",
+                  "name": "cardC2",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "P9jPd",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914499556.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EUQGf",
+                      "name": "body8",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ToeFS",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "酸辣鸡胗",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bPJ6A",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "脆口鲜辣，下饭下酒都稳。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "umn2f",
+                  "name": "cardC3",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "$--surface-card",
+                  "cornerRadius": 24,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "$--border-subtle"
+                  },
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "SUGVi",
+                      "name": "card2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "litoondev",
+                        "link": "https://unsplash.com/@litoondev",
+                        "author": "litoon dev"
+                      },
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1773914518738.png",
+                        "mode": "fill"
+                      },
+                      "width": "fill_container",
+                      "height": 180
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KCvgi",
+                      "name": "body9",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "padding": [
+                        0,
+                        18,
+                        18,
+                        18
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "7Gxea",
+                          "fill": "#F7F1E8",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "时蔬炒肉",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iYASh",
+                          "fill": "#D8C8B3",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "家常热炒，配饭最顺口。",
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "npcH9",
+      "x": 0,
+      "y": 2598,
+      "name": "湘味分类/招牌热炒-聚焦详情探索",
+      "width": 1920,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": {
+          "height": 1
+        },
+        "colors": [
+          {
+            "color": "$--bg-browse-top",
+            "position": 0
+          },
+          {
+            "color": "$--bg-browse-mid",
+            "position": 0.45
+          },
+          {
+            "color": "$--bg-browse-bottom",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "5kjhx",
+          "x": 48,
+          "y": 32,
+          "name": "brand",
+          "fill": "$--text-primary",
+          "content": "新华饭店",
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "Riq6a",
+          "x": 48,
+          "y": 68,
+          "name": "helper",
+          "fill": "$--text-muted",
+          "content": "44道湘味热菜 · 按分类浏览",
+          "fontFamily": "Inter",
+          "fontSize": 18
+        },
+        {
+          "type": "text",
+          "id": "DYIiP",
+          "x": 48,
+          "y": 156,
+          "name": "railLabel",
+          "fill": "$--gold",
+          "content": "分类",
+          "fontFamily": "Inter",
+          "fontSize": 20,
+          "fontWeight": "500"
+        },
+        {
+          "type": "frame",
+          "id": "mDDUh",
+          "x": 48,
+          "y": 190,
+          "name": "rail",
+          "width": 240,
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "NwZZ1",
+              "name": "cat1",
+              "width": "fill_container",
+              "fill": "#B63A27",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#C9A45E"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "fy2J4",
+                  "fill": "#F7F1E8",
+                  "content": "招牌热炒",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "5FyS2",
+              "name": "cat2",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UVWVm",
+                  "fill": "#D8C8B3",
+                  "content": "香辣口味",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sMowN",
+              "name": "cat3",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZJyn0",
+                  "fill": "#D8C8B3",
+                  "content": "鱼鲜大菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "O34Di",
+              "name": "cat4",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "UQRWP",
+                  "fill": "#D8C8B3",
+                  "content": "风味小菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ykk59",
+              "name": "cat5",
+              "width": "fill_container",
+              "fill": "#CC2A1712",
+              "cornerRadius": 20,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#5B3A2B"
+              },
+              "layout": "vertical",
+              "padding": [
+                14,
+                18
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "cLh9q",
+                  "fill": "#D8C8B3",
+                  "content": "家常土菜",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "iYsGZ",
+          "x": 328,
+          "y": 32,
+          "name": "mainLabel",
+          "fill": "$--gold",
+          "content": "热锅现炒",
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "500"
+        },
+        {
+          "type": "text",
+          "id": "C6aaV",
+          "x": 328,
+          "y": 64,
+          "name": "mainTitle",
+          "fill": "$--text-primary",
+          "content": "招牌热炒",
+          "fontFamily": "Inter",
+          "fontSize": 40,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "W4N0M",
+          "x": 328,
+          "y": 120,
+          "name": "mainSub",
+          "fill": "$--text-secondary",
+          "textGrowth": "fixed-width",
+          "width": 1300,
+          "content": "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
+          "fontFamily": "Inter",
+          "fontSize": 18
+        },
+        {
+          "type": "frame",
+          "id": "ui03n",
+          "x": 328,
+          "y": 174,
+          "name": "focusStage",
+          "width": 1544,
+          "height": 794,
+          "fill": "#00000000",
+          "cornerRadius": 36,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "#00000000"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "enabled": false,
+            "color": "#00000000",
+            "offset": {
+              "x": 0,
+              "y": 20
+            },
+            "blur": 42
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ab9hI",
+              "x": 24,
+              "y": 24,
+              "name": "smallA1",
+              "opacity": 0.94,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "b8yrZ",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914273952.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "B9kCo",
+                  "name": "body1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CWusc",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "茶油炒鸡",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kv0Kf",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "茶油爆香，锅气足。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7eKMr",
+              "x": 432,
+              "y": 24,
+              "name": "focusMid",
+              "clip": true,
+              "width": 680,
+              "fill": "$--bg-bottom",
+              "cornerRadius": 30,
+              "stroke": {
+                "align": "inside",
+                "thickness": 2,
+                "fill": "$--border-strong"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#00000052",
+                "offset": {
+                  "x": 0,
+                  "y": 14
+                },
+                "blur": 30
+              },
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "twkic",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914415007.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 228
+                },
+                {
+                  "type": "frame",
+                  "id": "hrxS9",
+                  "name": "focusBody",
+                  "width": "fill_container",
+                  "fill": "$--bg-mid",
+                  "cornerRadius": [
+                    0,
+                    0,
+                    30,
+                    30
+                  ],
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": [
+                    0,
+                    22,
+                    22,
+                    22
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "j1YIG",
+                      "width": "fill_container",
+                      "gap": 14,
+                      "justifyContent": "space_between",
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XJ3Zd",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eekqf",
+                              "fill": "$--gold",
+                              "content": "今日焦点 · 招牌热炒",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "gOnYo",
+                              "fill": "$--text-primary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "生炒肥肠",
+                              "fontFamily": "Inter",
+                              "fontSize": 30,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "743Bs",
+                              "fill": "$--text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "爆香重口，肥肠越嚼越香。",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "042KN",
+                          "fill": "$--bg-mid",
+                          "cornerRadius": 18,
+                          "stroke": {
+                            "align": "inside",
+                            "thickness": 1,
+                            "fill": "$--gold-soft"
+                          },
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": [
+                            12,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "yPWow",
+                              "fill": "$--text-muted",
+                              "content": "参考价格",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            },
+                            {
+                              "type": "text",
+                              "id": "3lYFB",
+                              "fill": "$--gold",
+                              "content": "¥58",
+                              "fontFamily": "Inter",
+                              "fontSize": 36,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "FEW1y",
+                              "fill": "$--text-secondary",
+                              "content": "元 / 例",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "id": "SQTd2",
+                      "fill": "$--border-subtle",
+                      "width": "fill_container",
+                      "height": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bPdj1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "BK3zn",
+                          "fill": "$--text-muted",
+                          "content": "风味标签",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "s01hI",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "J5ykN",
+                              "fill": "$--red-accent",
+                              "cornerRadius": "$--corner-pill",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$--gold-soft"
+                              },
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                14
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "omjS4",
+                                  "fill": "$--gold",
+                                  "content": "招牌现炒",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "sSwcT",
+                              "fill": "$--chip-bg",
+                              "cornerRadius": "$--corner-pill",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$--border-subtle"
+                              },
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                14
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "JFjKP",
+                                  "fill": "$--text-primary",
+                                  "content": "重辣口味",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Rcc63",
+                              "fill": "$--bg-mid",
+                              "cornerRadius": "$--corner-pill",
+                              "stroke": {
+                                "align": "inside",
+                                "thickness": 1,
+                                "fill": "$--border-subtle"
+                              },
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                14
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "A2RSg",
+                                  "fill": "$--text-secondary",
+                                  "content": "热度 TOP 3",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TgAHs",
+              "x": 1158,
+              "y": 24,
+              "name": "smallA3",
+              "opacity": 0.92,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "hF3t1",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914382264.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "na1bP",
+                  "name": "body3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qRYSe",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "醴陵小炒肉",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "6oLBk",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "辣椒鲜香，家常头牌。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TZkJ7",
+              "x": 24,
+              "y": 278,
+              "name": "smallB1",
+              "opacity": 0.92,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "r0NXW",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914398281.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "hNQp8",
+                  "name": "body4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "V0MVp",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "攸县杀猪肉",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HjYKa",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "土味厚香，越吃越耐。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "tCku7",
+              "x": 1158,
+              "y": 278,
+              "name": "smallB3",
+              "opacity": 0.92,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "teORj",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914447318.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "ljz8Y",
+                  "name": "body6",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qBMbC",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "爆炒腰花",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pXxk6",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "脆嫩见火候，香辣利落。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Q446y",
+              "x": 24,
+              "y": 532,
+              "name": "smallC1",
+              "opacity": 0.9,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "wlQ1p",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914473772.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "9vq28",
+                  "name": "body7",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WDjhM",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "酸辣脆肚",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "gIeZI",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "脆爽酸辣，开胃带劲。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XYUno",
+              "x": 402,
+              "y": 532,
+              "name": "smallC2",
+              "opacity": 0.9,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "lx4bx",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914499556.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "9BYPE",
+                  "name": "body8",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Zp0Ar",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "酸辣鸡胗",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rwTAS",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "脆口鲜辣，下饭稳。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GxyCv",
+              "x": 780,
+              "y": 532,
+              "name": "smallC3",
+              "opacity": 0.9,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "8sja2",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914518738.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "vuf61",
+                  "name": "body9",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qQH38",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "时蔬炒肉",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "6thpT",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "家常热炒，配饭顺口。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KyP36",
+              "x": 1158,
+              "y": 532,
+              "name": "smallA2",
+              "opacity": 0.9,
+              "clip": true,
+              "width": 360,
+              "fill": "$--surface-card",
+              "cornerRadius": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$--border-subtle"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "dHlp7",
+                  "name": "card2Img",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "litoondev",
+                    "link": "https://unsplash.com/@litoondev",
+                    "author": "litoon dev"
+                  },
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1773914294127.png",
+                    "mode": "fill"
+                  },
+                  "width": "fill_container",
+                  "height": 132
+                },
+                {
+                  "type": "frame",
+                  "id": "bSaTU",
+                  "name": "body2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "padding": [
+                    0,
+                    14,
+                    14,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "f5LCx",
+                      "fill": "#F7F1E8",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "小炒黄牛肉",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pxiV4",
+                      "fill": "#D8C8B3",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "鲜辣现炒，湘味代表。",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "--bg-bottom": {
+      "type": "color",
+      "value": "#3B1612"
+    },
+    "--bg-browse-bottom": {
+      "type": "color",
+      "value": "#411713"
+    },
+    "--bg-browse-mid": {
+      "type": "color",
+      "value": "#2A140F"
+    },
+    "--bg-browse-top": {
+      "type": "color",
+      "value": "#140C09"
+    },
+    "--bg-mid": {
+      "type": "color",
+      "value": "#24110E"
+    },
+    "--bg-top": {
+      "type": "color",
+      "value": "#120B09"
+    },
+    "--border-strong": {
+      "type": "color",
+      "value": "#C9A45E"
+    },
+    "--border-subtle": {
+      "type": "color",
+      "value": "#5B3A2B"
+    },
+    "--chip-bg": {
+      "type": "color",
+      "value": "#5E3A20"
+    },
+    "--corner-lg": {
+      "type": "number",
+      "value": 28
+    },
+    "--corner-md": {
+      "type": "number",
+      "value": 24
+    },
+    "--corner-pill": {
+      "type": "number",
+      "value": 999
+    },
+    "--corner-xl": {
+      "type": "number",
+      "value": 36
+    },
+    "--gold": {
+      "type": "color",
+      "value": "#C9A45E"
+    },
+    "--gold-soft": {
+      "type": "color",
+      "value": "#7AC9A45E"
+    },
+    "--red-accent": {
+      "type": "color",
+      "value": "#B63A27"
+    },
+    "--red-hot": {
+      "type": "color",
+      "value": "#D94A2B"
+    },
+    "--screen-bottom": {
+      "type": "number",
+      "value": 32
+    },
+    "--screen-top": {
+      "type": "number",
+      "value": 32
+    },
+    "--screen-x": {
+      "type": "number",
+      "value": 48
+    },
+    "--surface-card": {
+      "type": "color",
+      "value": "#CC2A1712"
+    },
+    "--surface-card-strong": {
+      "type": "color",
+      "value": "#E5341D17"
+    },
+    "--surface-deep": {
+      "type": "color",
+      "value": "#A61B130F"
+    },
+    "--surface-panel": {
+      "type": "color",
+      "value": "#EE321A15"
+    },
+    "--text-muted": {
+      "type": "color",
+      "value": "#B89E86"
+    },
+    "--text-primary": {
+      "type": "color",
+      "value": "#F7F1E8"
+    },
+    "--text-secondary": {
+      "type": "color",
+      "value": "#D8C8B3"
+    }
+  }
+}
