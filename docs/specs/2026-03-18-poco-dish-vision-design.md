@@ -4,7 +4,7 @@
 
 - 项目名称：POCO Dish Vision
 - 文档类型：Architecture Design Spec（架构设计规格）
-- 状态：Approved（已由用户在 2026-03-18 确认）
+- 状态：Approved / Phase 1 Accepted（设计规格已于 2026-03-19 与实现验收结果对齐）
 - 作者：PopoY / Codex
 - 创建日期：2026-03-18
 - 存放路径：`docs/specs/2026-03-18-poco-dish-vision-design.md`

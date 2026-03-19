@@ -10,11 +10,12 @@
 
 ## 执行状态
 
-- 执行状态：`In Progress`
+- 执行状态：`Completed`
 - 文档基线提交：`7373cfc`
 - 当前工作分支：`codex-phase-1-acceptance-remediation`
-- 当前检查点：`Acceptance remediation in progress`，当前已完成 `LazyRow` 对齐，`Phase 1` 性能基线明确为 `Macrobenchmark`，`Baseline Profiles` 延后到 `Phase 3`，人工 emulator 复核待补
-- 执行备注：原 Phase 1 实现已完成首轮自动化验证；当前文档按验收修补结果持续回写，避免继续保留误导 review 结论的完成态表述
+- 当前检查点：`Phase 1 accepted`，已于 `2026-03-19` 在 `TV55C(AVD) - 14` 上完成 fresh 自动化验证与人工 emulator 复核
+- 执行备注：最终人工复核前需显式运行 `./gradlew --no-daemon :app:installDebug`，因为 connected tests 完成后设备上不会保留可直接启动的 app 安装包
+- 最新验收记录：`2026-03-19` 运行 `JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug :core:model:test :core:data:testDebugUnitTest :feature:menu:testDebugUnitTest :app:connectedDebugAndroidTest :feature:home:connectedDebugAndroidTest :feature:menu:connectedDebugAndroidTest :feature:settings:connectedDebugAndroidTest :benchmark:connectedCheck`，结果 `BUILD SUCCESSFUL in 1m 32s`；随后运行 `JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:installDebug`，结果 `BUILD SUCCESSFUL in 8s`
 - 历史验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon --no-build-cache :core:data:testDebugUnitTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:settings:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.settings.SettingsScreenTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :benchmark:connectedCheck`，结果 `BUILD SUCCESSFUL`，并生成 `benchmark/build/outputs/connected_android_test_additional_output/benchmark/connected/TV55C(AVD) - 14/com.poco.dishvision.benchmark-benchmarkData.json`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug :core:model:test :core:data:testDebugUnitTest :feature:home:connectedDebugAndroidTest :feature:menu:connectedDebugAndroidTest :feature:settings:connectedDebugAndroidTest :benchmark:connectedCheck`，结果 `BUILD SUCCESSFUL`，并在 `TV55C(AVD) - 14` 上顺序完成 `feature:settings`、`feature:menu`、`feature:home` 与 `benchmark` 验证
 
 ---
@@ -568,10 +569,10 @@ git commit -m "补齐设置页与首轮性能基线"
 - [x] Run: `./gradlew :feature:menu:connectedDebugAndroidTest`
 - [x] Run: `./gradlew :feature:settings:connectedDebugAndroidTest`
 - [x] Run: `./gradlew :benchmark:connectedCheck`
-- [ ] Manual check on emulator: 本轮未执行人工复核，以下条目保留待确认
-  - 应用启动进入 `Attract mode`
-  - 任意方向键能进入浏览态
-  - `Back` 行为线性可预测
-  - 重要文案位于中下区域而非顶部
-  - 浏览态详情信息主要位于底部 `detail dock`
-  - 文本在约 2 米观看距离下清晰可读
+- [x] Manual check on emulator: `2026-03-19` 在 `TV55C(AVD) - 14` 上完成，验收结果如下
+  - 应用启动进入 `Attract mode`：PASS
+  - 任意方向键能进入浏览态：PASS（按 `D-pad Right` 后等待 2 秒截图，已见 `Browse` 布局）
+  - `Back` 行为线性可预测：PASS（手工验证 `Browse -> Back -> Home`；`detail panel -> Browse` 与 `Settings -> Browse` 由 fresh 自动化测试补充覆盖）
+  - 重要文案位于中下区域而非顶部：PASS
+  - 浏览态详情信息主要位于底部 `detail dock`：PASS
+  - 文本在约 2 米观看距离下清晰可读：PASS（基于 emulator 截图的主观可读性复核）
