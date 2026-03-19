@@ -9,6 +9,7 @@ package com.poco.dishvision
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.poco.dishvision.core.data.preferences.AppPreferences
 import com.poco.dishvision.core.data.repository.MenuRepository
 import com.poco.dishvision.navigation.AppDestination
 import com.poco.dishvision.navigation.AppNavHost
@@ -27,6 +28,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var menuRepository: MenuRepository
 
+    @Inject
+    lateinit var appPreferences: AppPreferences
+
     /**
      * Activity 创建回调。
      *
@@ -38,6 +42,7 @@ class MainActivity : ComponentActivity() {
             AppNavHost(
                 startDestination = startDestination,
                 menuRepository = menuRepository,
+                appPreferences = appPreferences,
             )
         }
     }

@@ -6,8 +6,10 @@
  */
 package com.poco.dishvision
 
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import org.junit.Rule
 import org.junit.Test
 
@@ -22,5 +24,12 @@ class AppNavigationSmokeTest {
     @Test
     fun app_launch_shows_home_destination() {
         composeTestRule.onNodeWithTag("home-screen").assertExists()
+    }
+
+    @Test
+    fun app_can_navigate_to_settings_and_show_live_status() {
+        composeTestRule.onNodeWithTag("open-settings").performClick()
+        composeTestRule.onNodeWithTag("settings-screen").assertExists()
+        composeTestRule.onNodeWithText("当前数据源").assertExists()
     }
 }

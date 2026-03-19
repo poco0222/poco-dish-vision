@@ -7,6 +7,7 @@
 package com.poco.dishvision.feature.settings
 
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.Rule
 import org.junit.Test
@@ -25,6 +26,7 @@ class SettingsScreenTest {
             SettingsRoute()
         }
 
+        composeTestRule.onNodeWithTag("settings-screen").assertExists()
         composeTestRule.onNodeWithText("当前数据源").assertExists()
         composeTestRule.onNodeWithText("Local").assertExists()
     }

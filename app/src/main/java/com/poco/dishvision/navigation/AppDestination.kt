@@ -15,4 +15,5 @@ enum class AppDestination(
     val route: String,
 ) {
     Home(route = "home"),
+    Settings(route = "settings"),
 }
