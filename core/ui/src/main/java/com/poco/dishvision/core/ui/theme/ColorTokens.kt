@@ -13,34 +13,49 @@ import androidx.compose.ui.graphics.Color
  */
 object ColorTokens {
 
+    // 来源：design/pencil-new.pen `R3XHK` 及变量区，统一承接湘味主题主背景渐变。
     val HomeBackgroundGradient = listOf(
-        Color(0xFF10151F),
-        Color(0xFF182235),
-        Color(0xFF0C1118),
+        Color(0xFF120B09),
+        Color(0xFF24110E),
+        Color(0xFF3B1612),
     )
 
     val BrowseBackgroundGradient = listOf(
-        Color(0xFF0F1723),
-        Color(0xFF162336),
-        Color(0xFF0B1018),
+        Color(0xFF140C09),
+        Color(0xFF2A140F),
+        Color(0xFF411713),
     )
 
     val SettingsBackgroundGradient = listOf(
-        Color(0xFF0E1520),
-        Color(0xFF182437),
-        Color(0xFF0A1018),
+        Color(0xFF140C09),
+        Color(0xFF2A140F),
+        Color(0xFF411713),
     )
 
-    val TextPrimary = Color.White
-    val TextSecondary = Color(0xFFE4EAF4)
-    val TextMuted = Color(0xCCF4F7FB)
-    val Accent = Color(0xFFFFD166)
-    val GlassSurface = Color(0xCC152131)
-    val GlassSurfaceSoft = Color(0x331D2635)
-    val GlassSurfaceStrong = Color(0xF2253550)
-    val GlassBorderSubtle = Color(0x26FFFFFF)
-    val GlassBorderFocused = Color(0xFFFFD166)
-    val CardFocusedSurface = Color(0xFF263750)
-    val CategorySelectedSurface = Color(0xFF253552)
-    val BadgeSurface = Color(0x332B3E58)
+    val HomeHeroOverlayGradient = listOf(
+        Color(0x1F0E0900),
+        Color(0x66140C09),
+        Color(0xCC140C09),
+    )
+
+    val TextPrimary = Color(0xFFF7F1E8)
+    val TextSecondary = Color(0xFFD8C8B3)
+    val TextMuted = Color(0xFFB89E86)
+    val Accent = Color(0xFFC9A45E)
+    val GoldSoft = Color(0x7AC9A45E)
+    val RedAccent = Color(0xFFB63A27)
+    val RedHot = Color(0xFFD94A2B)
+    val SurfaceCard = Color(0xCC2A1712)
+    val SurfaceCardStrong = Color(0xE5341D17)
+    val SurfaceDeep = Color(0xA61B130F)
+    val SurfacePanel = Color(0xEE321A15)
+    val BorderSubtle = Color(0xFF5B3A2B)
+    val GlassSurface = SurfaceCard
+    val GlassSurfaceSoft = SurfaceDeep
+    val GlassSurfaceStrong = SurfaceCardStrong
+    val GlassBorderSubtle = BorderSubtle
+    val GlassBorderFocused = Accent
+    val CardFocusedSurface = SurfaceCardStrong
+    val CategorySelectedSurface = RedAccent
+    val BadgeSurface = SurfaceDeep
 }

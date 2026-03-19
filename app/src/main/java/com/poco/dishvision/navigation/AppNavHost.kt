@@ -7,15 +7,9 @@
 package com.poco.dishvision.navigation
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,19 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
-import androidx.tv.material3.Text
+import androidx.compose.ui.Modifier
 import com.poco.dishvision.core.data.preferences.AppPreferences
 import com.poco.dishvision.core.data.repository.MenuRepository
 import com.poco.dishvision.feature.home.HomeRoute
@@ -67,7 +54,6 @@ fun AppNavHost(
         )
     }
     val uiMode by browseModeController.mode.collectAsState()
-    val rootFocusRequester = remember { FocusRequester() }
     var currentRoute by rememberSaveable { mutableStateOf(startDestination.route) }
 
     BackHandler(
@@ -85,26 +71,18 @@ fun AppNavHost(
         }
     }
 
-    LaunchedEffect(currentRoute, uiMode) {
-        // Attract mode 没有天然焦点目标，根节点主动持有焦点后才能稳定接收遥控器方向键。
-        if (currentRoute == AppDestination.Home.route && uiMode == UiMode.Attract) {
-            rootFocusRequester.requestFocus()
-        }
-    }
-
     Box(
         modifier = modifier
             .fillMaxSize()
-            .focusRequester(rootFocusRequester)
-            .focusable()
             .onPreviewKeyEvent { keyEvent ->
                 if (
                     currentRoute == AppDestination.Home.route &&
-                    uiMode == UiMode.Attract &&
                     keyEvent.type == KeyEventType.KeyDown &&
-                    keyEvent.key.isBrowseTriggerKey()
+                    keyEvent.key.isSettingsTriggerKey()
                 ) {
+                    // 进入 Settings 前统一把 Home 底层模式切到 Browse，确保 Back 链路稳定回到 Browse。
                     browseModeController.onUserInteraction()
+                    currentRoute = AppDestination.Settings.route
                     true
                 } else {
                     false
@@ -141,40 +119,12 @@ fun AppNavHost(
                 )
             }
         }
-
-        if (currentRoute == AppDestination.Home.route) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(horizontal = 40.dp, vertical = 28.dp)
-                    .background(
-                        color = Color(0xCC152131),
-                        shape = RoundedCornerShape(18.dp),
-                    )
-                    .clickable {
-                        // 无论当前在 Attract 还是 Browse，进入 Settings 前都先把底层模式切到 Browse，
-                        // 这样后续 Back 才能回到稳定的浏览态而不是退出应用。
-                        browseModeController.onUserInteraction()
-                        currentRoute = AppDestination.Settings.route
-                    }
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
-                    .testTag("open-settings"),
-            ) {
-                Text(
-                    text = "设置",
-                    color = Color.White,
-                )
-            }
-        }
     }
 }
 
 /**
- * 应用根层用于进入 Browse mode 的方向键集合。
+ * 应用根层用于进入 Settings 的菜单键集合。
  */
-private fun Key.isBrowseTriggerKey(): Boolean {
-    return this == Key.DirectionUp ||
-        this == Key.DirectionDown ||
-        this == Key.DirectionLeft ||
-        this == Key.DirectionRight
+private fun Key.isSettingsTriggerKey(): Boolean {
+    return this == Key.Menu
 }
