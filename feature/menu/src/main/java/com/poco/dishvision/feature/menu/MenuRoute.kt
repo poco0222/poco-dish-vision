@@ -26,6 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,10 +48,14 @@ import com.poco.dishvision.core.data.repository.MenuRepository
 @Composable
 fun MenuRoute(
     menuRepository: MenuRepository? = null,
+    onUserInteraction: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null) {
-        PreviewMenuRoute(modifier = modifier)
+        PreviewMenuRoute(
+            modifier = modifier,
+            onUserInteraction = onUserInteraction,
+        )
         return
     }
 
@@ -58,6 +67,7 @@ fun MenuRoute(
     MenuScreen(
         uiState = uiState,
         modifier = modifier,
+        onUserInteraction = onUserInteraction,
         onCategorySelected = menuViewModel::onCategorySelected,
         onItemFocused = menuViewModel::onItemFocused,
         onItemConfirmed = { menuViewModel.onFocusedItemConfirmed() },
@@ -72,6 +82,7 @@ fun MenuRoute(
  */
 @Composable
 private fun PreviewMenuRoute(
+    onUserInteraction: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val categories = remember { previewMenuCategories() }
@@ -96,6 +107,7 @@ private fun PreviewMenuRoute(
     MenuScreen(
         uiState = uiState,
         modifier = modifier,
+        onUserInteraction = onUserInteraction,
         onCategorySelected = { categoryId ->
             selectedCategoryId = categoryId
             focusedItemId = categories
@@ -133,6 +145,7 @@ private fun PreviewMenuRoute(
 private fun MenuScreen(
     uiState: MenuUiState,
     modifier: Modifier = Modifier,
+    onUserInteraction: () -> Unit,
     onCategorySelected: (String) -> Unit,
     onItemFocused: (String) -> Unit,
     onItemConfirmed: () -> Unit,
@@ -166,6 +179,12 @@ private fun MenuScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .onPreviewKeyEvent { keyEvent ->
+                if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key.isBrowseInteractionKey()) {
+                    onUserInteraction()
+                }
+                false
+            }
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
@@ -225,4 +244,20 @@ private fun MenuScreen(
             onDismissRequest = onDismissDetail,
         )
     }
+}
+
+/**
+ * 定义 Browse mode 下会重置 idle timeout 的按键集合。
+ *
+ * 这里覆盖方向键、确认键与返回键，保证遥控器常用操作都能刷新活跃态。
+ */
+private fun Key.isBrowseInteractionKey(): Boolean {
+    return this == Key.DirectionUp ||
+        this == Key.DirectionDown ||
+        this == Key.DirectionLeft ||
+        this == Key.DirectionRight ||
+        this == Key.DirectionCenter ||
+        this == Key.Enter ||
+        this == Key.NumPadEnter ||
+        this == Key.Back
 }

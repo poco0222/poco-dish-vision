@@ -13,9 +13,9 @@
 - 执行状态：`In Progress`
 - 文档基线提交：`7373cfc`
 - 当前工作分支：`codex/phase-1-foundation-local-menu`
-- 当前检查点：`Task 6` 已完成并准备进入 `Task 7`
+- 当前检查点：`Task 7` 已完成并准备进入 `Task 8`
 - 执行备注：为满足 `./gradlew` 验证，已补入 `Gradle Wrapper`（包装器）支撑文件
-- 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon --no-build-cache :core:data:testDebugUnitTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`，结果 `BUILD SUCCESSFUL`
+- 验证记录：`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:assembleDebug`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.local.MenuCatalogImporterTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :core:data:testDebugUnitTest --tests "com.poco.dishvision.core.data.repository.DefaultMenuRepositoryTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon --no-build-cache :core:data:testDebugUnitTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:home:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.home.HomeScreenTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseScreenFocusTest`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`，结果 `BUILD SUCCESSFUL`；`JAVA_HOME=/Users/PopoY/Applications/Android Studio.app/Contents/jbr/Contents/Home ANDROID_HOME=/Users/PopoY/Library/Android/sdk ANDROID_SDK_ROOT=/Users/PopoY/Library/Android/sdk ./gradlew --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`，结果 `BUILD SUCCESSFUL`
 
 ---
 
@@ -461,7 +461,7 @@ git commit -m "实现浏览页焦点导航与底部详情区"
 - Modify: `feature/menu/src/main/java/com/poco/dishvision/feature/menu/MenuRoute.kt`
 - Modify: `app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt`
 
-- [ ] **Step 1: Write the failing state machine test**
+- [x] **Step 1: Write the failing state machine test**
 
 ```kotlin
 @Test
@@ -473,12 +473,13 @@ fun `user input enters browse mode and idle timeout returns to attract mode`() =
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `./gradlew :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`  
 Expected: FAIL with missing controller implementation
+Actual: FAIL，fresh run 报告 `BrowseModeController` / `UiMode` 未解析，符合状态机尚未实现的预期
 
-- [ ] **Step 3: Implement timeout-based mode controller and route switching**
+- [x] **Step 3: Implement timeout-based mode controller and route switching**
 
 ```kotlin
 class BrowseModeController(
@@ -487,15 +488,17 @@ class BrowseModeController(
 )
 ```
 
-- [ ] **Step 4: Re-run controller test and smoke navigation**
+- [x] **Step 4: Re-run controller test and smoke navigation**
 
 Run: `./gradlew :feature:menu:testDebugUnitTest --tests "com.poco.dishvision.feature.menu.BrowseModeControllerTest"`  
 Expected: PASS
+Actual: PASS，fresh run 结果 `BUILD SUCCESSFUL`
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`  
 Expected: PASS
+Actual: PASS，使用 `TV55C` emulator（Android TV AVD）fresh run 结果 `BUILD SUCCESSFUL`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add feature/menu feature/home app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt

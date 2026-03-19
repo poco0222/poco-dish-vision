@@ -48,6 +48,7 @@ kotlin {
 dependencies {
     implementation(project(":core:data"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:menu"))
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

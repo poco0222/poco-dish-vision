@@ -21,6 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,11 +43,13 @@ import com.poco.dishvision.core.data.repository.MenuRepository
 @Composable
 fun HomeRoute(
     menuRepository: MenuRepository? = null,
+    onBrowseRequested: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null) {
         HomeScreen(
             uiState = previewHomeUiState(),
+            onBrowseRequested = onBrowseRequested,
             modifier = modifier,
         )
         return
@@ -52,7 +59,11 @@ fun HomeRoute(
         factory = HomeViewModel.provideFactory(menuRepository),
     )
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-    HomeScreen(uiState = uiState, modifier = modifier)
+    HomeScreen(
+        uiState = uiState,
+        onBrowseRequested = onBrowseRequested,
+        modifier = modifier,
+    )
 }
 
 /**
@@ -64,11 +75,20 @@ fun HomeRoute(
 @Composable
 private fun HomeScreen(
     uiState: HomeUiState,
+    onBrowseRequested: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
+            .onPreviewKeyEvent { keyEvent ->
+                if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key.isBrowseTriggerKey()) {
+                    onBrowseRequested()
+                    true
+                } else {
+                    false
+                }
+            }
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
@@ -113,4 +133,14 @@ private fun HomeScreen(
             )
         }
     }
+}
+
+/**
+ * Attract mode 下任意方向键都会切换到 Browse mode。
+ */
+private fun Key.isBrowseTriggerKey(): Boolean {
+    return this == Key.DirectionUp ||
+        this == Key.DirectionDown ||
+        this == Key.DirectionLeft ||
+        this == Key.DirectionRight
 }
