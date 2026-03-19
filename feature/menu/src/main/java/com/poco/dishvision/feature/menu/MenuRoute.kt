@@ -49,12 +49,14 @@ import com.poco.dishvision.core.data.repository.MenuRepository
 fun MenuRoute(
     menuRepository: MenuRepository? = null,
     onUserInteraction: () -> Unit = {},
+    onBackFromBrowseRoot: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null) {
         PreviewMenuRoute(
             modifier = modifier,
             onUserInteraction = onUserInteraction,
+            onBackFromBrowseRoot = onBackFromBrowseRoot,
         )
         return
     }
@@ -72,6 +74,7 @@ fun MenuRoute(
         onItemFocused = menuViewModel::onItemFocused,
         onItemConfirmed = { menuViewModel.onFocusedItemConfirmed() },
         onDismissDetail = menuViewModel::dismissDetailPanel,
+        onBackFromBrowseRoot = onBackFromBrowseRoot,
     )
 }
 
@@ -83,6 +86,7 @@ fun MenuRoute(
 @Composable
 private fun PreviewMenuRoute(
     onUserInteraction: () -> Unit,
+    onBackFromBrowseRoot: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val categories = remember { previewMenuCategories() }
@@ -128,6 +132,7 @@ private fun PreviewMenuRoute(
         onDismissDetail = {
             isDetailPanelVisible = false
         },
+        onBackFromBrowseRoot = onBackFromBrowseRoot,
     )
 }
 
@@ -140,6 +145,7 @@ private fun PreviewMenuRoute(
  * @param onItemFocused 菜品聚焦回调。
  * @param onItemConfirmed 菜品确认回调。
  * @param onDismissDetail 关闭详情回调。
+ * @param onBackFromBrowseRoot 浏览态根层 Back 回调。
  */
 @Composable
 private fun MenuScreen(
@@ -150,6 +156,7 @@ private fun MenuScreen(
     onItemFocused: (String) -> Unit,
     onItemConfirmed: () -> Unit,
     onDismissDetail: () -> Unit,
+    onBackFromBrowseRoot: () -> Unit,
 ) {
     val focusedItem = remember(uiState.categories, uiState.selectedCategoryId, uiState.focusedItemId) {
         resolveFocusedItem(
@@ -180,10 +187,20 @@ private fun MenuScreen(
         modifier = modifier
             .fillMaxSize()
             .onPreviewKeyEvent { keyEvent ->
-                if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key.isBrowseInteractionKey()) {
+                if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.Back) {
                     onUserInteraction()
+                    if (uiState.isDetailPanelVisible) {
+                        onDismissDetail()
+                    } else {
+                        onBackFromBrowseRoot()
+                    }
+                    true
+                } else if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key.isBrowseInteractionKey()) {
+                    onUserInteraction()
+                    false
+                } else {
+                    false
                 }
-                false
             }
             .background(
                 brush = Brush.verticalGradient(
@@ -258,6 +275,5 @@ private fun Key.isBrowseInteractionKey(): Boolean {
         this == Key.DirectionRight ||
         this == Key.DirectionCenter ||
         this == Key.Enter ||
-        this == Key.NumPadEnter ||
-        this == Key.Back
+        this == Key.NumPadEnter
 }

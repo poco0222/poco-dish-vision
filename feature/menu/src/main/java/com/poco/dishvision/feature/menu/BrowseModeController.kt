@@ -52,4 +52,13 @@ class BrowseModeController(
             _mode.value = UiMode.Attract
         }
     }
+
+    /**
+     * 显式返回 Attract mode，并终止当前 idle timeout 计时。
+     */
+    fun returnToAttractMode() {
+        idleTimeoutJob?.cancel()
+        idleTimeoutJob = null
+        _mode.value = UiMode.Attract
+    }
 }

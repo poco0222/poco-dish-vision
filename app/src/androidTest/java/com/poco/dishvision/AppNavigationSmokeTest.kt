@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.espresso.Espresso.pressBackUnconditionally
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,5 +32,27 @@ class AppNavigationSmokeTest {
         composeTestRule.onNodeWithTag("open-settings").performClick()
         composeTestRule.onNodeWithTag("settings-screen").assertExists()
         composeTestRule.onNodeWithText("当前数据源").assertExists()
+    }
+
+    @Test
+    fun back_from_settings_returns_to_browse_instead_of_exiting_app() {
+        composeTestRule.onNodeWithTag("open-settings").performClick()
+        composeTestRule.onNodeWithTag("settings-screen").assertExists()
+
+        pressBackUnconditionally()
+
+        composeTestRule.onNodeWithTag("browse-screen").assertExists()
+    }
+
+    @Test
+    fun back_from_browse_returns_to_home_attract_mode() {
+        composeTestRule.onNodeWithTag("open-settings").performClick()
+        composeTestRule.onNodeWithTag("settings-screen").assertExists()
+
+        pressBackUnconditionally()
+        composeTestRule.onNodeWithTag("browse-screen").assertExists()
+
+        pressBackUnconditionally()
+        composeTestRule.onNodeWithTag("home-screen").assertExists()
     }
 }

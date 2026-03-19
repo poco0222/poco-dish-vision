@@ -6,6 +6,7 @@
  */
 package com.poco.dishvision.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -69,6 +70,21 @@ fun AppNavHost(
     val rootFocusRequester = remember { FocusRequester() }
     var currentRoute by rememberSaveable { mutableStateOf(startDestination.route) }
 
+    BackHandler(
+        enabled = currentRoute == AppDestination.Settings.route ||
+            (currentRoute == AppDestination.Home.route && uiMode == UiMode.Browse),
+    ) {
+        when {
+            currentRoute == AppDestination.Settings.route -> {
+                currentRoute = AppDestination.Home.route
+            }
+
+            currentRoute == AppDestination.Home.route && uiMode == UiMode.Browse -> {
+                browseModeController.returnToAttractMode()
+            }
+        }
+    }
+
     LaunchedEffect(currentRoute, uiMode) {
         // Attract mode 没有天然焦点目标，根节点主动持有焦点后才能稳定接收遥控器方向键。
         if (currentRoute == AppDestination.Home.route && uiMode == UiMode.Attract) {
@@ -110,6 +126,7 @@ fun AppNavHost(
                         MenuRoute(
                             menuRepository = menuRepository,
                             onUserInteraction = browseModeController::onUserInteraction,
+                            onBackFromBrowseRoot = browseModeController::returnToAttractMode,
                             modifier = Modifier.fillMaxSize(),
                         )
                     }

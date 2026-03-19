@@ -102,7 +102,7 @@ fun ItemDetailPanel(
                     color = Color(0xCCF4F7FB),
                 )
                 Text(
-                    text = "点击详情面板任意区域返回浏览",
+                    text = "按返回键或点击详情面板任意区域返回浏览",
                     color = Color(0xCCF4F7FB),
                 )
             }
