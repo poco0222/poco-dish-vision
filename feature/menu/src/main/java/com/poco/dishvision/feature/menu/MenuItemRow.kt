@@ -6,24 +6,24 @@
  */
 package com.poco.dishvision.feature.menu
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.poco.dishvision.core.model.menu.MenuItem
 import com.poco.dishvision.core.ui.components.FocusableMenuCard
+import com.poco.dishvision.core.ui.theme.ColorTokens
 
 /**
  * 当前分类下的菜品横向卡片区。
@@ -50,17 +50,17 @@ fun MenuItemRow(
     ) {
         Text(
             text = "菜品",
-            color = Color(0xCCF4F7FB),
+            color = ColorTokens.TextMuted,
             fontWeight = FontWeight.Medium,
         )
-        Row(
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(bottom = 8.dp),
+                .padding(bottom = 8.dp)
+                .testTag("menu-item-row"),
             horizontalArrangement = Arrangement.spacedBy(18.dp),
         ) {
-            items.forEachIndexed { index, item ->
+            itemsIndexed(items = items) { index, item ->
                 val cardModifier = if (index == 0) {
                     Modifier
                         .width(280.dp)

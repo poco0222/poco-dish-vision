@@ -2,7 +2,7 @@
  * @file benchmark/build.gradle.kts
  * @author PopoY
  * @date 2026-03-18
- * @description Macrobenchmark 基准测试模块构建配置（Phase 1 仅搭建骨架）。
+ * @description Macrobenchmark 基准测试模块构建配置（Phase 1 保留 Macrobenchmark，Baseline Profiles 延后到 Phase 3）。
  */
 plugins {
     alias(libs.plugins.android.test)
@@ -26,6 +26,7 @@ android {
     }
 
     buildTypes {
+        // Phase 1 仅保留 Macrobenchmark 需要的 release-like 构建；Baseline Profiles 接入推迟到 Phase 3。
         create("benchmark") {
             isDebuggable = true
             signingConfig = getByName("debug").signingConfig

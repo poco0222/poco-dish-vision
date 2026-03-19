@@ -2,7 +2,7 @@
  * @file StartupBenchmark.kt
  * @author PopoY
  * @date 2026-03-19
- * @description 提供 Phase 1 的冷启动 Macrobenchmark smoke test。
+ * @description 提供 Phase 1 的冷启动 Macrobenchmark smoke test，并明确 Baseline Profiles 延后到 Phase 3。
  */
 package com.poco.dishvision.benchmark
 
@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * 冷启动基线测试，至少输出一组启动耗时结果。
+ * 冷启动基线测试，Phase 1 仅输出启动耗时结果，不承担 Baseline Profiles 生成职责。
  */
 @RunWith(AndroidJUnit4::class)
 class StartupBenchmark {
