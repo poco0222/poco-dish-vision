@@ -30,6 +30,7 @@ import com.poco.dishvision.core.ui.theme.Dimens
  * @param modifier 外层 Modifier。
  * @param containerColor 容器底色。
  * @param borderColor 边框颜色。
+ * @param borderWidth 边框宽度，默认 1dp。
  * @param shape 容器圆角。
  * @param contentPadding 内容内边距。
  * @param contentSpacing 子内容间距。
@@ -40,6 +41,7 @@ fun GlassSurface(
     modifier: Modifier = Modifier,
     containerColor: Color = ColorTokens.GlassSurface,
     borderColor: Color = ColorTokens.GlassBorderSubtle,
+    borderWidth: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(Dimens.SurfaceMediumCorner),
     contentPadding: PaddingValues = PaddingValues(
         horizontal = Dimens.SurfaceHorizontalPadding,
@@ -52,7 +54,7 @@ fun GlassSurface(
         modifier = modifier
             .clip(shape)
             .background(color = containerColor, shape = shape)
-            .border(width = 1.dp, color = borderColor, shape = shape)
+            .border(width = borderWidth, color = borderColor, shape = shape)
             .padding(contentPadding),
         verticalArrangement = if (contentSpacing > 0.dp) {
             Arrangement.spacedBy(contentSpacing)

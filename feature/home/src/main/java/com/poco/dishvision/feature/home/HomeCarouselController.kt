@@ -17,6 +17,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 /**
+ * 轮播切换方向，用于驱动 Parallax Wipe 过渡动画。
+ */
+enum class CarouselDirection {
+    /** 向前（下一张），对应从左到右的擦除方向 */
+    FORWARD,
+
+    /** 向后（上一张），对应从右到左的擦除方向 */
+    BACKWARD,
+}
+
+/**
  * 首页轮播控制器。
  *
  * @param itemCount 展示项数量。
@@ -34,16 +45,21 @@ class HomeCarouselController(
     private val safeItemCount = itemCount.coerceAtLeast(1)
     private val _selectedIndex = MutableStateFlow(0)
     private val _isAutoPlaying = MutableStateFlow(false)
+    private val _lastMoveDirection = MutableStateFlow(CarouselDirection.FORWARD)
     private var autoPlayJob: Job? = null
     private var autoResumeJob: Job? = null
 
     val selectedIndex: StateFlow<Int> = _selectedIndex.asStateFlow()
     val isAutoPlaying: StateFlow<Boolean> = _isAutoPlaying.asStateFlow()
 
+    /** 最近一次切换方向，用于驱动 wipe 过渡动画方向 */
+    val lastMoveDirection: StateFlow<CarouselDirection> = _lastMoveDirection.asStateFlow()
+
     /**
      * 切到下一张展示卡，超出尾部时回到首张。
      */
     fun onMoveNext() {
+        _lastMoveDirection.value = CarouselDirection.FORWARD
         _selectedIndex.update { currentIndex ->
             (currentIndex + 1) % safeItemCount
         }
@@ -53,6 +69,7 @@ class HomeCarouselController(
      * 切到上一张展示卡，位于首张时回到末张。
      */
     fun onMovePrevious() {
+        _lastMoveDirection.value = CarouselDirection.BACKWARD
         _selectedIndex.update { currentIndex ->
             (currentIndex - 1).floorMod(safeItemCount)
         }

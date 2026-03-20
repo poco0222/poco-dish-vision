@@ -55,7 +55,8 @@
           "fill": "$--text-muted",
           "content": "剁椒热炒 · 腊味土菜 · 今日现炒",
           "fontFamily": "Inter",
-          "fontSize": 18
+          "fontSize": 18,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -208,7 +209,8 @@
           "content": "茶油一爆香，鸡肉紧实带汁，红椒和蒜香一起起锅，这一屏先看这道最稳的下饭菜。",
           "lineHeight": 1.35,
           "fontFamily": "Inter",
-          "fontSize": 24
+          "fontSize": 24,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -363,7 +365,8 @@
                   "content": "茶油爆香，鸡肉紧实，香辣下饭。",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -372,7 +375,8 @@
                   "fill": "$--text-muted",
                   "content": "当前轮播",
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -426,7 +430,8 @@
                   "content": "鲜麻先起，鱼片嫩滑，越吃越开胃。",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -435,7 +440,8 @@
                   "fill": "$--text-muted",
                   "content": "鲜麻开胃",
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -489,7 +495,8 @@
                   "content": "鸭香厚实，茶油提香，适合多人分享。",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -498,7 +505,8 @@
                   "fill": "$--text-muted",
                   "content": "茶油头牌",
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -552,7 +560,8 @@
                   "content": "汤底鲜辣，鱼肉入味，整桌先抢这一锅。",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -561,7 +570,8 @@
                   "fill": "$--text-muted",
                   "content": "锅气足",
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -615,7 +625,8 @@
                   "content": "红油沸香，鱼肉滑嫩，重口一桌必点。",
                   "lineHeight": 1.35,
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -624,7 +635,8 @@
                   "fill": "$--text-muted",
                   "content": "重辣过瘾",
                   "fontFamily": "Inter",
-                  "fontSize": 15
+                  "fontSize": 15,
+                  "fontWeight": "normal"
                 }
               ]
             }
@@ -686,7 +698,8 @@
           "fill": "$--text-muted",
           "content": "44道湘味热菜 · 按分类浏览",
           "fontFamily": "Inter",
-          "fontSize": 18
+          "fontSize": 18,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -892,7 +905,8 @@
           "width": 1180,
           "content": "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
           "fontFamily": "Inter",
-          "fontSize": 18
+          "fontSize": 18,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -1664,7 +1678,8 @@
           "fill": "$--text-muted",
           "content": "44道湘味热菜 · 按分类浏览",
           "fontFamily": "Inter",
-          "fontSize": 18
+          "fontSize": 18,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -1870,7 +1885,8 @@
           "width": 1300,
           "content": "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
           "fontFamily": "Inter",
-          "fontSize": 18
+          "fontSize": 18,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
