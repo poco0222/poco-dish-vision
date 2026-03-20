@@ -65,7 +65,6 @@ import com.poco.dishvision.core.ui.components.PocoAsyncImage
 import com.poco.dishvision.core.ui.theme.ColorTokens
 import com.poco.dishvision.core.ui.theme.Dimens
 import com.poco.dishvision.core.ui.theme.LocalScreenProportions
-import com.poco.dishvision.core.ui.theme.PocoTheme
 
 /** Wipe 擦除过渡动画时长（ms） */
 private const val WIPE_DURATION_MS = 400
@@ -83,13 +82,11 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null) {
-        PocoTheme {
-            HomeScreen(
-                uiState = previewHomeUiState(),
-                onBrowseRequested = onBrowseRequested,
-                modifier = modifier,
-            )
-        }
+        HomeScreen(
+            uiState = previewHomeUiState(),
+            onBrowseRequested = onBrowseRequested,
+            modifier = modifier,
+        )
         return
     }
 
@@ -97,13 +94,11 @@ fun HomeRoute(
         factory = HomeViewModel.provideFactory(menuRepository),
     )
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-    PocoTheme {
-        HomeScreen(
-            uiState = uiState,
-            onBrowseRequested = onBrowseRequested,
-            modifier = modifier,
-        )
-    }
+    HomeScreen(
+        uiState = uiState,
+        onBrowseRequested = onBrowseRequested,
+        modifier = modifier,
+    )
 }
 
 /**

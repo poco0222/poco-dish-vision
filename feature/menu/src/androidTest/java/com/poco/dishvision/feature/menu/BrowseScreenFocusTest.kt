@@ -17,6 +17,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performKeyInput
 import androidx.compose.ui.test.requestFocus
+
+import com.poco.dishvision.core.ui.theme.PocoTheme
+
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,7 +35,9 @@ class BrowseScreenFocusTest {
     @Test
     fun default_category_is_selected_and_right_moves_focus_to_first_menu_item() {
         composeTestRule.setContent {
-            MenuRoute()
+            PocoTheme {
+                MenuRoute()
+            }
         }
 
         composeTestRule.onNodeWithTag("category-hot-stir-fry")

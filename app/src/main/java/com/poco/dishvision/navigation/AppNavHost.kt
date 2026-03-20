@@ -25,6 +25,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.Modifier
 import com.poco.dishvision.core.data.preferences.AppPreferences
 import com.poco.dishvision.core.data.repository.MenuRepository
+import com.poco.dishvision.core.ui.theme.PocoTheme
 import com.poco.dishvision.feature.home.HomeRoute
 import com.poco.dishvision.feature.menu.BrowseModeController
 import com.poco.dishvision.feature.menu.MenuRoute
@@ -71,52 +72,54 @@ fun AppNavHost(
         }
     }
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .onPreviewKeyEvent { keyEvent ->
-                if (
-                    currentRoute == AppDestination.Home.route &&
-                    keyEvent.type == KeyEventType.KeyDown &&
-                    keyEvent.key.isSettingsTriggerKey()
-                ) {
-                    // 进入 Settings 前统一把 Home 底层模式切到 Browse，确保 Back 链路稳定回到 Browse。
-                    browseModeController.onUserInteraction()
-                    currentRoute = AppDestination.Settings.route
-                    true
-                } else {
-                    false
-                }
-            },
-    ) {
-        when (currentRoute) {
-            AppDestination.Home.route -> {
-                when (uiMode) {
-                    UiMode.Attract -> {
-                        HomeRoute(
-                            menuRepository = menuRepository,
-                            onBrowseRequested = browseModeController::onUserInteraction,
-                            modifier = Modifier.fillMaxSize(),
-                        )
+    PocoTheme {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .onPreviewKeyEvent { keyEvent ->
+                    if (
+                        currentRoute == AppDestination.Home.route &&
+                        keyEvent.type == KeyEventType.KeyDown &&
+                        keyEvent.key.isSettingsTriggerKey()
+                    ) {
+                        // 进入 Settings 前统一把 Home 底层模式切到 Browse，确保 Back 链路稳定回到 Browse。
+                        browseModeController.onUserInteraction()
+                        currentRoute = AppDestination.Settings.route
+                        true
+                    } else {
+                        false
                     }
+                },
+        ) {
+            when (currentRoute) {
+                AppDestination.Home.route -> {
+                    when (uiMode) {
+                        UiMode.Attract -> {
+                            HomeRoute(
+                                menuRepository = menuRepository,
+                                onBrowseRequested = browseModeController::onUserInteraction,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
 
-                    UiMode.Browse -> {
-                        MenuRoute(
-                            menuRepository = menuRepository,
-                            onUserInteraction = browseModeController::onUserInteraction,
-                            onBackFromBrowseRoot = browseModeController::returnToAttractMode,
-                            modifier = Modifier.fillMaxSize(),
-                        )
+                        UiMode.Browse -> {
+                            MenuRoute(
+                                menuRepository = menuRepository,
+                                onUserInteraction = browseModeController::onUserInteraction,
+                                onBackFromBrowseRoot = browseModeController::returnToAttractMode,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        }
                     }
                 }
-            }
 
-            AppDestination.Settings.route -> {
-                SettingsRoute(
-                    menuRepository = menuRepository,
-                    appPreferences = appPreferences,
-                    modifier = Modifier.fillMaxSize(),
-                )
+                AppDestination.Settings.route -> {
+                    SettingsRoute(
+                        menuRepository = menuRepository,
+                        appPreferences = appPreferences,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
         }
     }

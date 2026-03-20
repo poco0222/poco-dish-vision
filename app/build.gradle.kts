@@ -56,6 +56,7 @@ kotlin {
 
 dependencies {
     implementation(project(":core:data"))
+    implementation(project(":core:ui"))
     implementation(project(":feature:home"))
     implementation(project(":feature:menu"))
     implementation(project(":feature:settings"))

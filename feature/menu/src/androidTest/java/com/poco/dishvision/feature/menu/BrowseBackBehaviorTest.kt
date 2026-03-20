@@ -19,6 +19,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performKeyInput
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.requestFocus
+import com.poco.dishvision.core.ui.theme.PocoTheme
+
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -38,7 +40,9 @@ class BrowseBackBehaviorTest {
     @Test
     fun back_from_focus_scene_restores_browse_anchor() {
         composeTestRule.setContent {
-            MenuRoute()
+            PocoTheme {
+                MenuRoute()
+            }
         }
 
         composeTestRule.onNodeWithTag("category-home-style").requestFocus()
@@ -90,7 +94,9 @@ class BrowseBackBehaviorTest {
     @Test
     fun tenth_home_style_item_is_reachable_by_vertical_scroll() {
         composeTestRule.setContent {
-            MenuRoute()
+            PocoTheme {
+                MenuRoute()
+            }
         }
 
         composeTestRule.onNodeWithTag("category-home-style").requestFocus()

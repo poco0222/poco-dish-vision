@@ -18,6 +18,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performKeyInput
 import androidx.compose.ui.test.requestFocus
+
+import com.poco.dishvision.core.ui.theme.PocoTheme
+
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -34,7 +37,9 @@ class HomeScreenTest {
     @Test
     fun home_screen_renders_brand_chips_five_cards_and_first_hero() {
         composeTestRule.setContent {
-            HomeRoute()
+            PocoTheme {
+                HomeRoute()
+            }
         }
 
         composeTestRule.onNodeWithText("新华饭店").assertExists()
@@ -50,7 +55,9 @@ class HomeScreenTest {
     @Test
     fun right_key_moves_to_next_showcase_and_updates_selected_card() {
         composeTestRule.setContent {
-            HomeRoute()
+            PocoTheme {
+                HomeRoute()
+            }
         }
 
         composeTestRule.onNodeWithTag("home-screen").requestFocus()
@@ -68,7 +75,9 @@ class HomeScreenTest {
     @Test
     fun left_key_from_first_showcase_wraps_to_last_card() {
         composeTestRule.setContent {
-            HomeRoute()
+            PocoTheme {
+                HomeRoute()
+            }
         }
 
         composeTestRule.onNodeWithTag("home-screen").requestFocus()
@@ -88,11 +97,13 @@ class HomeScreenTest {
         var browseRequestCount = 0
 
         composeTestRule.setContent {
-            HomeRoute(
-                onBrowseRequested = {
-                    browseRequestCount += 1
-                },
-            )
+            PocoTheme {
+                HomeRoute(
+                    onBrowseRequested = {
+                        browseRequestCount += 1
+                    },
+                )
+            }
         }
 
         composeTestRule.onNodeWithTag("home-screen").requestFocus()

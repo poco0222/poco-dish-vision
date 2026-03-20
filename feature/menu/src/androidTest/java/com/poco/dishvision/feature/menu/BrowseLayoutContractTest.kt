@@ -10,6 +10,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+
+import com.poco.dishvision.core.ui.theme.PocoTheme
+
 import org.junit.Rule
 import org.junit.Test
 
@@ -24,7 +27,9 @@ class BrowseLayoutContractTest {
     @Test
     fun helper_copy_matches_full_menu_count() {
         composeTestRule.setContent {
-            MenuRoute()
+            PocoTheme {
+                MenuRoute()
+            }
         }
 
         composeTestRule.onNodeWithText("44道湘味热菜 · 按分类浏览").assertExists()
@@ -33,7 +38,9 @@ class BrowseLayoutContractTest {
     @Test
     fun first_screen_shows_all_nine_signature_cards_without_scroll() {
         composeTestRule.setContent {
-            MenuRoute()
+            PocoTheme {
+                MenuRoute()
+            }
         }
 
         composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-8").assertIsDisplayed()
