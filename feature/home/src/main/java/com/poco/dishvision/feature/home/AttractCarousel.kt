@@ -3,11 +3,12 @@
  * @author PopoY
  * @date 2026-03-19
  * @description 首页吸引模式下的推荐卡带，使用视觉聚焦表达当前选中项。
- *              聚焦卡通过 spring 缩放、柔和边框与阴影舞台营造层次感，
+ *              聚焦卡通过 spring 缩放、柔和边框与自绘弱光扩散营造层次感，
  *              切换时各属性动画联动，实现自然流畅的焦点移动效果。
  */
 package com.poco.dishvision.feature.home
 
+import android.graphics.BlurMaskFilter
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -21,6 +22,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -41,8 +45,14 @@ private const val FOCUSED_SCALE = 1.1f
 /** 非聚焦卡缩放比例（常态） */
 private const val UNFOCUSED_SCALE = 1f
 
+/** 聚焦弱光扩散模糊半径 */
+private val FOCUS_GLOW_BLUR_RADIUS = 16.dp
+
+/** 聚焦弱光扩散向外扩展量 */
+private val FOCUS_GLOW_SPREAD = 3.dp
+
 /**
- * 推荐卡带，当前选中项通过缩放、柔和边框与阴影舞台表现聚焦状态。
+ * 推荐卡带，当前选中项通过缩放、柔和边框与自绘弱光扩散表现聚焦状态。
  * 切换时 spring 弹性动画驱动各属性过渡，营造自然移动质感。
  *
  * @param showcaseItems 推荐菜品列表。
@@ -113,6 +123,32 @@ fun AttractCarousel(
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
+                    }
+                    // 聚焦弱光扩散：BlurMaskFilter 自绘，绕过平台 elevation 阴影
+                    .drawBehind {
+                        if (isSelected) {
+                            val blurPx = FOCUS_GLOW_BLUR_RADIUS.toPx()
+                            val spreadPx = FOCUS_GLOW_SPREAD.toPx()
+                            val cornerPx = Dimens.SurfaceMediumCorner.toPx()
+                            val glowPaint = Paint().apply {
+                                color = ColorTokens.FocusGlow
+                                asFrameworkPaint().maskFilter = BlurMaskFilter(
+                                    blurPx,
+                                    BlurMaskFilter.Blur.NORMAL,
+                                )
+                            }
+                            drawIntoCanvas { canvas ->
+                                canvas.drawRoundRect(
+                                    left = -spreadPx,
+                                    top = -spreadPx,
+                                    right = size.width + spreadPx,
+                                    bottom = size.height + spreadPx,
+                                    radiusX = cornerPx,
+                                    radiusY = cornerPx,
+                                    paint = glowPaint,
+                                )
+                            }
+                        }
                     }
                     .semantics {
                         stateDescription = if (isSelected) "selected" else "unselected"

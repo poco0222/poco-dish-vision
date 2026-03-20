@@ -32,10 +32,11 @@ object ColorTokens {
         Color(0xFF411713),
     )
 
+    // 主图叠加层垂直渐变遮罩（上透明→下深色），设计稿 rotation=90 → 从上到下。
     val HomeHeroOverlayGradient = listOf(
-        Color(0x1F0E0900),
-        Color(0x66140C09),
-        Color(0xCC140C09),
+        Color(0x001F0E09),   // 顶部：近透明
+        Color(0x66140C09),   // 中部：半透明（position=0.65）
+        Color(0xCC140C09),   // 底部：深色
     )
 
     val TextPrimary = Color(0xFFF7F1E8)
@@ -56,6 +57,13 @@ object ColorTokens {
     val GlassBorderSubtle = BorderSubtle
     val GlassBorderFocused = Accent
     val CardFocusedSurface = SurfaceCardStrong
+
+    /** 聚焦卡弱化边框（Accent 70% 透明度），柔和而不过于醒目 */
+    val FocusBorderSoft = Color(0xB3C9A45E)
+
+    /** 聚焦卡弱光扩散颜色（Accent 25% 透明度），自绘 BlurMaskFilter 使用 */
+    val FocusGlow = Color(0x40C9A45E)
+
     val CategorySelectedSurface = RedAccent
     val BadgeSurface = SurfaceDeep
 }
