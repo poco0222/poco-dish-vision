@@ -76,6 +76,7 @@ class MenuEntityMapper(
                 displayName = category.displayName,
                 subtitle = category.subtitle,
                 sortOrder = category.sortOrder,
+                description = category.description,
             )
         }
     }
@@ -150,6 +151,7 @@ class MenuEntityMapper(
                         displayName = categoryEntity.displayName,
                         subtitle = categoryEntity.subtitle,
                         sortOrder = categoryEntity.sortOrder,
+                        description = categoryEntity.description,
                         items = itemsByCategoryId[categoryEntity.categoryId]
                             .orEmpty()
                             .sortedWith(compareBy<MenuItemEntity> { it.itemSortOrder }.thenBy { it.itemId })

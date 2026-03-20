@@ -8,6 +8,9 @@ package com.poco.dishvision.feature.menu
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -27,16 +30,31 @@ class BrowseScreenFocusTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun dpad_right_moves_focus_from_category_to_first_menu_item() {
+    fun default_category_is_selected_and_right_moves_focus_to_first_menu_item() {
         composeTestRule.setContent {
             MenuRoute()
         }
 
-        composeTestRule.onNodeWithTag("category-mains").requestFocus()
+        composeTestRule.onNodeWithTag("category-hot-stir-fry")
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "selected",
+                ),
+            )
+            .requestFocus()
+            .assertIsFocused()
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "focused",
+                ),
+            )
+
         composeTestRule.onRoot().performKeyInput {
             keyDown(Key.DirectionRight)
             keyUp(Key.DirectionRight)
         }
-        composeTestRule.onNodeWithTag("menu-item-mains-0").assertIsFocused()
+        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-0").assertIsFocused()
     }
 }

@@ -58,4 +58,74 @@ object Dimens {
     val HomeSeasonBadgeVerticalPadding = 10.dp
     /** 季节标签右边距，设计稿 1920-(1630+196)=94dp。 */
     val HomeSeasonBadgeEndPadding = 94.dp
+
+    // ── Browse 页（分类浏览）专用尺寸 ──
+
+    /** 左侧分类导轨宽度，设计稿 240px。 */
+    val BrowseRailWidth = 240.dp
+    /** 分类导轨项圆角，设计稿 cornerRadius=20。 */
+    val BrowseRailItemCorner = 20.dp
+    /** 分类导轨项垂直内边距，设计稿 padding=[14,18] → vertical=14。 */
+    val BrowseRailItemVerticalPadding = 14.dp
+    /** 分类导轨项水平内边距，设计稿 padding=[14,18] → horizontal=18。 */
+    val BrowseRailItemHorizontalPadding = 18.dp
+    /** 分类导轨项间距，设计稿 gap=10。 */
+    val BrowseRailItemSpacing = 10.dp
+
+    /** 菜品网格间距，设计稿 gap=20。 */
+    val BrowseGridGap = 20.dp
+    /** 菜品网格卡片圆角，设计稿 cornerRadius=24。 */
+    val BrowseGridCardCorner = 24.dp
+    /** 菜品网格卡片图片高度，设计稿 180px。 */
+    val BrowseGridCardImageHeight = 180.dp
+    /** 菜品网格卡片文本区内边距，设计稿 padding=[0,18,18,18]。 */
+    val BrowseGridCardBodyPadding = 18.dp
+    /** 菜品网格卡片文本区间距，设计稿 gap=6。 */
+    val BrowseGridCardBodySpacing = 6.dp
+    /** 菜品网格卡片图片到文本区间距，设计稿 gap=10。 */
+    val BrowseGridCardContentSpacing = 10.dp
+
+    /** 导轨与主内容区间距，设计稿 328-48-240=40px。 */
+    val BrowseRailToContentGap = 40.dp
+
+    // ── FocusStage 聚焦舞台固定尺寸 ──
+
+    /** 中央大卡圆角，设计稿 cornerRadius=30。 */
+    val FocusMidCorner = 30.dp
+    /** 中央大卡边框宽度，设计稿 stroke thickness=2。 */
+    val FocusMidBorderWidth = 2.dp
+    /** 中央大卡 body 区水平内边距，设计稿 padding=[0,22,22,22] → h=22。 */
+    val FocusMidBodyPaddingH = 22.dp
+    /** 中央大卡 body 区底部内边距，设计稿 padding=[0,22,22,22] → bottom=22。 */
+    val FocusMidBodyPaddingBottom = 22.dp
+    /** 中央大卡 body 区内部间距，设计稿 gap=12。 */
+    val FocusMidBodyGap = 12.dp
+    /** 中央大卡图片到 body 的间距，设计稿 gap=14。 */
+    val FocusMidContentSpacing = 14.dp
+    /** 中央大卡阴影模糊半径，设计稿 blur=30。 */
+    val FocusMidShadowBlur = 30.dp
+    /** 中央大卡阴影 Y 偏移，设计稿 offset.y=14。 */
+    val FocusMidShadowOffsetY = 14.dp
+    /** 中央大卡价格徽章圆角，设计稿 cornerRadius=18。 */
+    val FocusMidPriceBadgeCorner = 18.dp
+    /** 中央大卡标题区内部间距，设计稿 gap=6。 */
+    val FocusMidTitleGroupGap = 6.dp
+
+    /** 周围小卡圆角，设计稿 cornerRadius=22。 */
+    val FocusSmallCorner = 22.dp
+    /** 周围小卡 body 水平内边距，设计稿 padding=[0,14,14,14] → h=14。 */
+    val FocusSmallBodyPaddingH = 14.dp
+    /** 周围小卡 body 底部内边距，设计稿 padding=[0,14,14,14] → bottom=14。 */
+    val FocusSmallBodyPaddingBottom = 14.dp
+    /** 周围小卡 name-desc 间距，设计稿 gap=4。 */
+    val FocusSmallBodySpacing = 4.dp
+    /** 周围小卡 image-body 间距，设计稿 gap=8。 */
+    val FocusSmallContentSpacing = 8.dp
+
+    /** 风味标签芯片水平内边距，设计稿 padding=[10,14] → h=14。 */
+    val FocusChipPaddingH = 14.dp
+    /** 风味标签芯片垂直内边距，设计稿 padding=[10,14] → v=10。 */
+    val FocusChipPaddingV = 10.dp
+    /** 风味标签芯片行间距，设计稿 gap=10。 */
+    val FocusChipRowGap = 10.dp
 }

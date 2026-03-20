@@ -8,12 +8,16 @@ package com.poco.dishvision.feature.menu
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performKeyInput
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.requestFocus
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,28 +31,63 @@ class BrowseBackBehaviorTest {
     val composeTestRule = createComposeRule()
 
     /**
-     * 当详情浮层已展开时，第一次返回键必须优先关闭浮层，而不是离开 Browse。
+     * 当从 FocusScene 返回时，必须恢复到原分类、原滚动位置和原聚焦菜品。
      */
     @Test
-    fun back_closes_expanded_detail_panel_before_leaving_browse() {
+    fun back_from_focus_scene_restores_browse_anchor() {
         composeTestRule.setContent {
             MenuRoute()
         }
 
-        composeTestRule.onNodeWithTag("category-mains").requestFocus()
+        composeTestRule.onNodeWithTag("category-home-style").requestFocus()
         composeTestRule.onRoot().performKeyInput {
             keyDown(Key.DirectionRight)
             keyUp(Key.DirectionRight)
         }
-        composeTestRule.onNodeWithTag("menu-item-mains-0").performClick()
-        composeTestRule.onNodeWithTag("detail-panel").assertExists()
+
+        composeTestRule.onNodeWithTag("menu-item-grid").performScrollToIndex(9)
+        composeTestRule.onNodeWithTag("menu-item-home-style-9")
+            .requestFocus()
+            .assertIsFocused()
+            .performClick()
+
+        assertEquals(
+            1,
+            composeTestRule.onAllNodesWithTag("focus-scene").fetchSemanticsNodes().size,
+        )
 
         composeTestRule.onRoot().performKeyInput {
             keyDown(Key.Back)
             keyUp(Key.Back)
         }
 
-        composeTestRule.onNodeWithTag("detail-panel").assertDoesNotExist()
-        composeTestRule.onNodeWithTag("browse-screen").assertExists()
+        assertEquals(
+            0,
+            composeTestRule.onAllNodesWithTag("focus-scene").fetchSemanticsNodes().size,
+        )
+        composeTestRule.onNodeWithTag("menu-item-home-style-9").assertIsFocused()
+        assertEquals(
+            1,
+            composeTestRule.onAllNodesWithTag("browse-screen").fetchSemanticsNodes().size,
+        )
+    }
+
+    @Test
+    fun tenth_home_style_item_is_reachable_by_vertical_scroll() {
+        composeTestRule.setContent {
+            MenuRoute()
+        }
+
+        composeTestRule.onNodeWithTag("category-home-style").requestFocus()
+        composeTestRule.onRoot().performKeyInput {
+            keyDown(Key.DirectionRight)
+            keyUp(Key.DirectionRight)
+        }
+
+        composeTestRule.onNodeWithTag("menu-item-grid").performScrollToIndex(9)
+        assertEquals(
+            1,
+            composeTestRule.onAllNodesWithTag("menu-item-home-style-9").fetchSemanticsNodes().size,
+        )
     }
 }

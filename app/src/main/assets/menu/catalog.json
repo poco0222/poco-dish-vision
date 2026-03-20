@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "catalogId": "poco-shanghai-001",
-  "restaurantName": "POCO Dish Vision Kitchen",
-  "lastUpdatedAt": "2026-03-18T08:30:00Z",
+  "catalogId": "poco-xinhua-001",
+  "restaurantName": "新华饭店",
+  "lastUpdatedAt": "2026-03-20T08:30:00Z",
   "themeConfig": {
     "primaryColorHex": "#FF6A2A",
     "accentColorHex": "#FFD166",
@@ -12,254 +12,392 @@
   },
   "categories": [
     {
-      "categoryId": "starters",
-      "displayName": "Starters",
-      "subtitle": "开场小食，轻松开启味蕾",
+      "categoryId": "hot-stir-fry",
+      "displayName": "招牌热炒",
+      "subtitle": "热锅现炒",
+      "description": "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
       "sortOrder": 1,
       "items": [
         {
-          "itemId": "starter-crispy-calamari",
-          "name": "Crispy Calamari",
-          "description": "蒜香脆炸鱿鱼配柠檬胡椒蘸酱",
-          "imageUrl": "https://images.unsplash.com/photo-1604909053333-7e5f1f7f5c9a",
+          "itemId": "hot-tea-chicken",
+          "name": "茶油炒鸡",
+          "description": "茶油爆香，锅气足，越吃越香。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 8800,
+            "originalAmountMinor": 8800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-hot-tea-chicken", "label": "招牌", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-beef",
+          "name": "小炒黄牛肉",
+          "description": "鲜辣现炒，肉嫩椒脆，湘味代表。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 7800,
+            "originalAmountMinor": 7800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-hot-beef", "label": "人气", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-liling-pork",
+          "name": "醴陵小炒肉",
+          "description": "辣椒鲜香，肉香直接，家常头牌。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 5800,
+            "originalAmountMinor": 5800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-hot-liling-pork", "label": "经典", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-youxian-pork",
+          "name": "攸县杀猪肉",
+          "description": "土味厚香，口感扎实，越吃越耐。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 6800,
+            "originalAmountMinor": 6800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-hot-youxian-pork", "label": "土菜", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-intestine",
+          "name": "生炒肥肠",
+          "description": "爆香重口，肥肠越嚼越香。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 5800,
+            "originalAmountMinor": 5800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-hot-intestine", "label": "重口", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-kidney",
+          "name": "爆炒腰花",
+          "description": "脆嫩见火候，香辣利落。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 5800,
+            "originalAmountMinor": 5800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-hot-kidney", "label": "功夫菜", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-tripe",
+          "name": "酸辣脆肚",
+          "description": "脆爽酸辣，开胃带劲。",
+          "imageUrl": "",
           "priceInfo": {
             "currencyCode": "CNY",
             "amountMinor": 4800,
-            "originalAmountMinor": 5200,
+            "originalAmountMinor": 4800,
             "unitLabel": "份"
           },
           "availabilityWindows": [
             {
-              "daysOfWeek": [
-                "MONDAY",
-                "TUESDAY",
-                "WEDNESDAY",
-                "THURSDAY",
-                "FRIDAY",
-                "SATURDAY",
-                "SUNDAY"
-              ],
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
               "startTime": "10:30",
               "endTime": "22:00"
             }
           ],
           "displayBadges": [
-            {
-              "badgeId": "badge-popular",
-              "label": "POPULAR",
-              "styleKey": "warning"
-            }
+            { "badgeId": "badge-hot-tripe", "label": "开胃", "styleKey": "brand" }
           ],
-          "tags": [
-            "fried",
-            "seafood"
-          ]
+          "tags": ["poco", "featured"]
         },
         {
-          "itemId": "starter-garden-salad",
-          "name": "Garden Salad",
-          "description": "羽衣甘蓝、番茄与坚果的轻食沙拉",
-          "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+          "itemId": "hot-gizzard",
+          "name": "酸辣鸡胗",
+          "description": "脆口鲜辣，下饭下酒都稳。",
+          "imageUrl": "",
           "priceInfo": {
             "currencyCode": "CNY",
-            "amountMinor": 3600,
-            "originalAmountMinor": 3600,
+            "amountMinor": 3800,
+            "originalAmountMinor": 3800,
             "unitLabel": "份"
           },
           "availabilityWindows": [
             {
-              "daysOfWeek": [
-                "MONDAY",
-                "TUESDAY",
-                "WEDNESDAY",
-                "THURSDAY",
-                "FRIDAY",
-                "SATURDAY",
-                "SUNDAY"
-              ],
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
               "startTime": "10:30",
               "endTime": "22:00"
             }
           ],
           "displayBadges": [
+            { "badgeId": "badge-hot-gizzard", "label": "下酒", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        },
+        {
+          "itemId": "hot-seasonal",
+          "name": "时蔬炒肉",
+          "description": "家常热炒，配饭最顺口。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 3800,
+            "originalAmountMinor": 3800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
             {
-              "badgeId": "badge-fresh",
-              "label": "FRESH",
-              "styleKey": "success"
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
             }
           ],
-          "tags": [
-            "vegetarian",
-            "light"
-          ]
+          "displayBadges": [
+            { "badgeId": "badge-hot-seasonal", "label": "家常", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
         }
       ]
     },
     {
-      "categoryId": "mains",
-      "displayName": "Mains",
-      "subtitle": "招牌主菜，满足主餐场景",
+      "categoryId": "spicy",
+      "displayName": "香辣口味",
+      "subtitle": "辣香下饭",
+      "description": "无辣不欢，从剁椒鱼头到口味虾，辣出层次、辣得过瘾。",
       "sortOrder": 2,
       "items": [
         {
-          "itemId": "main-smoked-ribeye",
-          "name": "Smoked Ribeye",
-          "description": "慢熏肋眼牛排，搭配黑椒汁与烤时蔬",
-          "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947",
+          "itemId": "spicy-fish-head",
+          "name": "剁椒鱼头",
+          "description": "双色剁椒铺满鱼头，鲜辣霸道。",
+          "imageUrl": "",
           "priceInfo": {
             "currencyCode": "CNY",
             "amountMinor": 12800,
-            "originalAmountMinor": 13800,
+            "originalAmountMinor": 12800,
             "unitLabel": "份"
           },
           "availabilityWindows": [
             {
-              "daysOfWeek": [
-                "MONDAY",
-                "TUESDAY",
-                "WEDNESDAY",
-                "THURSDAY",
-                "FRIDAY",
-                "SATURDAY",
-                "SUNDAY"
-              ],
-              "startTime": "11:30",
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
               "endTime": "22:00"
             }
           ],
           "displayBadges": [
-            {
-              "badgeId": "badge-signature",
-              "label": "SIGNATURE",
-              "styleKey": "brand"
-            }
+            { "badgeId": "badge-spicy-fish-head", "label": "招牌", "styleKey": "brand" }
           ],
-          "tags": [
-            "beef",
-            "grill"
-          ]
+          "tags": ["poco", "featured"]
         },
         {
-          "itemId": "main-truffle-pasta",
-          "name": "Truffle Pasta",
-          "description": "黑松露奶油意面，入口香浓",
-          "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+          "itemId": "spicy-crayfish",
+          "name": "口味虾",
+          "description": "十三香油焖，壳脆肉弹。",
+          "imageUrl": "",
           "priceInfo": {
             "currencyCode": "CNY",
-            "amountMinor": 7600,
-            "originalAmountMinor": 7600,
+            "amountMinor": 9800,
+            "originalAmountMinor": 9800,
             "unitLabel": "份"
           },
           "availabilityWindows": [
             {
-              "daysOfWeek": [
-                "MONDAY",
-                "TUESDAY",
-                "WEDNESDAY",
-                "THURSDAY",
-                "FRIDAY",
-                "SATURDAY",
-                "SUNDAY"
-              ],
-              "startTime": "11:30",
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
               "endTime": "22:00"
             }
           ],
           "displayBadges": [
-            {
-              "badgeId": "badge-new",
-              "label": "NEW",
-              "styleKey": "info"
-            }
+            { "badgeId": "badge-spicy-crayfish", "label": "人气", "styleKey": "brand" }
           ],
-          "tags": [
-            "pasta",
-            "truffle"
-          ]
+          "tags": ["poco", "featured"]
         }
       ]
     },
     {
-      "categoryId": "desserts",
-      "displayName": "Desserts",
-      "subtitle": "甜点与咖啡，补齐餐后体验",
+      "categoryId": "fish",
+      "displayName": "鱼鲜大菜",
+      "subtitle": "鲜味主打",
+      "description": "以鲜为本，花椒提麻，鱼片嫩滑，一锅鲜汤暖全席。",
       "sortOrder": 3,
       "items": [
         {
-          "itemId": "dessert-burnt-cheesecake",
-          "name": "Burnt Cheesecake",
-          "description": "巴斯克风味芝士蛋糕，绵密细腻",
-          "imageUrl": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+          "itemId": "fish-sichuan",
+          "name": "青花椒鱼片",
+          "description": "鲜麻先起，鱼片嫩滑，越吃越开胃。",
+          "imageUrl": "",
           "priceInfo": {
             "currencyCode": "CNY",
-            "amountMinor": 3600,
-            "originalAmountMinor": 4200,
+            "amountMinor": 9600,
+            "originalAmountMinor": 9600,
             "unitLabel": "份"
           },
           "availabilityWindows": [
             {
-              "daysOfWeek": [
-                "MONDAY",
-                "TUESDAY",
-                "WEDNESDAY",
-                "THURSDAY",
-                "FRIDAY",
-                "SATURDAY",
-                "SUNDAY"
-              ],
-              "startTime": "11:30",
-              "endTime": "22:30"
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
             }
           ],
           "displayBadges": [
-            {
-              "badgeId": "badge-recommended",
-              "label": "CHEF PICK",
-              "styleKey": "warning"
-            }
+            { "badgeId": "badge-fish-sichuan", "label": "鲜麻", "styleKey": "brand" }
           ],
-          "tags": [
-            "dessert",
-            "cake"
-          ]
+          "tags": ["poco", "featured"]
         },
         {
-          "itemId": "dessert-cold-brew",
-          "name": "Cold Brew Latte",
-          "description": "冷萃与鲜奶调和，口感顺滑",
-          "imageUrl": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085",
+          "itemId": "fish-jumping",
+          "name": "跳水鱼",
+          "description": "汤底鲜辣，鱼肉入味，整桌先抢这一锅。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 11800,
+            "originalAmountMinor": 11800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
+            {
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
+            }
+          ],
+          "displayBadges": [
+            { "badgeId": "badge-fish-jumping", "label": "锅气足", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        }
+      ]
+    },
+    {
+      "categoryId": "side",
+      "displayName": "风味小菜",
+      "subtitle": "佐餐小味",
+      "description": "几道佐餐小味，擂辣椒、凉拌菜，简单却最下饭。",
+      "sortOrder": 4,
+      "items": [
+        {
+          "itemId": "side-preserved-egg",
+          "name": "擂辣椒皮蛋",
+          "description": "辣椒擂香，皮蛋绵密，最配白饭。",
+          "imageUrl": "",
           "priceInfo": {
             "currencyCode": "CNY",
             "amountMinor": 2800,
             "originalAmountMinor": 2800,
-            "unitLabel": "杯"
+            "unitLabel": "份"
           },
           "availabilityWindows": [
             {
-              "daysOfWeek": [
-                "MONDAY",
-                "TUESDAY",
-                "WEDNESDAY",
-                "THURSDAY",
-                "FRIDAY",
-                "SATURDAY",
-                "SUNDAY"
-              ],
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
               "startTime": "10:30",
-              "endTime": "22:30"
+              "endTime": "22:00"
             }
           ],
           "displayBadges": [
+            { "badgeId": "badge-side-egg", "label": "经典", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
+        }
+      ]
+    },
+    {
+      "categoryId": "home-style",
+      "displayName": "家常土菜",
+      "subtitle": "乡土滋味",
+      "description": "腊味蒸菜、乡土食材，妈妈味道的朴素好菜。",
+      "sortOrder": 5,
+      "items": [
+        {
+          "itemId": "home-smoked-pork",
+          "name": "腊肉蒸干豆角",
+          "description": "腊味浓香，干豆角吸满肉汁。",
+          "imageUrl": "",
+          "priceInfo": {
+            "currencyCode": "CNY",
+            "amountMinor": 4800,
+            "originalAmountMinor": 4800,
+            "unitLabel": "份"
+          },
+          "availabilityWindows": [
             {
-              "badgeId": "badge-classic",
-              "label": "CLASSIC",
-              "styleKey": "neutral"
+              "daysOfWeek": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY","SUNDAY"],
+              "startTime": "10:30",
+              "endTime": "22:00"
             }
           ],
-          "tags": [
-            "coffee",
-            "drink"
-          ]
+          "displayBadges": [
+            { "badgeId": "badge-home-smoked", "label": "土味", "styleKey": "brand" }
+          ],
+          "tags": ["poco", "featured"]
         }
       ]
     }

@@ -24,7 +24,7 @@ import com.poco.dishvision.core.data.local.db.entity.MenuMetadataEntity
         MenuCategoryEntity::class,
         MenuItemEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class MenuDatabase : RoomDatabase() {

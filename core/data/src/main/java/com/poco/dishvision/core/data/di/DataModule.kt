@@ -79,7 +79,8 @@ object DataModule {
             context,
             MenuDatabase::class.java,
             MenuDatabase.DATABASE_NAME,
-        ).build()
+        ).fallbackToDestructiveMigration(dropAllTables = true)
+            .build()
     }
 
     /**

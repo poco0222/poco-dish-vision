@@ -66,4 +66,15 @@ object ColorTokens {
 
     val CategorySelectedSurface = RedAccent
     val BadgeSurface = SurfaceDeep
+
+    // ── FocusStage 聚焦舞台颜色 ──
+
+    /** 中央大卡整体填充色，设计稿 $--bg-bottom = #3B1612 */
+    val FocusMidFill = Color(0xFF3B1612)
+    /** 中央大卡 body 区背景色，设计稿 $--bg-mid = #24110E */
+    val FocusMidBodyBg = Color(0xFF24110E)
+    /** 中央大卡阴影颜色，设计稿 #00000052 */
+    val FocusMidShadow = Color(0x52000000)
+    /** 风味标签芯片背景色，设计稿 $--chip-bg = #5E3A20 */
+    val ChipBg = Color(0xFF5E3A20)
 }

@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
  * @property displayName 分类展示名称。
  * @property subtitle 分类副标题，用于大屏补充说明。
  * @property sortOrder 分类排序权重，值越小越靠前。
+ * @property description 分类描述文案，用于浏览页标题区展示。
  * @property items 当前分类下的菜品列表。
  */
 @Serializable
@@ -23,5 +24,6 @@ data class MenuCategory(
     val displayName: String,
     val subtitle: String,
     val sortOrder: Int,
+    val description: String = "",
     val items: List<MenuItem>,
 )

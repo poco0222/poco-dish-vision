@@ -46,6 +46,7 @@ class BrowseModeController(
      */
     fun onUserInteraction() {
         _mode.value = UiMode.Browse
+        // 任何新的遥控器交互都要重置空闲计时，保证 15 秒后再回落到 Attract。
         idleTimeoutJob?.cancel()
         idleTimeoutJob = scope.launch {
             delay(idleTimeoutMs)

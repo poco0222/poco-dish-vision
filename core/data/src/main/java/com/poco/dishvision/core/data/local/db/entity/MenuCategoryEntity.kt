@@ -17,6 +17,7 @@ import androidx.room.PrimaryKey
  * @property displayName 分类展示名称。
  * @property subtitle 分类副标题。
  * @property sortOrder 分类排序权重，值越小越靠前。
+ * @property description 分类描述文案。
  */
 @Entity(tableName = "menu_categories")
 data class MenuCategoryEntity(
@@ -26,4 +27,5 @@ data class MenuCategoryEntity(
     val displayName: String,
     val subtitle: String,
     val sortOrder: Int,
+    val description: String = "",
 )

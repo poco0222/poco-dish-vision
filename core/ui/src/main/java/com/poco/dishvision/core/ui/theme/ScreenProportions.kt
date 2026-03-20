@@ -92,6 +92,143 @@ data class ScreenProportions(
     /** 标签胶囊行 Y 偏移，设计稿 (560-196)/1080 = 364/1080 */
     val homeCopyChipsOffsetY: Dp = screenHeight * (364f / DESIGN_HEIGHT)
 
+    // ── Browse 页（分类浏览）比例尺寸 ──
+
+    /** 左侧导轨宽度，设计稿 240/1920 */
+    val browseRailWidth: Dp = screenWidth * (240f / DESIGN_WIDTH)
+
+    /** 主内容区宽度，设计稿 1544/1920 */
+    val browseContentWidth: Dp = screenWidth * (1544f / DESIGN_WIDTH)
+
+    /** 主内容区起始 X，设计稿 328/1920 */
+    val browseContentStartX: Dp = screenWidth * (328f / DESIGN_WIDTH)
+
+    /** 导轨到主内容区间距，设计稿 (328-48-240)/1920 = 40/1920 */
+    val browseRailToContentGap: Dp = screenWidth * (40f / DESIGN_WIDTH)
+
+    /** 主标题副文本宽度，设计稿 1180/1920 */
+    val browseSubtitleWidth: Dp = screenWidth * (1180f / DESIGN_WIDTH)
+
+    /** FocusScene 副文本宽度，设计稿 1300/1920 */
+    val focusSubtitleWidth: Dp = screenWidth * (1300f / DESIGN_WIDTH)
+
+    /** 品牌副标题底部到分类标签的间距，设计稿 (156-86)/1080 ≈ 70px */
+    val browseBrandToRailGap: Dp = screenHeight * (70f / DESIGN_HEIGHT)
+
+    /** 右列 label→title 间距，设计稿 (64-32-fontSize≈18)/1080 ≈ 14px */
+    val browseLabelToTitleGap: Dp = screenHeight * (14f / DESIGN_HEIGHT)
+
+    /** 右列 title→sub 间距，设计稿 (120-64-fontSize≈40)/1080 ≈ 16px */
+    val browseTitleToSubGap: Dp = screenHeight * (16f / DESIGN_HEIGHT)
+
+    /** 右列 sub→grid 间距，设计稿 (174-120-fontSize≈18)/1080 ≈ 36px */
+    val browseSubToGridGap: Dp = screenHeight * (36f / DESIGN_HEIGHT)
+
+    /** 菜品网格卡片图片高度，设计稿 180/1080 */
+    val browseCardImageHeight: Dp = screenHeight * (180f / DESIGN_HEIGHT)
+
+    /** 菜品网格水平间距，设计稿 20/1920 */
+    val browseGridHorizontalGap: Dp = screenWidth * (20f / DESIGN_WIDTH)
+
+    /** 菜品网格垂直间距，设计稿 20/1080 */
+    val browseGridVerticalGap: Dp = screenHeight * (20f / DESIGN_HEIGHT)
+
+    /** "分类"标签到导轨按钮列表的间距，设计稿 y(190) - y(156) - 字号行高 ≈ 14px */
+    val browseRailLabelToItemsGap: Dp = screenHeight * (14f / DESIGN_HEIGHT)
+
+    /** 分类导轨项垂直内边距，设计稿 14/1080 */
+    val browseRailItemVerticalPadding: Dp = screenHeight * (14f / DESIGN_HEIGHT)
+
+    /** 分类导轨项水平内边距，设计稿 18/1920 */
+    val browseRailItemHorizontalPadding: Dp = screenWidth * (18f / DESIGN_WIDTH)
+
+    /** 分类导轨项间距，设计稿 10/1080 */
+    val browseRailItemSpacing: Dp = screenHeight * (10f / DESIGN_HEIGHT)
+
+    /** 菜品网格视口高度，按主内容区自标题以下的可见区域建模。 */
+    val browseGridViewportHeight: Dp = screenHeight * (874f / DESIGN_HEIGHT)
+
+    /** 菜品网格卡片文本区水平内边距，设计稿 18/1920 */
+    val browseGridCardBodyPaddingHorizontal: Dp = screenWidth * (18f / DESIGN_WIDTH)
+
+    /** 菜品网格卡片文本区底部内边距，设计稿 18/1080 */
+    val browseGridCardBodyPaddingBottom: Dp = screenHeight * (18f / DESIGN_HEIGHT)
+
+    /** 菜品网格卡片文本区间距，设计稿 6/1080 */
+    val browseGridCardBodySpacing: Dp = screenHeight * (6f / DESIGN_HEIGHT)
+
+    /** 菜品网格卡片图片到底部文本区的间距，设计稿 10/1080 */
+    val browseGridCardContentSpacing: Dp = screenHeight * (10f / DESIGN_HEIGHT)
+
+    // ── FocusStage 聚焦舞台比例尺寸 ──
+
+    /** 聚焦舞台总高度，设计稿 794/1080 */
+    val focusStageHeight: Dp = screenHeight * (794f / DESIGN_HEIGHT)
+
+    /** 中央大卡宽度，设计稿 680/1544（相对内容区比例） */
+    val focusMidWidth: Dp = browseContentWidth * (680f / 1544f)
+
+    /** 中央大卡 X 偏移（相对 focusStage 左侧），设计稿 432/1544 */
+    val focusMidX: Dp = browseContentWidth * (432f / 1544f)
+
+    /** 中央大卡 Y 偏移（相对 focusStage 顶部），设计稿 24/794 */
+    val focusMidY: Dp = focusStageHeight * (24f / 794f)
+
+    /** 中央大卡图片高度，设计稿 228/1080 */
+    val focusMidImageHeight: Dp = screenHeight * (228f / DESIGN_HEIGHT)
+
+    /** 中央大卡 body 区水平内边距，设计稿 22/1920 */
+    val focusMidBodyPaddingHorizontal: Dp = screenWidth * (22f / DESIGN_WIDTH)
+
+    /** 中央大卡 body 区底部内边距，设计稿 22/1080 */
+    val focusMidBodyPaddingBottom: Dp = screenHeight * (22f / DESIGN_HEIGHT)
+
+    /** 中央大卡 body 区内部间距，设计稿 12/1080 */
+    val focusMidBodyGap: Dp = screenHeight * (12f / DESIGN_HEIGHT)
+
+    /** 中央大卡图片区到底部 body 的间距，设计稿 14/1080 */
+    val focusMidContentSpacing: Dp = screenHeight * (14f / DESIGN_HEIGHT)
+
+    /** 中央大卡标题组内部间距，设计稿 6/1080 */
+    val focusMidTitleGroupGap: Dp = screenHeight * (6f / DESIGN_HEIGHT)
+
+    /** 周围小卡宽度，设计稿 360/1544 */
+    val focusSmallCardWidth: Dp = browseContentWidth * (360f / 1544f)
+
+    /** 周围小卡图片高度，设计稿 132/1080 */
+    val focusSmallCardImageHeight: Dp = screenHeight * (132f / DESIGN_HEIGHT)
+
+    /** 周围小卡 body 水平内边距，设计稿 14/1920 */
+    val focusSmallBodyPaddingHorizontal: Dp = screenWidth * (14f / DESIGN_WIDTH)
+
+    /** 周围小卡 body 底部内边距，设计稿 14/1080 */
+    val focusSmallBodyPaddingBottom: Dp = screenHeight * (14f / DESIGN_HEIGHT)
+
+    /** 周围小卡 name-desc 间距，设计稿 4/1080 */
+    val focusSmallBodySpacing: Dp = screenHeight * (4f / DESIGN_HEIGHT)
+
+    /** 周围小卡 image-body 间距，设计稿 8/1080 */
+    val focusSmallContentSpacing: Dp = screenHeight * (8f / DESIGN_HEIGHT)
+
+    /** 风味标签行间距，设计稿 10/1080 */
+    val focusChipRowGap: Dp = screenHeight * (10f / DESIGN_HEIGHT)
+
+    /**
+     * 8 个 FocusStage 卡槽的绝对坐标（相对 focusStage 容器），
+     * 按设计稿坐标以 contentWidth(1544) / stageHeight(794) 为基准比例化。
+     * 顺序: A1, A3, B1, B3, C1, C2, C3, A2
+     */
+    val focusSlotPositions: List<Pair<Dp, Dp>> = listOf(
+        browseContentWidth * (24f / 1544f) to focusStageHeight * (24f / 794f),     // A1 左上
+        browseContentWidth * (1158f / 1544f) to focusStageHeight * (24f / 794f),   // A3 右上
+        browseContentWidth * (24f / 1544f) to focusStageHeight * (278f / 794f),    // B1 左中
+        browseContentWidth * (1158f / 1544f) to focusStageHeight * (278f / 794f),  // B3 右中
+        browseContentWidth * (24f / 1544f) to focusStageHeight * (532f / 794f),    // C1 左下
+        browseContentWidth * (402f / 1544f) to focusStageHeight * (532f / 794f),   // C2 中下
+        browseContentWidth * (780f / 1544f) to focusStageHeight * (532f / 794f),   // C3 中右下
+        browseContentWidth * (1158f / 1544f) to focusStageHeight * (532f / 794f),  // A2 右下
+    )
+
     // ── 字号缩放 ──
 
     /** 基于设计稿高度的字号缩放因子（540dp 屏幕 → 0.5，1080dp → 1.0） */
