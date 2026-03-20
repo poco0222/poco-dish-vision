@@ -70,8 +70,23 @@ class MenuCatalogImporterTest {
     @Test
     fun `importer stores fixture categories and items into room`() = runTest {
         importer.importCatalog(loadCatalogFixture())
-        assertThat(categoryDao.observeAll().first()).hasSize(3)
-        assertThat(itemDao.observeByCategory("mains").first()).isNotEmpty()
+        val categories = categoryDao.observeAll().first()
+        val allItems = itemDao.observeAll().first()
+
+        assertThat(categories).hasSize(5)
+        assertThat(categories.map { category -> category.displayName }).containsExactly(
+            "招牌热炒",
+            "香辣口味",
+            "鱼鲜大菜",
+            "家常土菜",
+            "风味小菜",
+        ).inOrder()
+        assertThat(allItems).hasSize(44)
+        assertThat(itemDao.observeByCategory("hot-stir-fry").first()).hasSize(9)
+        assertThat(itemDao.observeByCategory("spicy").first()).hasSize(9)
+        assertThat(itemDao.observeByCategory("fish").first()).hasSize(7)
+        assertThat(itemDao.observeByCategory("home-style").first()).hasSize(10)
+        assertThat(itemDao.observeByCategory("side").first()).hasSize(9)
     }
 
     /**

@@ -131,7 +131,7 @@ private fun PreviewMenuRoute(
         modifier = modifier,
         onUserInteraction = onUserInteraction,
         onCategoryFocused = { categoryId ->
-            interactionState = selectBrowseCategory(
+            interactionState = handleCategoryRailFocus(
                 currentState = interactionState,
                 categories = categories,
                 categoryId = categoryId,
@@ -228,13 +228,16 @@ private fun MenuScreen(
         modifier = modifier
             .fillMaxSize()
             .onPreviewKeyEvent { keyEvent ->
-                if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.Back) {
-                    onUserInteraction()
-                    if (uiState.scene == MenuScene.Focus) {
-                        onDismissFocusScene()
-                    } else {
-                        onBackFromBrowseRoot()
+                if (keyEvent.key == Key.Back) {
+                    if (keyEvent.type == KeyEventType.KeyDown) {
+                        onUserInteraction()
+                        if (uiState.scene == MenuScene.Focus) {
+                            onDismissFocusScene()
+                        } else {
+                            onBackFromBrowseRoot()
+                        }
                     }
+                    // Back 的 KeyUp 必须一并消费，否则宿主 Activity 仍可能收到系统返回事件。
                     true
                 } else if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key.isBrowseInteractionKey()) {
                     onUserInteraction()
@@ -376,9 +379,10 @@ private fun MenuScreen(
                                     items = uiState.browseSceneState.visibleItems,
                                     viewportRequest = uiState.browseSceneState.viewportRequest,
                                     focusRequest = uiState.browseSceneState.focusRequest,
+                                    trackViewportChanges = uiState.scene == MenuScene.Browse,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(proportions.browseGridViewportHeight),
+                                        .fillMaxHeight(),
                                     onViewportChanged = onBrowseViewportChanged,
                                     onItemFocused = onBrowseItemFocused,
                                     onItemConfirmed = { onItemConfirmed() },

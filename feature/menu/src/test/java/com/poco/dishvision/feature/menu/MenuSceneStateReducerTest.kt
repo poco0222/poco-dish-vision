@@ -43,7 +43,7 @@ class MenuSceneStateReducerTest {
 
         assertEquals(MenuScene.Browse, uiState.scene)
         assertEquals("home-style", uiState.selectedCategoryId)
-        assertEquals("home-smoked-pork", uiState.browseSceneState.focusedItemId)
+        assertEquals("home-pickled-pork", uiState.browseSceneState.focusedItemId)
         assertEquals(0, uiState.browseSceneState.viewportRequest?.firstVisibleItemIndex)
         assertEquals(0, uiState.browseSceneState.viewportRequest?.firstVisibleItemScrollOffset)
         assertNull(uiState.browseSceneState.focusRequest)
@@ -88,6 +88,7 @@ class MenuSceneStateReducerTest {
         assertEquals(6, uiState.browseSceneState.viewportRequest?.firstVisibleItemIndex)
         assertEquals(24, uiState.browseSceneState.viewportRequest?.firstVisibleItemScrollOffset)
         assertEquals("hot-gizzard", uiState.browseSceneState.focusRequest?.targetItemId)
+        assertEquals(7, uiState.browseSceneState.focusRequest?.targetItemIndex)
         assertNotNull(uiState.browseSceneState.focusRequest?.requestId)
     }
 
@@ -131,5 +132,41 @@ class MenuSceneStateReducerTest {
 
         assertEquals("hot-gizzard", uiState.browseSceneState.focusedItemId)
         assertEquals("hot-gizzard", uiState.browseSceneState.focusRequest?.targetItemId)
+        assertEquals(7, uiState.browseSceneState.focusRequest?.targetItemIndex)
+    }
+
+    @Test
+    fun `category rail fallback focus does not override pending browse restoration`() {
+        val categories = previewMenuCategories()
+        val restoredBrowseState = exitFocusScene(
+            currentState = enterFocusScene(
+                currentState = recordBrowseViewport(
+                    currentState = recordBrowseItemFocus(
+                        currentState = selectBrowseCategory(
+                            currentState = MenuInteractionState(),
+                            categories = categories,
+                            categoryId = "home-style",
+                        ),
+                        categories = categories,
+                        itemId = "home-preserved-egg-pepper",
+                    ),
+                    categories = categories,
+                    firstVisibleItemIndex = 9,
+                    firstVisibleItemScrollOffset = 0,
+                ),
+                categories = categories,
+            ),
+            categories = categories,
+        )
+
+        val nextState = handleCategoryRailFocus(
+            currentState = restoredBrowseState,
+            categories = categories,
+            categoryId = "hot-stir-fry",
+        )
+
+        assertEquals("home-style", nextState.selectedCategoryId)
+        assertEquals("home-preserved-egg-pepper", nextState.pendingFocusRequest?.targetItemId)
+        assertEquals(9, nextState.pendingViewportRequest?.firstVisibleItemIndex)
     }
 }

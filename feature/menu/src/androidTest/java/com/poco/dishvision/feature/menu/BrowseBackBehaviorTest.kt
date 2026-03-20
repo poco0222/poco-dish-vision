@@ -7,7 +7,9 @@
 package com.poco.dishvision.feature.menu
 
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -65,6 +67,19 @@ class BrowseBackBehaviorTest {
             0,
             composeTestRule.onAllNodesWithTag("focus-scene").fetchSemanticsNodes().size,
         )
+        // FocusScene -> BrowseScene 之间存在 Crossfade 过渡，等待目标卡重新进入语义树并恢复焦点。
+        composeTestRule.waitUntilAtLeastOneExists(
+            matcher = hasTestTag("menu-item-home-style-9"),
+            timeoutMillis = 5_000,
+        )
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            val restoredNode = composeTestRule.onAllNodesWithTag("menu-item-home-style-9")
+                .fetchSemanticsNodes()
+                .singleOrNull()
+                ?: return@waitUntil false
+            SemanticsProperties.Focused in restoredNode.config &&
+                restoredNode.config[SemanticsProperties.Focused]
+        }
         composeTestRule.onNodeWithTag("menu-item-home-style-9").assertIsFocused()
         assertEquals(
             1,

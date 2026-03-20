@@ -10,10 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.poco.dishvision.core.data.repository.MenuRepository
-import com.poco.dishvision.core.model.menu.DisplayBadge
 import com.poco.dishvision.core.model.menu.MenuCategory
 import com.poco.dishvision.core.model.menu.MenuItem
-import com.poco.dishvision.core.model.menu.PriceInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -74,7 +72,7 @@ class MenuViewModel(
      */
     fun onCategoryFocused(categoryId: String) {
         interactionState.update { currentState ->
-            selectBrowseCategory(
+            handleCategoryRailFocus(
                 currentState = currentState,
                 categories = categoriesState.value,
                 categoryId = categoryId,
@@ -232,8 +230,18 @@ internal fun buildMenuUiState(
         ?.takeIf { focusRequest ->
             visibleItems.any { item -> item.itemId == focusRequest.targetItemId }
         }
+        ?.copy(
+            targetItemIndex = visibleItems.indexOfFirst { item ->
+                item.itemId == interactionState.pendingFocusRequest.targetItemId
+            }.takeIf { itemIndex -> itemIndex >= 0 },
+        )
         ?: resolvedBrowseFocusItemId?.let { focusedItemId ->
-            interactionState.pendingFocusRequest?.copy(targetItemId = focusedItemId)
+            interactionState.pendingFocusRequest?.copy(
+                targetItemId = focusedItemId,
+                targetItemIndex = visibleItems.indexOfFirst { item ->
+                    item.itemId == focusedItemId
+                }.takeIf { itemIndex -> itemIndex >= 0 },
+            )
         }
 
     return MenuUiState(
@@ -250,258 +258,6 @@ internal fun buildMenuUiState(
             visibleItems = visibleItems,
             focusedItemId = resolvedFocusSceneItemId,
             isFocusSceneVisible = interactionState.scene == MenuScene.Focus,
-        ),
-    )
-}
-
-/**
- * 提供浏览页的本地 preview 分类数据，匹配设计稿"湘味分类"五大分类。
- *
- * @return 预览分类列表。
- */
-internal fun previewMenuCategories(): List<MenuCategory> {
-    return listOf(
-        // ── 招牌热炒（设计稿 9 道菜） ──
-        MenuCategory(
-            categoryId = "hot-stir-fry",
-            displayName = "招牌热炒",
-            subtitle = "热锅现炒",
-            sortOrder = 1,
-            description = "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
-            items = listOf(
-                previewMenuItem(
-                    itemId = "hot-tea-chicken",
-                    name = "茶油炒鸡",
-                    description = "茶油爆香，锅气足，越吃越香。",
-                    amountMinor = 8_800,
-                    imageUrl = "",
-                    badgeLabel = "招牌",
-                ),
-                previewMenuItem(
-                    itemId = "hot-beef",
-                    name = "小炒黄牛肉",
-                    description = "鲜辣现炒，肉嫩椒脆，湘味代表。",
-                    amountMinor = 7_800,
-                    imageUrl = "",
-                    badgeLabel = "人气",
-                ),
-                previewMenuItem(
-                    itemId = "hot-liling-pork",
-                    name = "醴陵小炒肉",
-                    description = "辣椒鲜香，肉香直接，家常头牌。",
-                    amountMinor = 5_800,
-                    imageUrl = "",
-                    badgeLabel = "经典",
-                ),
-                previewMenuItem(
-                    itemId = "hot-youxian-pork",
-                    name = "攸县杀猪肉",
-                    description = "土味厚香，口感扎实，越吃越耐。",
-                    amountMinor = 6_800,
-                    imageUrl = "",
-                    badgeLabel = "土菜",
-                ),
-                previewMenuItem(
-                    itemId = "hot-intestine",
-                    name = "生炒肥肠",
-                    description = "爆香重口，肥肠越嚼越香。",
-                    amountMinor = 5_800,
-                    imageUrl = "",
-                    badgeLabel = "重口",
-                ),
-                previewMenuItem(
-                    itemId = "hot-kidney",
-                    name = "爆炒腰花",
-                    description = "脆嫩见火候，香辣利落。",
-                    amountMinor = 5_800,
-                    imageUrl = "",
-                    badgeLabel = "功夫菜",
-                ),
-                previewMenuItem(
-                    itemId = "hot-tripe",
-                    name = "酸辣脆肚",
-                    description = "脆爽酸辣，开胃带劲。",
-                    amountMinor = 4_800,
-                    imageUrl = "",
-                    badgeLabel = "开胃",
-                ),
-                previewMenuItem(
-                    itemId = "hot-gizzard",
-                    name = "酸辣鸡胗",
-                    description = "脆口鲜辣，下饭下酒都稳。",
-                    amountMinor = 3_800,
-                    imageUrl = "",
-                    badgeLabel = "下酒",
-                ),
-                previewMenuItem(
-                    itemId = "hot-seasonal",
-                    name = "时蔬炒肉",
-                    description = "家常热炒，配饭最顺口。",
-                    amountMinor = 3_800,
-                    imageUrl = "",
-                    badgeLabel = "家常",
-                ),
-            ),
-        ),
-        // ── 香辣口味 ──
-        MenuCategory(
-            categoryId = "spicy",
-            displayName = "香辣口味",
-            subtitle = "辣香下饭",
-            sortOrder = 2,
-            description = "无辣不欢，从剁椒鱼头到口味虾，辣出层次、辣得过瘾。",
-            items = listOf(
-                previewMenuItem(
-                    itemId = "spicy-fish-head",
-                    name = "剁椒鱼头",
-                    description = "双色剁椒铺满鱼头，鲜辣霸道。",
-                    amountMinor = 12_800,
-                    imageUrl = "",
-                    badgeLabel = "招牌",
-                ),
-                previewMenuItem(
-                    itemId = "spicy-crayfish",
-                    name = "口味虾",
-                    description = "十三香油焖，壳脆肉弹。",
-                    amountMinor = 9_800,
-                    imageUrl = "",
-                    badgeLabel = "人气",
-                ),
-            ),
-        ),
-        // ── 鱼鲜大菜 ──
-        MenuCategory(
-            categoryId = "fish",
-            displayName = "鱼鲜大菜",
-            subtitle = "鲜味主打",
-            sortOrder = 3,
-            description = "以鲜为本，花椒提麻，鱼片嫩滑，一锅鲜汤暖全席。",
-            items = listOf(
-                previewMenuItem(
-                    itemId = "fish-sichuan",
-                    name = "青花椒鱼片",
-                    description = "鲜麻先起，鱼片嫩滑，越吃越开胃。",
-                    amountMinor = 9_600,
-                    imageUrl = "",
-                    badgeLabel = "鲜麻",
-                ),
-                previewMenuItem(
-                    itemId = "fish-jumping",
-                    name = "跳水鱼",
-                    description = "汤底鲜辣，鱼肉入味，整桌先抢这一锅。",
-                    amountMinor = 11_800,
-                    imageUrl = "",
-                    badgeLabel = "锅气足",
-                ),
-            ),
-        ),
-        // ── 风味小菜 ──
-        MenuCategory(
-            categoryId = "side",
-            displayName = "风味小菜",
-            subtitle = "佐餐小味",
-            sortOrder = 4,
-            description = "几道佐餐小味，擂辣椒、凉拌菜，简单却最下饭。",
-            items = listOf(
-                previewMenuItem(
-                    itemId = "side-preserved-egg",
-                    name = "擂辣椒皮蛋",
-                    description = "辣椒擂香，皮蛋绵密，最配白饭。",
-                    amountMinor = 2_800,
-                    imageUrl = "",
-                    badgeLabel = "经典",
-                ),
-            ),
-        ),
-        // ── 家常土菜 ──
-        MenuCategory(
-            categoryId = "home-style",
-            displayName = "家常土菜",
-            subtitle = "乡土滋味",
-            sortOrder = 5,
-            description = "腊味蒸菜、乡土食材，妈妈味道的朴素好菜。",
-            items = listOf(
-                previewMenuItem(
-                    itemId = "home-smoked-pork",
-                    name = "腊肉蒸干豆角",
-                    description = "腊味浓香，干豆角吸满肉汁。",
-                    amountMinor = 4_800,
-                    imageUrl = "",
-                    badgeLabel = "土味",
-                ),
-                previewMenuItem(
-                    itemId = "home-steamed-eggplant",
-                    name = "擂椒蒸茄子",
-                    description = "茄香软糯，辣椒一拌就下饭。",
-                    amountMinor = 2_800,
-                    imageUrl = "",
-                    badgeLabel = "家常",
-                ),
-                previewMenuItem(
-                    itemId = "home-bean-curd",
-                    name = "香干炒腊肉",
-                    description = "豆香扎实，腊香直接，越嚼越有味。",
-                    amountMinor = 3_800,
-                    imageUrl = "",
-                    badgeLabel = "经典",
-                ),
-                previewMenuItem(
-                    itemId = "home-potato",
-                    name = "酸豆角炒土豆片",
-                    description = "脆酸带劲，土豆片吸满锅气。",
-                    amountMinor = 2_600,
-                    imageUrl = "",
-                    badgeLabel = "下饭",
-                ),
-                previewMenuItem(
-                    itemId = "home-pumpkin",
-                    name = "小炒南瓜藤",
-                    description = "清鲜脆嫩，乡土香气很足。",
-                    amountMinor = 2_800,
-                    imageUrl = "",
-                    badgeLabel = "时令",
-                ),
-                previewMenuItem(
-                    itemId = "home-dried-radish",
-                    name = "萝卜干炒腊肠",
-                    description = "咸香脆口，越吃越开胃。",
-                    amountMinor = 3_600,
-                    imageUrl = "",
-                    badgeLabel = "乡味",
-                ),
-                previewMenuItem(
-                    itemId = "home-tofu",
-                    name = "农家豆腐煲",
-                    description = "豆腐吸汁，热气腾腾，最有家里味道。",
-                    amountMinor = 3_800,
-                    imageUrl = "",
-                    badgeLabel = "暖胃",
-                ),
-                previewMenuItem(
-                    itemId = "home-bacon-bamboo",
-                    name = "腊味笋干钵",
-                    description = "笋干耐嚼，腊香厚实，越煨越香。",
-                    amountMinor = 4_600,
-                    imageUrl = "",
-                    badgeLabel = "钵菜",
-                ),
-                previewMenuItem(
-                    itemId = "home-lotus-root",
-                    name = "藕尖炒肉丝",
-                    description = "爽脆清香，肉丝细嫩，口感利落。",
-                    amountMinor = 3_600,
-                    imageUrl = "",
-                    badgeLabel = "爽口",
-                ),
-                previewMenuItem(
-                    itemId = "home-squash",
-                    name = "椒香炒嫩南瓜",
-                    description = "锅气温和，带一点甜辣的家常口感。",
-                    amountMinor = 2_900,
-                    imageUrl = "",
-                    badgeLabel = "第10道",
-                ),
-            ),
         ),
     )
 }
@@ -549,48 +305,6 @@ internal fun resolveFocusedItem(
         ?: selectedCategory
             ?.items
             ?.firstOrNull()
-}
-
-/**
- * 构造 preview 菜品对象，减少重复模板代码。
- *
- * @param itemId 菜品 ID。
- * @param name 菜品名称。
- * @param description 菜品描述。
- * @param amountMinor 菜品金额（分）。
- * @param imageUrl 菜品图片 URL。
- * @param badgeLabel 菜品徽章文案。
- * @return 菜品模型。
- */
-private fun previewMenuItem(
-    itemId: String,
-    name: String,
-    description: String,
-    amountMinor: Int,
-    imageUrl: String,
-    badgeLabel: String,
-): MenuItem {
-    return MenuItem(
-        itemId = itemId,
-        name = name,
-        description = description,
-        imageUrl = imageUrl,
-        priceInfo = PriceInfo(
-            currencyCode = "CNY",
-            amountMinor = amountMinor,
-            originalAmountMinor = amountMinor,
-            unitLabel = "份",
-        ),
-        availabilityWindows = emptyList(),
-        displayBadges = listOf(
-            DisplayBadge(
-                badgeId = "badge-$itemId",
-                label = badgeLabel,
-                styleKey = "brand",
-            ),
-        ),
-        tags = listOf("poco", "featured"),
-    )
 }
 
 /**

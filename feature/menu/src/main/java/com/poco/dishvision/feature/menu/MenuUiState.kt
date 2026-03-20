@@ -67,10 +67,12 @@ data class BrowseViewportRequest(
  *
  * @property requestId 请求 ID，用于驱动一次性焦点副作用。
  * @property targetItemId 目标菜品 ID。
+ * @property targetItemIndex 目标菜品在当前分类中的索引，用于在必要时补做视口恢复。
  */
 data class BrowseFocusRequest(
     val requestId: Long,
     val targetItemId: String,
+    val targetItemIndex: Int? = null,
 )
 
 /**

@@ -88,6 +88,33 @@ internal fun selectBrowseCategory(
 }
 
 /**
+ * 处理分类导轨自身的获焦事件。
+ *
+ * 当 BrowseScene 仍在执行“返回恢复”或“导轨切入网格”的焦点恢复时，
+ * 系统可能会先把焦点兜底到某个分类项；这类被动获焦不能反向改写当前分类，
+ * 否则会把待恢复的 Browse 锚点覆盖掉。
+ *
+ * @param currentState 当前交互状态。
+ * @param categories 当前分类列表。
+ * @param categoryId 获焦的分类 ID。
+ * @return 更新后的交互状态。
+ */
+internal fun handleCategoryRailFocus(
+    currentState: MenuInteractionState,
+    categories: List<MenuCategory>,
+    categoryId: String,
+): MenuInteractionState {
+    if (currentState.scene == MenuScene.Browse && currentState.pendingFocusRequest != null) {
+        return currentState
+    }
+    return selectBrowseCategory(
+        currentState = currentState,
+        categories = categories,
+        categoryId = categoryId,
+    )
+}
+
+/**
  * 从分类导轨把焦点切入 BrowseScene 网格。
  *
  * @param currentState 当前交互状态。
@@ -114,12 +141,16 @@ internal fun requestBrowseItemFocus(
         ?: sortedCategories.firstOrNull { it.categoryId == resolvedCategoryId }?.toTopBrowseState()
         ?: return selectedState
     val targetItemId = browseState.focusedItemId ?: return selectedState
+    val targetItemIndex = sortedCategories
+        .firstOrNull { it.categoryId == resolvedCategoryId }
+        ?.indexOfItem(targetItemId)
     val (focusRequestId, stateWithNextId) = allocateBrowseRequestId(selectedState)
     return stateWithNextId.copy(
         scene = MenuScene.Browse,
         pendingFocusRequest = BrowseFocusRequest(
             requestId = focusRequestId,
             targetItemId = targetItemId,
+            targetItemIndex = targetItemIndex,
         ),
     )
 }
@@ -153,6 +184,8 @@ internal fun recordBrowseItemFocus(
                 focusedItemId = itemId,
             )
         ),
+        pendingFocusRequest = currentState.pendingFocusRequest
+            ?.takeUnless { pendingFocus -> pendingFocus.targetItemId == itemId },
     )
 }
 
@@ -184,6 +217,11 @@ internal fun recordBrowseViewport(
                 firstVisibleItemScrollOffset = firstVisibleItemScrollOffset,
             )
         ),
+        pendingViewportRequest = currentState.pendingViewportRequest
+            ?.takeUnless { pendingViewport ->
+                pendingViewport.firstVisibleItemIndex == firstVisibleItemIndex &&
+                    pendingViewport.firstVisibleItemScrollOffset == firstVisibleItemScrollOffset
+            },
     )
 }
 
@@ -272,6 +310,7 @@ internal fun exitFocusScene(
         BrowseFocusRequest(
             requestId = focusRequestId,
             targetItemId = focusedItemId,
+            targetItemIndex = targetCategory.indexOfItem(focusedItemId),
         )
     }
     return stateWithNextId.copy(
@@ -285,6 +324,17 @@ internal fun exitFocusScene(
         ),
         pendingFocusRequest = focusRequest,
     )
+}
+
+/**
+ * 解析指定菜品在分类中的索引，供 Browse 恢复链路补做视口校正。
+ *
+ * @param itemId 目标菜品 ID。
+ * @return 菜品索引；不存在时返回 null。
+ */
+private fun MenuCategory.indexOfItem(itemId: String): Int? {
+    val resolvedIndex = items.indexOfFirst { item -> item.itemId == itemId }
+    return resolvedIndex.takeIf { it >= 0 }
 }
 
 /**

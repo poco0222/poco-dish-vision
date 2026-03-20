@@ -11,6 +11,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,10 +48,14 @@ import com.poco.dishvision.core.ui.theme.Dimens
 import com.poco.dishvision.core.ui.theme.LocalScreenProportions
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /** 网格列数，设计稿中每行 3 张卡片 */
 private const val GRID_COLUMNS = 3
+
+/** Browse 首屏目标行数，保持设计稿 3x3 九卡信息密度。 */
+private const val GRID_VISIBLE_ROWS = 3
 
 /** 本地食物图片 drawable 资源列表，作为远程图片的 fallback */
 internal val LOCAL_FOOD_DRAWABLES = listOf(
@@ -71,6 +76,7 @@ internal val LOCAL_FOOD_DRAWABLES = listOf(
  * @param items 可见菜品列表。
  * @param viewportRequest 待执行的网格视口恢复请求。
  * @param focusRequest 待执行的网格焦点恢复请求。
+ * @param trackViewportChanges 是否允许把当前网格滚动位置回写为 Browse 锚点。
  * @param modifier 外层 Modifier。
  * @param onViewportChanged 网格滚动位置变化回调。
  * @param onItemFocused 菜品获得焦点回调。
@@ -82,6 +88,7 @@ fun MenuItemGrid(
     items: List<MenuItem>,
     viewportRequest: BrowseViewportRequest?,
     focusRequest: BrowseFocusRequest?,
+    trackViewportChanges: Boolean,
     modifier: Modifier = Modifier,
     onViewportChanged: (Int, Int) -> Unit = { _, _ -> },
     onItemFocused: (String) -> Unit,
@@ -100,41 +107,91 @@ fun MenuItemGrid(
         }
     }
 
+    // 焦点恢复先等待视口恢复完成；如果目标卡仍不在可见区，再补一次定向滚动。
+    LaunchedEffect(focusRequest?.requestId, viewportRequest?.requestId, selectedCategoryId, items) {
+        val request = focusRequest ?: return@LaunchedEffect
+        val targetItemIndex = request.targetItemIndex
+            ?: items.indexOfFirst { item -> item.itemId == request.targetItemId }
+                .takeIf { itemIndex -> itemIndex >= 0 }
+            ?: return@LaunchedEffect
+
+        viewportRequest?.let { restoredViewport ->
+            snapshotFlow {
+                gridState.firstVisibleItemIndex == restoredViewport.firstVisibleItemIndex ||
+                    gridState.layoutInfo.visibleItemsInfo.any { visibleItem ->
+                        visibleItem.index == targetItemIndex
+                    }
+            }.filter { isViewportReady -> isViewportReady }
+                .first()
+        }
+
+        val isTargetVisible = gridState.layoutInfo.visibleItemsInfo.any { visibleItem ->
+            visibleItem.index == targetItemIndex
+        }
+        if (!isTargetVisible) {
+            gridState.scrollToItem(index = targetItemIndex)
+        }
+    }
+
     // 持续同步网格当前的首屏可见位置，供 ViewModel 记录分类级滚动锚点。
-    LaunchedEffect(gridState, selectedCategoryId) {
+    LaunchedEffect(gridState, selectedCategoryId, trackViewportChanges) {
         snapshotFlow {
             gridState.firstVisibleItemIndex to gridState.firstVisibleItemScrollOffset
         }.map { (firstVisibleItemIndex, firstVisibleItemScrollOffset) ->
             firstVisibleItemIndex to firstVisibleItemScrollOffset
         }.distinctUntilChanged()
-            .filter { items.isNotEmpty() }
+            .filter { items.isNotEmpty() && trackViewportChanges }
             .collect { (firstVisibleItemIndex, firstVisibleItemScrollOffset) ->
                 onViewportChanged(firstVisibleItemIndex, firstVisibleItemScrollOffset)
             }
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(GRID_COLUMNS),
-        state = gridState,
-        modifier = modifier
-            .fillMaxSize()
-            .testTag("menu-item-grid"),
-        horizontalArrangement = Arrangement.spacedBy(proportions.browseGridHorizontalGap),
-        verticalArrangement = Arrangement.spacedBy(proportions.browseGridVerticalGap),
+    BoxWithConstraints(
+        modifier = modifier.fillMaxSize(),
     ) {
-        itemsIndexed(items = items) { index, item ->
-            val focusRequester = remember(item.itemId) { FocusRequester() }
-            BrowseGridCard(
-                item = item,
-                itemIndex = index,
-                isHighlighted = index == 0,
-                testTag = "menu-item-$selectedCategoryId-$index",
-                modifier = Modifier.focusRequester(focusRequester),
-                focusRequest = focusRequest,
-                focusRequester = focusRequester,
-                onFocused = { onItemFocused(item.itemId) },
-                onClick = { onItemConfirmed(item.itemId) },
-            )
+        // 按当前剩余可用视口反推单张卡片高度，避免不同 TV density 下首屏丢失第 9 张卡。
+        val designedCardHeight = (
+            proportions.browseGridViewportHeight -
+                proportions.browseGridVerticalGap * (GRID_VISIBLE_ROWS - 1)
+            ) / GRID_VISIBLE_ROWS
+        val availableCardHeight = (
+            maxHeight -
+                proportions.browseGridVerticalGap * (GRID_VISIBLE_ROWS - 1)
+            ) / GRID_VISIBLE_ROWS
+        val resolvedCardHeight = maxOf(
+            0.dp,
+            minOf(designedCardHeight, availableCardHeight),
+        )
+        val resolvedImageHeight = minOf(
+            proportions.browseCardImageHeight,
+            resolvedCardHeight * (180f / 278f),
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(GRID_COLUMNS),
+            state = gridState,
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("menu-item-grid"),
+            horizontalArrangement = Arrangement.spacedBy(proportions.browseGridHorizontalGap),
+            verticalArrangement = Arrangement.spacedBy(proportions.browseGridVerticalGap),
+        ) {
+            itemsIndexed(items = items) { index, item ->
+                val focusRequester = remember(item.itemId) { FocusRequester() }
+                BrowseGridCard(
+                    item = item,
+                    itemIndex = index,
+                    isHighlighted = index == 0,
+                    testTag = "menu-item-$selectedCategoryId-$index",
+                    cardHeight = resolvedCardHeight,
+                    imageHeight = resolvedImageHeight,
+                    modifier = Modifier.focusRequester(focusRequester),
+                    focusRequest = focusRequest,
+                    focusRequester = focusRequester,
+                    onFocused = { onItemFocused(item.itemId) },
+                    onClick = { onItemConfirmed(item.itemId) },
+                )
+            }
         }
     }
 }
@@ -149,6 +206,8 @@ fun MenuItemGrid(
  * @param itemIndex 菜品在列表中的索引，用于本地图片 fallback 循环。
  * @param isHighlighted 是否为高亮卡片（第一张，设计稿 cardA1 样式）。
  * @param testTag UI 测试标签。
+ * @param cardHeight 当前视口下的卡片总高度。
+ * @param imageHeight 当前视口下的图片区域高度。
  * @param focusRequest 待执行的网格焦点恢复请求。
  * @param focusRequester 当前卡片 FocusRequester（焦点请求器）。
  * @param modifier 外层 Modifier。
@@ -161,6 +220,8 @@ private fun BrowseGridCard(
     itemIndex: Int,
     isHighlighted: Boolean,
     testTag: String,
+    cardHeight: androidx.compose.ui.unit.Dp,
+    imageHeight: androidx.compose.ui.unit.Dp,
     focusRequest: BrowseFocusRequest?,
     focusRequester: FocusRequester,
     modifier: Modifier = Modifier,
@@ -194,6 +255,7 @@ private fun BrowseGridCard(
 
     GlassSurface(
         modifier = modifier
+            .height(cardHeight)
             .onFocusChanged { focusState ->
                 val focusedNow = focusState.isFocused
                 isFocused = focusedNow
@@ -217,7 +279,7 @@ private fun BrowseGridCard(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(proportions.browseCardImageHeight)
+                .height(imageHeight)
                 .clip(
                     RoundedCornerShape(
                         topStart = Dimens.BrowseGridCardCorner,
@@ -255,7 +317,7 @@ private fun BrowseGridCard(
                 text = item.description,
                 color = ColorTokens.TextSecondary,
                 fontSize = proportions.scaledSp(15f),
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
         }

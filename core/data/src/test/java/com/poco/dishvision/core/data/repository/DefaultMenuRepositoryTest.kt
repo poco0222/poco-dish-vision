@@ -76,7 +76,7 @@ class DefaultMenuRepositoryTest {
     fun `repository emits imported catalog`() = runTest {
         repository.refreshFromLocalAsset()
         val catalog = repository.observeCatalog().first()
-        assertEquals("POCO Dish Vision Kitchen", catalog.restaurantName)
+        assertEquals("新华饭店", catalog.restaurantName)
     }
 
     /**
