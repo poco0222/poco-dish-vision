@@ -76,9 +76,21 @@ class BrowseLayoutContractTest {
             }
         }
 
-        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-0-name").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-0-description").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-1-name").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-1-description").assertIsDisplayed()
+        composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-0-name",
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-0-description",
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-1-name",
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-1-description",
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
     }
 }

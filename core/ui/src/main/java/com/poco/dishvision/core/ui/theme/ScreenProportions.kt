@@ -163,6 +163,12 @@ data class ScreenProportions(
     /** 菜品网格卡片图片到底部文本区的间距，设计稿 10/1080 */
     val browseGridCardContentSpacing: Dp = screenHeight * (10f / DESIGN_HEIGHT)
 
+    /**
+     * 菜品网格卡片正文区最小高度，设计稿 98/1080，保证在高度受限时仍保留足够文本空间。
+     * @author PopoY
+     */
+    val browseGridCardBodyMinHeight: Dp = screenHeight * (98f / DESIGN_HEIGHT)
+
     // ── FocusStage 聚焦舞台比例尺寸 ──
 
     /** 聚焦舞台总高度，设计稿 794/1080 */

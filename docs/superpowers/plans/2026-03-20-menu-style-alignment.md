@@ -12,14 +12,14 @@
 
 ## Execution Status
 
-- Last Updated: 2026-03-20 20:18 CST
+- Last Updated: 2026-03-20 20:33 CST
 - Worktree: `.worktrees/codex-menu-style-alignment`
-- Current Checkpoint: `Task 4 / Step 5`
+- Current Checkpoint: `Task 5 / Step 4`
 - Task 1 Status: `COMPLETED`
 - Task 2 Status: `COMPLETED`
 - Task 3 Status: `COMPLETED`
-- Task 4 Status: `IN_PROGRESS`
-- Task 5 Status: `PENDING`
+- Task 4 Status: `COMPLETED`
+- Task 5 Status: `IN_PROGRESS`
 - Task 6 Status: `PENDING`
 
 ---
@@ -348,7 +348,7 @@ Expected: 先前新增的标题区 tag 断言变为 PASS；若卡片文本节点
 
 Execution Note (2026-03-20 20:18 CST): 实际结果与预期一致。`BrowseLayoutContractTest` 当前只剩 `first_row_cards_expose_name_and_description_nodes` 失败，失败点为 `menu-item-hot-stir-fry-0-name` 不可见；顶部标签契约与 `menu-item-hot-stir-fry-8` 首屏断言均已恢复。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add core/ui/src/main/java/com/poco/dishvision/core/ui/theme/ScreenProportions.kt \
@@ -356,6 +356,8 @@ git add core/ui/src/main/java/com/poco/dishvision/core/ui/theme/ScreenProportion
   feature/menu/src/main/java/com/poco/dishvision/feature/menu/MenuRoute.kt
 git commit -m "feat: 收口菜单页标题区与分类导轨比例"
 ```
+
+Execution Note (2026-03-20 20:19 CST): 已提交检查点 `700e4ad`（`feat: 收口菜单页标题区与分类导轨比例`）。
 
 ---
 
@@ -366,7 +368,7 @@ git commit -m "feat: 收口菜单页标题区与分类导轨比例"
 - Modify: `core/ui/src/main/java/com/poco/dishvision/core/ui/theme/ScreenProportions.kt:148-161`
 - Test: `feature/menu/src/androidTest/java/com/poco/dishvision/feature/menu/BrowseLayoutContractTest.kt`
 
-- [ ] **Step 1: 在 `MenuItemGrid` 中先实现“正文区预算优先”的高度拆分**
+- [x] **Step 1: 在 `MenuItemGrid` 中先实现“正文区预算优先”的高度拆分**
 
 不要再只按 `180 / 278` 图片比例反推卡片。改成先从单卡高度里预留正文区最小预算，再计算图片区高度：
 
@@ -395,7 +397,7 @@ Column(
 )
 ```
 
-- [ ] **Step 2: 为卡片 title / description 节点补 `testTag`**
+- [x] **Step 2: 为卡片 title / description 节点补 `testTag`**
 
 在 `BrowseGridCard` 中补以下标签：
 
@@ -412,7 +414,7 @@ Text(
 )
 ```
 
-- [ ] **Step 3: 重新运行失败测试，确认卡片文本节点契约转绿**
+- [x] **Step 3: 重新运行失败测试，确认卡片文本节点契约转绿**
 
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseLayoutContractTest`
 
@@ -427,6 +429,10 @@ Expected: PASS。以下行为同时成立：
 - `menu-item-hot-stir-fry-1-name`
 - `menu-item-hot-stir-fry-1-description`
 - `menu-item-hot-stir-fry-8`
+
+Execution Note (2026-03-20 20:33 CST): `BrowseLayoutContractTest` 已 `PASS`。本次修复包含两部分：
+- 生产代码：`MenuItemGrid` 计算 `resolvedImageHeight` 时额外扣除了 `browseGridCardContentSpacing`，避免图片区与正文区间距继续挤压文本可见空间。
+- 测试代码：首行 card 文本节点断言改为 `useUnmergedTree = true`，因为 card root 的可交互语义会在默认 merged tree 中吞并 leaf text 节点；真实节点和 `testTag` 已存在且可见，但需要在 unmerged tree 中稳定校验。
 
 - [ ] **Step 4: Commit**
 

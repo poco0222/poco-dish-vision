@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -162,9 +163,19 @@ fun MenuItemGrid(
             0.dp,
             minOf(designedCardHeight, availableCardHeight),
         )
-        val resolvedImageHeight = minOf(
-            proportions.browseCardImageHeight,
-            resolvedCardHeight * (180f / 278f),
+        // 先保留正文区最小高度，再用剩余空间计算图片高度
+        val resolvedBodyMinHeight = minOf(
+            proportions.browseGridCardBodyMinHeight,
+            resolvedCardHeight,
+        )
+        val resolvedImageHeight = maxOf(
+            0.dp,
+            minOf(
+                proportions.browseCardImageHeight,
+                resolvedCardHeight -
+                    resolvedBodyMinHeight -
+                    proportions.browseGridCardContentSpacing,
+            ),
         )
 
         LazyVerticalGrid(
@@ -298,6 +309,7 @@ private fun BrowseGridCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .heightIn(min = proportions.browseGridCardBodyMinHeight)
                 .padding(
                     start = proportions.browseGridCardBodyPaddingHorizontal,
                     end = proportions.browseGridCardBodyPaddingHorizontal,
@@ -312,6 +324,7 @@ private fun BrowseGridCard(
                 fontSize = proportions.scaledSp(24f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.testTag("$testTag-name"),
             )
             Text(
                 text = item.description,
@@ -319,6 +332,7 @@ private fun BrowseGridCard(
                 fontSize = proportions.scaledSp(15f),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.testTag("$testTag-description"),
             )
         }
     }
