@@ -36,19 +36,37 @@
 
 #### 3. Hero 主图区改为对称裁剪
 
+**旧 Hero 层**：当前直接在 `HeroImageCard` 上应用 `Modifier.graphicsLayer { translationX; alpha }`。改为像新层一样，外包 `Box` + `graphicsLayer { clip=true; shape=WipeShape(1f - wp, !isWipeForward) }` 结构。移除 `translationX` 和 `alpha` hack。
+
+**新 Hero 层**：保留外包 `Box` + `WipeShape(wp, isWipeForward)` 裁剪结构，但移除内部 `HeroImageCard` 上的 `Modifier.graphicsLayer { translationX }` 视差平移。
+
 | 层 | 当前 | 改为 |
 |---|---|---|
-| 旧 Hero | `translationX` 平移 + `alpha` hack | `WipeShape(1f - wp, !isWipeForward)` 裁剪 |
-| 新 Hero | `WipeShape` 裁剪 + `translationX` 平移 | 仅保留 `WipeShape` 裁剪，移除内部 `translationX` |
+| 旧 Hero | `graphicsLayer { translationX + alpha }` | `Box { graphicsLayer { clip=true; shape=WipeShape(1f-wp, !isWipeForward) } }` |
+| 新 Hero | `Box { WipeShape 裁剪 }` + 内部 `graphicsLayer { translationX }` | `Box { WipeShape 裁剪 }`，移除内部 `graphicsLayer` |
 
 #### 4. 文案区改为对称裁剪
 
-同 Hero 区域的改法：
+结构改法与 Hero 区域完全一致：
+
+**旧文案层**：外包 `Box` + `graphicsLayer { clip=true; shape=WipeShape(1f - wp, !isWipeForward) }`，移除 `translationX` 和 `alpha` hack。
+
+**新文案层**：保留 `WipeShape` 裁剪，移除内部 `translationX`。
 
 | 层 | 当前 | 改为 |
 |---|---|---|
-| 旧文案 | `translationX` 平移 + `alpha` hack | `WipeShape(1f - wp, !isWipeForward)` 裁剪 |
-| 新文案 | `WipeShape` 裁剪 + `translationX` 平移 | 仅保留 `WipeShape` 裁剪，移除内部 `translationX` |
+| 旧文案 | `graphicsLayer { translationX + alpha }` | `Box { graphicsLayer { clip=true; shape=WipeShape(1f-wp, !isWipeForward) } }` |
+| 新文案 | `Box { WipeShape 裁剪 }` + 内部 `graphicsLayer { translationX }` | `Box { WipeShape 裁剪 }`，移除内部 `graphicsLayer` |
+
+#### 5. 更新注释
+
+文件中 "Parallax Wipe" 相关注释更新为 "Wipe"：
+
+- 文件级区域注释 `// ── Parallax Wipe 过渡状态 ──` → `// ── Wipe 过渡状态 ──`
+- Hero 区域注释 `// ── Hero 主图区（Parallax Wipe 过渡） ──` → `// ── Hero 主图区（Wipe 过渡） ──`
+- 文案区域注释 `// ── 文案区（Parallax Wipe 过渡） ──` → `// ── 文案区（Wipe 过渡） ──`
+- `WipeShape` KDoc 中 "Parallax Wipe" → "Wipe"
+- `LaunchedEffect` 上方注释中 "Parallax Wipe" → "Wipe"
 
 ### 动画行为
 
@@ -68,3 +86,7 @@ BACKWARD（←）方向则相反（从右向左）。
 - `Animatable` + `tween(400ms, FastOutSlowInEasing)` 动画规格不变
 - `LaunchedEffect(selectedIndex)` 触发逻辑不变
 - Carousel 卡片聚焦动画不受影响
+
+### 已知限制
+
+- 快速连续切换时，如果前一次动画未完成就触发新一次，`previousIndex` 不会更新（因为赋值在 `animateTo` 完成后），导致"旧层"显示的是更早的画面而非上一张。这是现有行为，不在本次改动范围内。
