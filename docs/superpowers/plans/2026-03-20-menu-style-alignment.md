@@ -12,12 +12,12 @@
 
 ## Execution Status
 
-- Last Updated: 2026-03-20 20:07 CST
+- Last Updated: 2026-03-20 20:10 CST
 - Worktree: `.worktrees/codex-menu-style-alignment`
-- Current Checkpoint: `Task 2 / Step 6`
+- Current Checkpoint: `Task 3 / Step 3`
 - Task 1 Status: `COMPLETED`
-- Task 2 Status: `IN_PROGRESS`
-- Task 3 Status: `PENDING`
+- Task 2 Status: `COMPLETED`
+- Task 3 Status: `IN_PROGRESS`
 - Task 4 Status: `PENDING`
 - Task 5 Status: `PENDING`
 - Task 6 Status: `PENDING`
@@ -195,7 +195,7 @@ Expected: PASS
 
 Execution Note (2026-03-20 20:07 CST): `:feature:home:compileDebugAndroidTestKotlin` 与 `:feature:menu:compileDebugAndroidTestKotlin` 均已通过。
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt \
@@ -207,6 +207,8 @@ git add app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt \
 git commit -m "feat: 统一菜单页与首页的主题比例注入链路"
 ```
 
+Execution Note (2026-03-20 20:10 CST): 已提交检查点 `f325fbb`（`feat: 统一菜单页与首页的主题比例注入链路`）。本次提交额外包含 `app/build.gradle.kts`，用于补齐 `app -> :core:ui` 的直接依赖，让根层 `PocoTheme` 注入可编译。
+
 ---
 
 ### Task 3: 先锁定 Browse 标题区与卡片文本节点契约
@@ -215,7 +217,7 @@ git commit -m "feat: 统一菜单页与首页的主题比例注入链路"
 - Modify: `feature/menu/src/androidTest/java/com/poco/dishvision/feature/menu/BrowseLayoutContractTest.kt:24-40`
 - Test: `feature/menu/src/androidTest/java/com/poco/dishvision/feature/menu/BrowseLayoutContractTest.kt`
 
-- [ ] **Step 1: 在 `BrowseLayoutContractTest` 中增加失败测试，要求关键节点必须有 `testTag`**
+- [x] **Step 1: 在 `BrowseLayoutContractTest` 中增加失败测试，要求关键节点必须有 `testTag`**
 
 新增两个测试，先锁定 Browse 顶部四段文本和首行两张卡的 name/description 节点：
 
@@ -249,11 +251,15 @@ fun first_row_cards_expose_name_and_description_nodes() {
 }
 ```
 
-- [ ] **Step 2: 运行测试，确认它们先失败**
+- [x] **Step 2: 运行测试，确认它们先失败**
 
 Run: `./gradlew :feature:menu:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.feature.menu.BrowseLayoutContractTest`
 
 Expected: FAIL，原因应为上述 `testTag` 尚未存在。
+
+Execution Note (2026-03-20 20:10 CST): 实际结果为 `FAIL`，且失败点与计划一致。当前已确认的 RED 断言包括：
+- `browse_header_exposes_helper_and_title_tags` 因 `browse-helper-copy` 不可见而失败
+- `first_row_cards_expose_name_and_description_nodes` 因 `menu-item-hot-stir-fry-0-name` 不可见而失败
 
 - [ ] **Step 3: Commit (WIP)**
 

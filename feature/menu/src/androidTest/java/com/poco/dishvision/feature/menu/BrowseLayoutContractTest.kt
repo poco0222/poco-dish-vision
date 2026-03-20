@@ -45,4 +45,40 @@ class BrowseLayoutContractTest {
 
         composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-8").assertIsDisplayed()
     }
+
+    /**
+     * @description 验证浏览页头部标签暴露完整的辅助文案、主标签及描述
+     * @author PopoY
+     */
+    @Test
+    fun browse_header_exposes_helper_and_title_tags() {
+        composeTestRule.setContent {
+            PocoTheme {
+                MenuRoute()
+            }
+        }
+
+        composeTestRule.onNodeWithTag("browse-helper-copy").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("browse-main-label").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("browse-main-title").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("browse-main-description").assertIsDisplayed()
+    }
+
+    /**
+     * @description 首行前两张卡片必须提供名称与描述节点以支撑契约校验
+     * @author PopoY
+     */
+    @Test
+    fun first_row_cards_expose_name_and_description_nodes() {
+        composeTestRule.setContent {
+            PocoTheme {
+                MenuRoute()
+            }
+        }
+
+        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-0-name").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-0-description").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-1-name").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-1-description").assertIsDisplayed()
+    }
 }
