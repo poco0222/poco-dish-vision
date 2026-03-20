@@ -29,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -147,6 +148,9 @@ private fun HomeScreen(
     val wipeProgress = remember { Animatable(1f) }
     // 擦除方向：true=从左到右（下一张），false=从右到左（上一张）
     val isWipeForward = moveDirection == CarouselDirection.FORWARD
+    // 标记动画是否正在进行（从 snapTo 到 previousIndex 更新），
+    // 用于区分"新选中项到来前"和"动画自然结束后"两种 wp=1f 场景
+    var wipeAnimating by remember { mutableStateOf(false) }
 
     LaunchedEffect(carouselController, uiState.autoAdvanceEnabled) {
         focusRequester.requestFocus()
@@ -165,6 +169,7 @@ private fun HomeScreen(
     LaunchedEffect(selectedIndex) {
         val targetIndex = selectedIndex
         if (targetIndex != previousIndex) {
+            wipeAnimating = true
             wipeProgress.snapTo(0f)
             wipeProgress.animateTo(
                 targetValue = 1f,
@@ -174,6 +179,7 @@ private fun HomeScreen(
                 ),
             )
             previousIndex = targetIndex
+            wipeAnimating = false
         }
     }
 
@@ -227,8 +233,10 @@ private fun HomeScreen(
                     end = proportions.screenHorizontalPadding,
                 ),
         ) {
-            // 防止选中项已变化但 snapTo(0f) 尚未执行的中间帧闪烁
-            val wp = if (selectedIndex != previousIndex && wipeProgress.value >= 1f) {
+            // 防闪烁：仅在选中项已变化、动画尚未触发的中间帧强制归零
+            val wp = if (selectedIndex != previousIndex && !wipeAnimating &&
+                wipeProgress.value >= 1f
+            ) {
                 0f
             } else {
                 wipeProgress.value
@@ -274,8 +282,10 @@ private fun HomeScreen(
                     top = proportions.homeCopyTopPadding,
                 ),
         ) {
-            // 防止选中项已变化但 snapTo(0f) 尚未执行的中间帧闪烁
-            val wp = if (selectedIndex != previousIndex && wipeProgress.value >= 1f) {
+            // 防闪烁：仅在选中项已变化、动画尚未触发的中间帧强制归零
+            val wp = if (selectedIndex != previousIndex && !wipeAnimating &&
+                wipeProgress.value >= 1f
+            ) {
                 0f
             } else {
                 wipeProgress.value
