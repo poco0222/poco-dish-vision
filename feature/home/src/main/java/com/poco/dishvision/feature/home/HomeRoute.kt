@@ -165,8 +165,6 @@ private fun HomeScreen(
     LaunchedEffect(selectedIndex) {
         val targetIndex = selectedIndex
         if (targetIndex != previousIndex) {
-            // snapTo 在 animateTo 真正挂起前同步执行，
-            // 保证首帧 draw 阶段读到 0f，不会闪烁
             wipeProgress.snapTo(0f)
             wipeProgress.animateTo(
                 targetValue = 1f,
@@ -229,7 +227,12 @@ private fun HomeScreen(
                     end = proportions.screenHorizontalPadding,
                 ),
         ) {
-            val wp = wipeProgress.value
+            // 防止选中项已变化但 snapTo(0f) 尚未执行的中间帧闪烁
+            val wp = if (selectedIndex != previousIndex && wipeProgress.value >= 1f) {
+                0f
+            } else {
+                wipeProgress.value
+            }
             // 底层：旧 Hero（互补裁剪，内容不动）
             Box(
                 modifier = Modifier.graphicsLayer {
@@ -271,7 +274,12 @@ private fun HomeScreen(
                     top = proportions.homeCopyTopPadding,
                 ),
         ) {
-            val wp = wipeProgress.value
+            // 防止选中项已变化但 snapTo(0f) 尚未执行的中间帧闪烁
+            val wp = if (selectedIndex != previousIndex && wipeProgress.value >= 1f) {
+                0f
+            } else {
+                wipeProgress.value
+            }
             // 底层：旧文案（互补裁剪，内容不动）
             Box(
                 modifier = Modifier.graphicsLayer {
@@ -563,6 +571,10 @@ private class WipeShape(
         // 根据布局方向将 start/end 映射为 left/right
         val fromLeft = if (layoutDirection == LayoutDirection.Ltr) fromStart else !fromStart
         val left = if (fromLeft) 0f else size.width - revealWidth
-        return Outline.Rectangle(Rect(left, 0f, left + revealWidth, size.height))
+        // 仅做水平裁剪；垂直方向扩展余量，避免截断溢出内容（如 chip 行）
+        val verticalOverflow = size.height
+        return Outline.Rectangle(
+            Rect(left, -verticalOverflow, left + revealWidth, size.height + verticalOverflow),
+        )
     }
 }
