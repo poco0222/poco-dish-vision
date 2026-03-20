@@ -8,6 +8,7 @@ package com.poco.dishvision
 
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
@@ -47,6 +48,23 @@ class AppNavigationSmokeTest {
         pressBackUnconditionally()
 
         composeTestRule.onNodeWithTag("browse-screen").assertExists()
+    }
+
+    /**
+     * 验证真实应用壳层返回 Browse 后，helper 文案和第九张菜品卡仍可见。
+     *
+     * @author PopoY
+     */
+    @Test
+    fun browse_from_app_shell_keeps_helper_copy_and_ninth_card_visible() {
+        openSettingsFromHome()
+        composeTestRule.onNodeWithTag("settings-screen").assertExists()
+
+        pressBackUnconditionally()
+
+        composeTestRule.onNodeWithTag("browse-screen").assertExists()
+        composeTestRule.onNodeWithText("44道湘味热菜 · 按分类浏览").assertExists()
+        composeTestRule.onNodeWithTag("menu-item-hot-stir-fry-8").assertIsDisplayed()
     }
 
     @Test

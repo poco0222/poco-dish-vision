@@ -10,6 +10,18 @@
 
 **Spec:** `docs/superpowers/specs/2026-03-20-menu-style-alignment-design.md`
 
+## Execution Status
+
+- Last Updated: 2026-03-20 19:55 CST
+- Worktree: `.worktrees/codex-menu-style-alignment`
+- Current Checkpoint: `Task 1 / Step 3`
+- Task 1 Status: `IN_PROGRESS`
+- Task 2 Status: `PENDING`
+- Task 3 Status: `PENDING`
+- Task 4 Status: `PENDING`
+- Task 5 Status: `PENDING`
+- Task 6 Status: `PENDING`
+
 ---
 
 ## Preconditions
@@ -61,7 +73,7 @@
 - Modify: `app/src/androidTest/java/com/poco/dishvision/AppNavigationSmokeTest.kt:35-74`
 - Test: `app/src/androidTest/java/com/poco/dishvision/AppNavigationSmokeTest.kt`
 
-- [ ] **Step 1: 先写失败的 app-shell 布局契约测试**
+- [x] **Step 1: 先写失败的 app-shell 布局契约测试**
 
 在 `AppNavigationSmokeTest` 中新增一个测试，沿用现有 `openSettingsFromHome()` -> `pressBackUnconditionally()` 路径进入 Browse，然后断言 helper 文案和第 9 张卡片在真实运行壳层中可见：
 
@@ -79,11 +91,13 @@ fun browse_from_app_shell_keeps_helper_copy_and_ninth_card_visible() {
 }
 ```
 
-- [ ] **Step 2: 运行测试，确认当前实现失败**
+- [x] **Step 2: 运行测试，确认当前实现失败**
 
 Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.poco.dishvision.AppNavigationSmokeTest`
 
 Expected: FAIL。失败点应落在新加的 Browse 比例契约断言上，例如第 9 张卡没有 `assertIsDisplayed()`，或 Browse 壳层下的 helper 文案/布局未对齐。
+
+Execution Note (2026-03-20 19:55 CST): 实际结果为 `PASS`。`AppNavigationSmokeTest` 共运行 5 条 instrumentation tests，全部通过，说明真实 app-shell 路径上的 Browse helper 文案与第 9 张卡当前已满足契约；后续工作继续聚焦独立 Route 主题注入、Browse 顶部标签和卡片正文可见性。
 
 - [ ] **Step 3: Commit (WIP)**
 
