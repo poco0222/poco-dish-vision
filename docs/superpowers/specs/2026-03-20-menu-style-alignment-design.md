@@ -62,7 +62,25 @@
 
 ## 方案
 
-### 1. 统一运行时比例注入链路
+### 1. 单位与映射规则
+
+本轮所有菜单页视觉收口都必须遵循同一套映射规则，避免实现时再次混用单位：
+
+- 设计稿中的 `24/40/18/20/15` 等字号全部视为设计基准 `sp`（scale-independent pixels，缩放无关像素），实现时必须通过 `ScreenProportions.scaledSp(designSp)` 映射
+- 设计稿中的布局坐标、宽高、间距全部视为设计基准 `px`，实现时必须落到 `ScreenProportions` 的比例 token
+- `corner radius`（圆角）、`border width`（边框宽度）、glow blur 等 `micro token`（微观令牌）继续留在 `Dimens`
+- 菜单页样式收口不允许在 `MenuRoute`、`CategoryRail`、`MenuItemGrid` 中新增脱离比例系统的硬编码 `dp`
+
+本轮涉及的设计字号必须按下列规则使用：
+
+- helper / main label：`scaledSp(18f)`
+- rail label：`scaledSp(20f)`
+- category label：`scaledSp(24f)`
+- title：`scaledSp(40f)`
+- grid title：`scaledSp(24f)`
+- grid description：`scaledSp(15f)`
+
+### 2. 统一运行时比例注入链路
 
 问题根因不是“菜单页缺少比例 token（设计令牌）”，而是菜单页没有像首页那样稳定处于同一条运行时主题注入链路中。当前实现里，首页在 `Route` 层明确包裹 `PocoTheme`，菜单页没有同等保证。
 
@@ -70,7 +88,13 @@
 
 如果根层统一注入影响到首页或设置页，则允许把变化限制在菜单真实运行路径，但首选仍是统一运行时比例来源，而不是继续在菜单页局部硬编码尺寸。
 
-### 2. 左侧分类导轨回归“导航”观感
+代码落点与 owner（责任归属）：
+
+- `AppNavHost`：负责应用真实运行壳层的 `PocoTheme` 注入
+- `HomeRoute`：在根层注入生效后，负责清理本地重复主题包裹
+- `MenuRoute`：只消费 `LocalScreenProportions`，不再自行兜底一套独立主题链路
+
+### 3. 左侧分类导轨回归“导航”观感
 
 左侧分类导轨保持现有 5 个分类和运行数据顺序不变，只收视觉比例。
 
@@ -78,12 +102,17 @@
 
 - 分类项高度继续由设计稿 `padding=[14,18]` 决定，不新增放大型高度
 - 文案继续以设计稿 `24` 为基准字号，但依赖真实运行时比例，不使用默认基线
-- 聚焦态 `scale`（缩放）从当前偏强状态收敛到更克制的范围，避免左列整体鼓出
+- 聚焦态 `scale`（缩放）从当前 `1.05f` 收敛到 `1.02f ~ 1.03f` 区间，推荐落点 `1.03f`
 - 保留分类项的红底、金边、米白字层次，但不把分类项做成强卡片感主角
 
 目标观感是“窄导轨 + 稳定标签块 + 清晰焦点反馈”，而不是“放大的功能按钮列”。
 
-### 3. 右侧标题区按设计稿层级收紧
+代码落点与 owner（责任归属）：
+
+- `CategoryRail`：负责分类项聚焦缩放、文本尺寸与导轨项内边距消费
+- `ScreenProportions`：负责导轨宽度、label 与 item list 的垂直节奏
+
+### 4. 右侧标题区按设计稿层级收紧
 
 右侧标题区继续保持设计稿层级关系：
 
@@ -97,11 +126,22 @@
 - `title -> description`
 - `description -> grid`
 
-这些间距仍由 `ScreenProportions` 承接，但调优目标不再是“看起来更大更满”，而是“把更多可视空间让给网格”，确保首屏稳定展示九张卡片。
+这些间距仍由 `ScreenProportions` 承接，且只能由以下 token 控制：
+
+- `browseLabelToTitleGap`
+- `browseTitleToSubGap`
+- `browseSubToGridGap`
+
+调优目标不再是“看起来更大更满”，而是“把更多可视空间让给网格”，确保首屏稳定展示九张卡片。实现时不允许在 `MenuRoute` 内新增脱离 token 的局部 `Spacer` 硬编码。
 
 顶部 helper 文案固定来自运行时真实汇总数据，形如 `44道湘味热菜 · 按分类浏览`，不再受设计稿旧文案影响。
 
-### 4. 菜品网格回到九卡节奏
+代码落点与 owner（责任归属）：
+
+- `MenuRoute`：负责右列标题区的文本层级与三段纵向间距消费
+- `ScreenProportions`：负责标题区宏观几何 token
+
+### 5. 菜品网格回到九卡节奏
 
 菜品网格的目标不是“大卡片更显眼”，而是恢复设计稿中的九宫格密度和节奏。
 
@@ -113,13 +153,29 @@
 
 但要重新校正 `browseGridViewportHeight`、`cardHeight`、`imageHeight` 与文本区高度之间的关系，原则如下：
 
+- 网格总可视高度由 `ScreenProportions.browseGridViewportHeight` 负责
+- 单卡高度、图片区高度、文本区高度拆分由 `MenuItemGrid` 内的 `BoxWithConstraints` 负责
 - 先保证卡片文本区有稳定高度，再决定图片区可占空间
 - 首屏必须完整形成 `3x3` 观感，而不是向大卡列表漂移
 - 菜名保留 `maxLines = 1`
 - 描述保留 `maxLines = 2`
 - 文本区必须有足够 body（正文）空间，避免“代码允许两行，但运行时被比例挤没”
 
+具体约束：
+
+- 设计稿当前单卡高度按现实现有比值基线为 `278px`，其中图片区基线为 `180px`
+- 因此单卡文本区总预算的设计基线为 `98px`
+- 实现时，`MenuItemGrid` 的高度拆分必须保证文本区预算不低于设计基线 `98px` 的比例映射值
+- `imageHeight` 可以在可用视口不足时收缩，但不允许通过继续挤压文本区来换取九卡显示
+- 描述允许在第 2 行尾部出现 `ellipsis`（省略号），但不允许退化为仅显示 1 行描述的常态布局
+
 首卡高亮样式保留，但只保留层级强调，不再让第一张卡的体量显著重于整行其他卡片。
+
+代码落点与 owner（责任归属）：
+
+- `MenuItemGrid`：负责 card/image/body 高度拆分与九卡首屏可见性
+- `ScreenProportions`：负责 `browseGridViewportHeight`、网格间距、卡片 body padding 的宏观比例 token
+- 如现有 token 不足，允许新增 `browseGridCardBodyMinHeight` 一类菜单专属比例 token，但不得改成散落在组件内的匿名常量
 
 ## 实施顺序
 
@@ -134,7 +190,34 @@
 
 ## 测试与验证
 
+### 验证基准
+
+本轮验证基准固定如下：
+
+- `primary target`（主目标）设备：本地 Android TV `emulator`（模拟器）
+- 分辨率：`1920x1080`
+- `aspect ratio`（宽高比）：`16:9`
+- `font scale`（字体缩放）：`1.0`
+- `display size`（显示大小）：系统默认值
+
+“首屏九卡可见”的判定标准：
+
+- 默认分类 `招牌热炒` 下，index `0..8` 的 9 张卡片都必须在首屏视口内 `assertIsDisplayed()`
+- 不接受第 9 张卡需要滚动后才露出
+- 不接受第 9 张卡只有边缘部分露出
+
+“卡片明细可见”的判定标准：
+
+- 首屏至少抽查第一张卡和一张非高亮卡
+- 两者都必须能看到“菜名 1 行 + 描述 2 行”的文本区结构
+- 描述第 2 行允许尾部 `ellipsis`，但不允许文本区因为高度不足而退化成只剩 1 行描述
+
 ### 自动化验证
+
+自动化验证固定采用两层方案，不新增 `screenshot test`（截图测试）或 `golden test`（金图测试）：
+
+- 第 1 层：`Compose UI test`（Compose 界面测试）语义断言，优先落在现有 [BrowseLayoutContractTest.kt](/Users/PopoY/workingFiles/Projects/POCO/POCO-DISH-VISION/feature/menu/src/androidTest/java/com/poco/dishvision/feature/menu/BrowseLayoutContractTest.kt)
+- 第 2 层：应用壳层真实运行路径验证，落在现有 [AppNavigationSmokeTest.kt](/Users/PopoY/workingFiles/Projects/POCO/POCO-DISH-VISION/app/src/androidTest/java/com/poco/dishvision/AppNavigationSmokeTest.kt) 或同级 `androidTest`
 
 补最小样式契约测试，至少覆盖以下行为：
 
@@ -142,6 +225,11 @@
 - 浏览态首屏保持 `3x3` 九卡可见密度
 - 菜品卡描述区可见，稳定支持两行文本
 - 分类顺序保持为运行数据顺序，而不是设计稿旧顺序
+
+为避免比例系统带来的跨机不稳定：
+
+- 自动化断言只锁定语义结果，不比对像素级截图
+- 比例是否生效通过“helper 文案正确 + 第 9 张卡首屏可见 + 描述区结构可见”这一组外部行为来间接证明
 
 现有交互测试继续保留，但本次不扩大交互覆盖范围。
 
