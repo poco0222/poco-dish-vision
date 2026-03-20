@@ -6,17 +6,20 @@
  */
 package com.poco.dishvision.feature.home
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,14 +28,21 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -42,8 +52,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Text
@@ -51,7 +63,11 @@ import com.poco.dishvision.core.data.repository.MenuRepository
 import com.poco.dishvision.core.ui.components.PocoAsyncImage
 import com.poco.dishvision.core.ui.theme.ColorTokens
 import com.poco.dishvision.core.ui.theme.Dimens
+import com.poco.dishvision.core.ui.theme.LocalScreenProportions
 import com.poco.dishvision.core.ui.theme.PocoTheme
+
+/** Wipe 擦除过渡动画时长（ms） */
+private const val WIPE_DURATION_MS = 400
 
 /**
  * 首页入口 Route。未注入仓储时回退到 preview 状态，便于 UI 测试先行。
@@ -120,6 +136,18 @@ private fun HomeScreen(
         uiState.showcaseItems.first()
     }
 
+    // ── Wipe 过渡状态 ──
+    val moveDirection by carouselController.lastMoveDirection.collectAsState()
+    // 上一张展示卡索引，过渡期间用于渲染旧画面
+    var previousIndex by remember { mutableIntStateOf(selectedIndex) }
+    val previousShowcase = uiState.showcaseItems.getOrElse(previousIndex) {
+        uiState.showcaseItems.first()
+    }
+    // 擦除进度：0=完全隐藏新内容，1=完全显示新内容
+    val wipeProgress = remember { Animatable(1f) }
+    // 擦除方向：true=从左到右（下一张），false=从右到左（上一张）
+    val isWipeForward = moveDirection == CarouselDirection.FORWARD
+
     LaunchedEffect(carouselController, uiState.autoAdvanceEnabled) {
         focusRequester.requestFocus()
         if (uiState.autoAdvanceEnabled) {
@@ -132,6 +160,27 @@ private fun HomeScreen(
             carouselController.stop()
         }
     }
+
+    // 当选中项变化时触发 Wipe 过渡动画
+    LaunchedEffect(selectedIndex) {
+        val targetIndex = selectedIndex
+        if (targetIndex != previousIndex) {
+            // snapTo 在 animateTo 真正挂起前同步执行，
+            // 保证首帧 draw 阶段读到 0f，不会闪烁
+            wipeProgress.snapTo(0f)
+            wipeProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(
+                    durationMillis = WIPE_DURATION_MS,
+                    easing = FastOutSlowInEasing,
+                ),
+            )
+            previousIndex = targetIndex
+        }
+    }
+
+    // 从 CompositionLocal 获取当前屏幕比例化尺寸
+    val proportions = LocalScreenProportions.current
 
     Box(
         modifier = modifier
@@ -171,16 +220,41 @@ private fun HomeScreen(
             )
             .testTag("home-screen"),
     ) {
-        HeroImageCard(
-            imageRes = currentShowcase.heroImageRes,
-            contentDescription = currentShowcase.cardTitle,
+        // ── Hero 主图区（Wipe 过渡） ──
+        Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(
-                    top = Dimens.HomeHeroTopPadding,
-                    end = Dimens.ScreenHorizontalPadding,
+                    top = proportions.homeHeroTopPadding,
+                    end = proportions.screenHorizontalPadding,
                 ),
-        )
+        ) {
+            val wp = wipeProgress.value
+            // 底层：旧 Hero（互补裁剪，内容不动）
+            Box(
+                modifier = Modifier.graphicsLayer {
+                    clip = true
+                    shape = WipeShape(1f - wp, !isWipeForward)
+                },
+            ) {
+                HeroImageCard(
+                    imageRes = previousShowcase.heroImageRes,
+                    contentDescription = previousShowcase.cardTitle,
+                )
+            }
+            // 上层：新 Hero（Wipe 裁剪，内容不动）
+            Box(
+                modifier = Modifier.graphicsLayer {
+                    clip = true
+                    shape = WipeShape(wp, isWipeForward)
+                },
+            ) {
+                HeroImageCard(
+                    imageRes = currentShowcase.heroImageRes,
+                    contentDescription = currentShowcase.cardTitle,
+                )
+            }
+        }
 
         HomeBrandHeader(
             brandName = uiState.brandName,
@@ -188,16 +262,41 @@ private fun HomeScreen(
             seasonBadgeText = uiState.seasonBadgeText,
         )
 
-        HomeCopySection(
-            uiState = uiState,
-            showcaseItem = currentShowcase,
+        // ── 文案区（Wipe 过渡） ──
+        Box(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(
-                    start = Dimens.ScreenHorizontalPadding,
-                    top = Dimens.HomeCopyTopPadding,
+                    start = proportions.screenHorizontalPadding,
+                    top = proportions.homeCopyTopPadding,
                 ),
-        )
+        ) {
+            val wp = wipeProgress.value
+            // 底层：旧文案（互补裁剪，内容不动）
+            Box(
+                modifier = Modifier.graphicsLayer {
+                    clip = true
+                    shape = WipeShape(1f - wp, !isWipeForward)
+                },
+            ) {
+                HomeCopySection(
+                    uiState = uiState,
+                    showcaseItem = previousShowcase,
+                )
+            }
+            // 上层：新文案（Wipe 裁剪，内容不动）
+            Box(
+                modifier = Modifier.graphicsLayer {
+                    clip = true
+                    shape = WipeShape(wp, isWipeForward)
+                },
+            ) {
+                HomeCopySection(
+                    uiState = uiState,
+                    showcaseItem = currentShowcase,
+                )
+            }
+        }
 
         AttractCarousel(
             showcaseItems = uiState.showcaseItems,
@@ -206,8 +305,9 @@ private fun HomeScreen(
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(
-                    horizontal = Dimens.ScreenHorizontalPadding,
-                    vertical = Dimens.ScreenBottomPadding,
+                    start = proportions.screenHorizontalPadding,
+                    end = proportions.screenHorizontalPadding,
+                    bottom = proportions.homeRecommendationBottomPadding,
                 )
                 .testTag("home-lower-hero-zone"),
         )
@@ -223,31 +323,36 @@ private fun BoxScope.HomeBrandHeader(
     brandSubtitle: String,
     seasonBadgeText: String,
 ) {
+    val proportions = LocalScreenProportions.current
+
     Text(
         text = brandName,
         modifier = Modifier
-            .padding(start = Dimens.ScreenHorizontalPadding, top = Dimens.ScreenTopPadding),
+            .padding(
+                start = proportions.screenHorizontalPadding,
+                top = proportions.screenTopPadding,
+            ),
         color = ColorTokens.TextPrimary,
         fontWeight = FontWeight.SemiBold,
-        style = TextStyle(fontSize = 24.sp),
+        style = TextStyle(fontSize = proportions.scaledSp(24f)),
     )
 
     Text(
         text = brandSubtitle,
         modifier = Modifier
             .padding(
-                start = Dimens.ScreenHorizontalPadding,
-                top = Dimens.ScreenTopPadding + 36.dp,
+                start = proportions.screenHorizontalPadding,
+                top = proportions.screenTopPadding + proportions.brandSubtitleOffset,
             ),
         color = ColorTokens.TextMuted,
-        style = TextStyle(fontSize = 18.sp),
+        style = TextStyle(fontSize = proportions.scaledSp(18f)),
     )
 
     Box(
         modifier = Modifier
             .padding(
-                top = Dimens.ScreenTopPadding,
-                end = Dimens.ScreenHorizontalPadding,
+                top = proportions.screenTopPadding,
+                end = proportions.homeSeasonBadgeEndPadding,
             )
             .align(Alignment.TopEnd)
             .clip(RoundedCornerShape(Dimens.SurfaceChipCorner))
@@ -265,13 +370,14 @@ private fun BoxScope.HomeBrandHeader(
         Text(
             text = seasonBadgeText,
             color = ColorTokens.Accent,
-            style = TextStyle(fontSize = 18.sp),
+            style = TextStyle(fontSize = proportions.scaledSp(18f)),
         )
     }
 }
 
 /**
  * 左侧文案区，与当前轮播条目同步切换。
+ * 使用 Box + offset 绝对定位，精确对齐设计稿坐标（设计稿 layout="none"）。
  *
  * @param uiState 首页状态。
  * @param showcaseItem 当前选中的展示条目。
@@ -283,39 +389,52 @@ private fun HomeCopySection(
     showcaseItem: HomeShowcaseItem,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    val proportions = LocalScreenProportions.current
+
+    Box(
         modifier = modifier
-            .width(Dimens.HomeCopyWidth),
-        verticalArrangement = Arrangement.spacedBy(18.dp),
+            .width(proportions.homeCopyWidth)
+            .height(proportions.homeCopySectionHeight),
     ) {
+        // eyebrow 标签（偏移 0，与 section 顶部对齐）
         Text(
             text = showcaseItem.heroEyebrow,
             color = ColorTokens.Accent,
-            style = TextStyle(fontSize = 22.sp),
+            style = TextStyle(fontSize = proportions.scaledSp(22f)),
         )
+        // 主标题第一行
         Text(
             text = showcaseItem.heroTitlePrimary,
-            modifier = Modifier.testTag("home-hero-primary-title"),
+            modifier = Modifier
+                .offset(y = proportions.homeCopyTitle1OffsetY)
+                .testTag("home-hero-primary-title"),
             color = ColorTokens.TextPrimary,
             fontWeight = FontWeight.Bold,
-            lineHeight = 82.sp,
-            style = TextStyle(fontSize = 78.sp),
+            lineHeight = proportions.scaledSp(82f),
+            style = TextStyle(fontSize = proportions.scaledSp(78f)),
         )
+        // 主标题第二行
         Text(
             text = showcaseItem.heroTitleSecondary,
-            modifier = Modifier.testTag("home-hero-secondary-title"),
+            modifier = Modifier
+                .offset(y = proportions.homeCopyTitle2OffsetY)
+                .testTag("home-hero-secondary-title"),
             color = ColorTokens.TextPrimary,
             fontWeight = FontWeight.Bold,
-            lineHeight = 82.sp,
-            style = TextStyle(fontSize = 78.sp),
+            lineHeight = proportions.scaledSp(82f),
+            style = TextStyle(fontSize = proportions.scaledSp(78f)),
         )
+        // 描述文案
         Text(
             text = showcaseItem.heroDescription,
+            modifier = Modifier.offset(y = proportions.homeCopyDescOffsetY),
             color = ColorTokens.TextSecondary,
-            lineHeight = 32.sp,
-            style = TextStyle(fontSize = 24.sp),
+            lineHeight = proportions.scaledSp(32f),
+            style = TextStyle(fontSize = proportions.scaledSp(24f)),
         )
+        // 分类标签胶囊行
         Row(
+            modifier = Modifier.offset(y = proportions.homeCopyChipsOffsetY),
             horizontalArrangement = Arrangement.spacedBy(Dimens.HomeChipSpacing),
         ) {
             uiState.categoryChips.forEach { chipText ->
@@ -332,6 +451,8 @@ private fun HomeCopySection(
  */
 @Composable
 private fun HomeChip(text: String) {
+    val proportions = LocalScreenProportions.current
+
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(Dimens.SurfaceChipCorner))
@@ -346,7 +467,7 @@ private fun HomeChip(text: String) {
         Text(
             text = text,
             color = ColorTokens.TextPrimary,
-            style = TextStyle(fontSize = 18.sp),
+            style = TextStyle(fontSize = proportions.scaledSp(18f)),
         )
     }
 }
@@ -364,10 +485,12 @@ private fun HeroImageCard(
     contentDescription: String,
     modifier: Modifier = Modifier,
 ) {
+    val proportions = LocalScreenProportions.current
+
     Box(
         modifier = modifier
-            .width(Dimens.HomeHeroWidth)
-            .height(Dimens.HomeHeroHeight)
+            .width(proportions.homeHeroWidth)
+            .height(proportions.homeHeroHeight)
             .clip(RoundedCornerShape(Dimens.SurfaceLargeCorner))
             .background(ColorTokens.SurfaceCard)
             .border(
@@ -383,6 +506,7 @@ private fun HeroImageCard(
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
         )
+        // 叠加层：设计稿 rotation=90 → 从上透明到下深色的垂直渐变
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -416,4 +540,29 @@ private fun Key.isCarouselPreviousKey(): Boolean {
  */
 private fun Key.isCarouselNextKey(): Boolean {
     return this == Key.DirectionRight
+}
+
+/**
+ * 水平擦除裁剪形状，用于 Wipe 过渡。
+ *
+ * 根据 [progress] 逐步展开可见区域，配合 graphicsLayer.clip 使用。
+ *
+ * @param progress 擦除进度 [0f, 1f]，0=完全隐藏，1=完全显示。
+ * @param fromStart true 时从 start 侧展开，false 时从 end 侧展开。
+ */
+private class WipeShape(
+    private val progress: Float,
+    private val fromStart: Boolean,
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density,
+    ): Outline {
+        val revealWidth = size.width * progress.coerceIn(0f, 1f)
+        // 根据布局方向将 start/end 映射为 left/right
+        val fromLeft = if (layoutDirection == LayoutDirection.Ltr) fromStart else !fromStart
+        val left = if (fromLeft) 0f else size.width - revealWidth
+        return Outline.Rectangle(Rect(left, 0f, left + revealWidth, size.height))
+    }
 }
