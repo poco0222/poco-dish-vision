@@ -170,7 +170,8 @@ private fun CategoryRailItem(
             horizontal = proportions.browseRailItemHorizontalPadding,
             vertical = proportions.browseRailItemVerticalPadding,
         ),
-        focusedScale = 1.05f,
+        // 使用比例 token 控制导轨项聚焦缩放
+        focusedScale = proportions.browseRailFocusedScale,
     ) {
         Text(
             text = category.displayName,

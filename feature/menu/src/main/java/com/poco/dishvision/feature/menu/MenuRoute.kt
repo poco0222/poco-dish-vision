@@ -279,6 +279,7 @@ private fun MenuScreen(
                     text = "${totalItemCount}道湘味热菜 · 按分类浏览",
                     color = ColorTokens.TextMuted,
                     fontSize = proportions.scaledSp(18f),
+                    modifier = Modifier.testTag("browse-helper-copy"),
                 )
 
                 // 品牌区到分类导轨的间距（设计稿 y=86→156 ≈ 70px）
@@ -321,6 +322,7 @@ private fun MenuScreen(
                             color = ColorTokens.Accent,
                             fontWeight = FontWeight.Medium,
                             fontSize = proportions.scaledSp(18f),
+                            modifier = Modifier.testTag("browse-main-label"),
                         )
 
                         Spacer(modifier = Modifier.height(proportions.browseLabelToTitleGap))
@@ -331,6 +333,7 @@ private fun MenuScreen(
                             color = ColorTokens.TextPrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = proportions.scaledSp(40f),
+                            modifier = Modifier.testTag("browse-main-title"),
                         )
 
                         Spacer(modifier = Modifier.height(proportions.browseTitleToSubGap))
@@ -343,13 +346,15 @@ private fun MenuScreen(
                             fontSize = proportions.scaledSp(18f),
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.width(
-                                if (uiState.scene == MenuScene.Focus) {
-                                    proportions.focusSubtitleWidth
-                                } else {
-                                    proportions.browseSubtitleWidth
-                                },
-                            ),
+                            modifier = Modifier
+                                .width(
+                                    if (uiState.scene == MenuScene.Focus) {
+                                        proportions.focusSubtitleWidth
+                                    } else {
+                                        proportions.browseSubtitleWidth
+                                    },
+                                )
+                                .testTag("browse-main-description"),
                         )
 
                         Spacer(modifier = Modifier.height(proportions.browseSubToGridGap))

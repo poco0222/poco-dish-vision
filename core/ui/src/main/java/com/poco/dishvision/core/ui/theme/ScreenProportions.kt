@@ -124,6 +124,9 @@ data class ScreenProportions(
     /** 右列 sub→grid 间距，设计稿 (174-120-fontSize≈18)/1080 ≈ 36px */
     val browseSubToGridGap: Dp = screenHeight * (36f / DESIGN_HEIGHT)
 
+    /** 导轨聚焦时 scale，设计稿表现为 103% 的微幅放大 */
+    val browseRailFocusedScale: Float = 1.03f
+
     /** 菜品网格卡片图片高度，设计稿 180/1080 */
     val browseCardImageHeight: Dp = screenHeight * (180f / DESIGN_HEIGHT)
 
