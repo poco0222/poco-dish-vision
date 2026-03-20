@@ -83,15 +83,8 @@ fun AttractCarousel(
                 label = "card-scale-$index",
             )
 
-            // ── 阴影深度：聚焦卡底部投射微光舞台感 ──
-            val shadowElevation by animateDpAsState(
-                targetValue = if (isSelected) FOCUSED_SHADOW_ELEVATION else 0.dp,
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioNoBouncy,
-                    stiffness = Spring.StiffnessMediumLow,
-                ),
-                label = "card-shadow-$index",
-            )
+            // ── 阴影深度：瞬时切换，避免中间 elevation 渲染出清晰矩形轮廓 ──
+            val shadowElevation = if (isSelected) FOCUSED_SHADOW_ELEVATION else 0.dp
 
             // ── 容器底色平滑过渡 ──
             val animatedContainerColor by animateColorAsState(
