@@ -10,7 +10,6 @@ package com.poco.dishvision.feature.home
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
@@ -100,29 +99,15 @@ fun AttractCarousel(
                 label = "card-bg-$index",
             )
 
-            // ── 边框颜色：聚焦时使用弱化 Accent，减少视觉侵略感 ──
-            val animatedBorderColor by animateColorAsState(
-                targetValue = if (isSelected) {
-                    ColorTokens.FocusBorderSoft
-                } else {
-                    ColorTokens.BorderSubtle
-                },
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioNoBouncy,
-                    stiffness = Spring.StiffnessMediumLow,
-                ),
-                label = "card-border-$index",
-            )
+            // ── 边框颜色：瞬时切换，与阴影同步避免退场拖尾 ──
+            val animatedBorderColor = if (isSelected) {
+                ColorTokens.FocusBorderSoft
+            } else {
+                ColorTokens.BorderSubtle
+            }
 
-            // ── 边框宽度：聚焦时略粗但保持克制 ──
-            val animatedBorderWidth by animateDpAsState(
-                targetValue = if (isSelected) 1.5.dp else 1.dp,
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioNoBouncy,
-                    stiffness = Spring.StiffnessMediumLow,
-                ),
-                label = "card-border-w-$index",
-            )
+            // ── 边框宽度：瞬时切换 ──
+            val animatedBorderWidth = if (isSelected) 1.5.dp else 1.dp
 
             GlassSurface(
                 modifier = Modifier
