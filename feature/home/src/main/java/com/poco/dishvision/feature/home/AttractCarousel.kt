@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -42,9 +41,6 @@ private const val FOCUSED_SCALE = 1.1f
 /** 非聚焦卡缩放比例（常态） */
 private const val UNFOCUSED_SCALE = 1f
 
-/** 聚焦卡阴影高度 */
-private val FOCUSED_SHADOW_ELEVATION = 16.dp
-
 /**
  * 推荐卡带，当前选中项通过缩放、柔和边框与阴影舞台表现聚焦状态。
  * 切换时 spring 弹性动画驱动各属性过渡，营造自然移动质感。
@@ -60,7 +56,7 @@ fun AttractCarousel(
     modifier: Modifier = Modifier,
 ) {
     val proportions = LocalScreenProportions.current
-    // 卡片圆角复用，shadow 与 GlassSurface 保持一致
+    // 卡片圆角复用，与 GlassSurface 保持一致
     val cardShape = RoundedCornerShape(Dimens.SurfaceMediumCorner)
 
     Row(
@@ -81,9 +77,6 @@ fun AttractCarousel(
                 ),
                 label = "card-scale-$index",
             )
-
-            // ── 阴影深度：瞬时切换，避免中间 elevation 渲染出清晰矩形轮廓 ──
-            val shadowElevation = if (isSelected) FOCUSED_SHADOW_ELEVATION else 0.dp
 
             // ── 容器底色平滑过渡 ──
             val animatedContainerColor by animateColorAsState(
@@ -121,13 +114,6 @@ fun AttractCarousel(
                         scaleX = scale
                         scaleY = scale
                     }
-                    // 暖色调阴影营造舞台聚光效果
-                    .shadow(
-                        elevation = shadowElevation,
-                        shape = cardShape,
-                        ambientColor = ColorTokens.FocusShadowAmbient,
-                        spotColor = ColorTokens.FocusShadowSpot,
-                    )
                     .semantics {
                         stateDescription = if (isSelected) "selected" else "unselected"
                     }
