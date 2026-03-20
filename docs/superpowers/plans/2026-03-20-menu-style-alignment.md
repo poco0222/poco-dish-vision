@@ -520,7 +520,7 @@ Execution Note (2026-03-20 21:03 CST): 设备基准实测为：
 
 实屏抓图方面，已成功抓到 Home 与 Settings 页面，但多次尝试通过 adb keyevent、临时 screenshot harness 和 instrumentation 前台停留窗口抓取 Browse 页面时，设备前台会回落到 Home 或系统 launcher，未能稳定得到可用于人工复核的 Browse 实屏。因此，Step 5 的“设备基准采样”已完成，但 Browse 页面 4 个视觉点的人工截图复核结论仍以自动化测试证据为主。
 
-- [ ] **Step 6: Final Commit**
+- [x] **Step 6: Final Commit**
 
 ```bash
 git add app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt \
@@ -537,3 +537,5 @@ git add app/src/main/java/com/poco/dishvision/navigation/AppNavHost.kt \
   feature/menu/src/test/java/com/poco/dishvision/feature/menu/MenuPreviewCatalogContractTest.kt
 git commit -m "feat: 收口菜单页样式比例与首屏信息密度"
 ```
+
+Execution Note (2026-03-20 21:05 CST): 已提交最终收口检查点 `e93278d`（`feat: 收口菜单页样式比例与首屏信息密度`）。
