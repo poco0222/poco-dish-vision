@@ -41,7 +41,7 @@ import com.poco.dishvision.core.ui.theme.LocalScreenProportions
 /**
  * 浏览页左侧分类导轨。
  *
- * 设计稿：x=48, y=190, width=240, gap=10。
+ * 收窄后布局：x=48, y=190, width=200, gap=10。
  * 分类项仅显示名称（无副标题），选中态使用红色强调底色 + 金色边框。
  *
  * @param categories 分类列表。

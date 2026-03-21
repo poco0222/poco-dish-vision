@@ -10,6 +10,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +33,9 @@ import com.poco.dishvision.feature.menu.MenuRoute
 import com.poco.dishvision.feature.menu.UiMode
 import com.poco.dishvision.feature.settings.SettingsRoute
 
+/** 非首屏 idle timeout（空闲超时）时长：5 分钟。 */
+internal const val NON_FIRST_SCREEN_IDLE_TIMEOUT_MS = 300_000L
+
 /**
  * 应用根壳层。
  *
@@ -50,12 +54,19 @@ fun AppNavHost(
     val coroutineScope = rememberCoroutineScope()
     val browseModeController = remember {
         BrowseModeController(
-            idleTimeoutMs = 15_000L,
+            idleTimeoutMs = NON_FIRST_SCREEN_IDLE_TIMEOUT_MS,
             scope = coroutineScope,
         )
     }
     val uiMode by browseModeController.mode.collectAsState()
     var currentRoute by rememberSaveable { mutableStateOf(startDestination.route) }
+
+    LaunchedEffect(currentRoute, uiMode) {
+        // 若在非 Home 路由等待到 Attract，说明非首屏 idle 超时已触发，需要统一回首屏。
+        if (shouldForceReturnToHomeRoute(currentRoute = currentRoute, uiMode = uiMode)) {
+            currentRoute = AppDestination.Home.route
+        }
+    }
 
     BackHandler(
         enabled = currentRoute == AppDestination.Settings.route ||
@@ -77,6 +88,14 @@ fun AppNavHost(
             modifier = modifier
                 .fillMaxSize()
                 .onPreviewKeyEvent { keyEvent ->
+                    if (
+                        keyEvent.type == KeyEventType.KeyDown &&
+                        !isFirstScreen(currentRoute = currentRoute, uiMode = uiMode)
+                    ) {
+                        // 任何非首屏按键都视为用户仍在操作，重置 5 分钟 idle 计时窗口。
+                        browseModeController.onUserInteraction()
+                    }
+
                     if (
                         currentRoute == AppDestination.Home.route &&
                         keyEvent.type == KeyEventType.KeyDown &&
@@ -130,4 +149,32 @@ fun AppNavHost(
  */
 private fun Key.isSettingsTriggerKey(): Boolean {
     return this == Key.Menu
+}
+
+/**
+ * 判定当前是否处于首屏（Home + Attract）。
+ *
+ * @param currentRoute 当前路由。
+ * @param uiMode 当前 UI 模式。
+ * @return true 表示处于首屏。
+ */
+internal fun isFirstScreen(
+    currentRoute: String,
+    uiMode: UiMode,
+): Boolean {
+    return currentRoute == AppDestination.Home.route && uiMode == UiMode.Attract
+}
+
+/**
+ * 判定非首屏 idle timeout（空闲超时）后是否应强制回 Home。
+ *
+ * @param currentRoute 当前路由。
+ * @param uiMode 当前 UI 模式。
+ * @return true 表示应回到 Home。
+ */
+internal fun shouldForceReturnToHomeRoute(
+    currentRoute: String,
+    uiMode: UiMode,
+): Boolean {
+    return currentRoute != AppDestination.Home.route && uiMode == UiMode.Attract
 }

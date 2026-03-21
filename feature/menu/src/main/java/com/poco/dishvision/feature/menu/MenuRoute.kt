@@ -8,7 +8,6 @@
 package com.poco.dishvision.feature.menu
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -50,6 +49,7 @@ import com.poco.dishvision.core.ui.theme.LocalScreenProportions
  * 浏览页入口 Route。未注入仓储时使用 preview 数据，以便先完成 UI 与交互测试。
  *
  * @param menuRepository 菜单仓储；为空时进入 preview 模式。
+ * @param animationsEnabled 是否启用 Browse 页转场与卡片动效；测试环境可关闭以提升稳定性。
  * @param modifier 外层 Modifier。
  */
 @Composable
@@ -57,6 +57,7 @@ fun MenuRoute(
     menuRepository: MenuRepository? = null,
     onUserInteraction: () -> Unit = {},
     onBackFromBrowseRoot: () -> Unit = {},
+    animationsEnabled: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     if (menuRepository == null) {
@@ -64,6 +65,7 @@ fun MenuRoute(
             modifier = modifier,
             onUserInteraction = onUserInteraction,
             onBackFromBrowseRoot = onBackFromBrowseRoot,
+            animationsEnabled = animationsEnabled,
         )
         return
     }
@@ -81,10 +83,8 @@ fun MenuRoute(
         onCategoryItemsRequested = menuViewModel::onCategoryItemsRequested,
         onBrowseItemFocused = menuViewModel::onBrowseItemFocused,
         onBrowseViewportChanged = menuViewModel::onBrowseViewportChanged,
-        onFocusSceneItemFocused = menuViewModel::onFocusSceneItemFocused,
-        onItemConfirmed = { menuViewModel.onFocusedItemConfirmed() },
-        onDismissFocusScene = menuViewModel::dismissFocusScene,
         onBackFromBrowseRoot = onBackFromBrowseRoot,
+        animationsEnabled = animationsEnabled,
     )
 }
 
@@ -97,6 +97,7 @@ fun MenuRoute(
 private fun PreviewMenuRoute(
     onUserInteraction: () -> Unit,
     onBackFromBrowseRoot: () -> Unit,
+    animationsEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val categories = remember { previewMenuCategories() }
@@ -108,8 +109,7 @@ private fun PreviewMenuRoute(
                 categoryBrowseStates = mapOf(
                     DEFAULT_BROWSE_CATEGORY_ID to CategoryBrowseState(
                         focusedItemId = "hot-tea-chicken",
-                        firstVisibleItemIndex = 0,
-                        firstVisibleItemScrollOffset = 0,
+                        rowIndex = 0,
                     ),
                 ),
             ),
@@ -151,34 +151,15 @@ private fun PreviewMenuRoute(
                 itemId = itemId,
             )
         },
-        onBrowseViewportChanged = { firstVisibleItemIndex, firstVisibleItemScrollOffset ->
+        onBrowseViewportChanged = { rowIndex ->
             interactionState = recordBrowseViewport(
                 currentState = interactionState,
                 categories = categories,
-                firstVisibleItemIndex = firstVisibleItemIndex,
-                firstVisibleItemScrollOffset = firstVisibleItemScrollOffset,
-            )
-        },
-        onFocusSceneItemFocused = { itemId ->
-            interactionState = recordFocusSceneItemFocus(
-                currentState = interactionState,
-                categories = categories,
-                itemId = itemId,
-            )
-        },
-        onItemConfirmed = {
-            interactionState = enterFocusScene(
-                currentState = interactionState,
-                categories = categories,
-            )
-        },
-        onDismissFocusScene = {
-            interactionState = exitFocusScene(
-                currentState = interactionState,
-                categories = categories,
+                rowIndex = rowIndex,
             )
         },
         onBackFromBrowseRoot = onBackFromBrowseRoot,
+        animationsEnabled = animationsEnabled,
     )
 }
 
@@ -190,32 +171,28 @@ private fun PreviewMenuRoute(
  * - 左上角：品牌名 + 副标题
  * - 左侧：分类导轨 (CategoryRail)
  * - 右侧顶部：分类标签 + 分类标题 + 分类描述
- * - 右侧主体：3 列菜品网格 (MenuItemGrid) 或聚焦舞台 (FocusStageLayout)
+ * - 右侧主体：3 列菜品网格 (MenuItemGrid)
  *
  * @param uiState 浏览页 UI 状态。
  * @param modifier 外层 Modifier。
  * @param onCategoryFocused 分类获焦回调。
  * @param onCategoryItemsRequested 请求把焦点从分类导轨切入菜品区的回调。
  * @param onBrowseItemFocused BrowseScene 菜品聚焦回调。
- * @param onBrowseViewportChanged BrowseScene 网格滚动回调。
- * @param onFocusSceneItemFocused FocusScene 小卡聚焦回调。
- * @param onItemConfirmed 菜品确认回调。
- * @param onDismissFocusScene 关闭 FocusScene 回调。
+ * @param onBrowseViewportChanged BrowseScene 网格行锚点滚动回调。
  * @param onBackFromBrowseRoot 浏览态根层 Back 回调。
+ * @param animationsEnabled 是否启用分类切换与网格卡片动效。
  */
 @Composable
-private fun MenuScreen(
+internal fun MenuScreen(
     uiState: MenuUiState,
     modifier: Modifier = Modifier,
     onUserInteraction: () -> Unit,
     onCategoryFocused: (String) -> Unit,
     onCategoryItemsRequested: (String) -> Unit,
     onBrowseItemFocused: (String) -> Unit,
-    onBrowseViewportChanged: (Int, Int) -> Unit,
-    onFocusSceneItemFocused: (String) -> Unit,
-    onItemConfirmed: () -> Unit,
-    onDismissFocusScene: () -> Unit,
+    onBrowseViewportChanged: (Int) -> Unit,
     onBackFromBrowseRoot: () -> Unit,
+    animationsEnabled: Boolean,
 ) {
     val proportions = LocalScreenProportions.current
 
@@ -231,11 +208,7 @@ private fun MenuScreen(
                 if (keyEvent.key == Key.Back) {
                     if (keyEvent.type == KeyEventType.KeyDown) {
                         onUserInteraction()
-                        if (uiState.scene == MenuScene.Focus) {
-                            onDismissFocusScene()
-                        } else {
-                            onBackFromBrowseRoot()
-                        }
+                        onBackFromBrowseRoot()
                     }
                     // Back 的 KeyUp 必须一并消费，否则宿主 Activity 仍可能收到系统返回事件。
                     true
@@ -302,102 +275,115 @@ private fun MenuScreen(
                     .width(proportions.browseContentWidth)
                     .fillMaxHeight(),
             ) {
-                // 分类切换时整个右列内容区使用 fadeIn/fadeOut 过渡
-                AnimatedContent(
-                    targetState = uiState.selectedCategoryId,
-                    transitionSpec = {
-                        fadeIn(tween(200)) togetherWith fadeOut(tween(150))
-                    },
-                    label = "category-switch",
-                    modifier = Modifier.fillMaxSize(),
-                ) { animatedCategoryId ->
-                    // 在动画作用域中重新解析分类数据
-                    val animatedCategory = uiState.categories
-                        .firstOrNull { it.categoryId == animatedCategoryId }
-
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        // 分类标签（金色小字，设计稿 y=32）
-                        Text(
-                            text = animatedCategory?.subtitle ?: "热锅现炒",
-                            color = ColorTokens.Accent,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = proportions.scaledSp(18f),
-                            modifier = Modifier.testTag("browse-main-label"),
+                if (animationsEnabled) {
+                    // 分类切换时整个右列内容区使用 fadeIn/fadeOut 过渡。
+                    AnimatedContent(
+                        targetState = uiState.selectedCategoryId,
+                        transitionSpec = {
+                            fadeIn(tween(200)) togetherWith fadeOut(tween(150))
+                        },
+                        label = "category-switch",
+                        modifier = Modifier.fillMaxSize(),
+                    ) { animatedCategoryId ->
+                        BrowseContentPanel(
+                            category = uiState.categories.firstOrNull { category ->
+                                category.categoryId == animatedCategoryId
+                            },
+                            uiState = uiState,
+                            proportions = proportions,
+                            onBrowseViewportChanged = onBrowseViewportChanged,
+                            onBrowseItemFocused = onBrowseItemFocused,
+                            animationsEnabled = animationsEnabled,
                         )
-
-                        Spacer(modifier = Modifier.height(proportions.browseLabelToTitleGap))
-
-                        // 分类大标题（设计稿 y=64）
-                        Text(
-                            text = animatedCategory?.displayName ?: "招牌热炒",
-                            color = ColorTokens.TextPrimary,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = proportions.scaledSp(40f),
-                            modifier = Modifier.testTag("browse-main-title"),
-                        )
-
-                        Spacer(modifier = Modifier.height(proportions.browseTitleToSubGap))
-
-                        // 分类描述（设计稿 y=120, width=1180）
-                        Text(
-                            text = animatedCategory?.description
-                                ?: "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
-                            color = ColorTokens.TextSecondary,
-                            fontSize = proportions.scaledSp(18f),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier
-                                .width(
-                                    if (uiState.scene == MenuScene.Focus) {
-                                        proportions.focusSubtitleWidth
-                                    } else {
-                                        proportions.browseSubtitleWidth
-                                    },
-                                )
-                                .testTag("browse-main-description"),
-                        )
-
-                        Spacer(modifier = Modifier.height(proportions.browseSubToGridGap))
-
-                        // Grid ↔ FocusStage 切换使用 Crossfade 过渡
-                        Crossfade(
-                            targetState = uiState.scene,
-                            animationSpec = tween(durationMillis = 200),
-                            label = "grid-stage-crossfade",
-                            modifier = Modifier.weight(1f),
-                        ) { scene ->
-                            if (scene == MenuScene.Focus && uiState.focusSceneState != null) {
-                                // 聚焦舞台：中央大卡 + 周围小卡
-                                FocusStageLayout(
-                                    stageState = uiState.focusSceneState,
-                                    selectedCategoryName = animatedCategory?.displayName ?: "",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(proportions.focusStageHeight),
-                                    onSmallCardFocused = onFocusSceneItemFocused,
-                                    onDismiss = onDismissFocusScene,
-                                )
-                            } else {
-                                // 3 列菜品网格（设计稿 y=174）
-                                MenuItemGrid(
-                                    selectedCategoryId = uiState.selectedCategoryId,
-                                    items = uiState.browseSceneState.visibleItems,
-                                    viewportRequest = uiState.browseSceneState.viewportRequest,
-                                    focusRequest = uiState.browseSceneState.focusRequest,
-                                    trackViewportChanges = uiState.scene == MenuScene.Browse,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(),
-                                    onViewportChanged = onBrowseViewportChanged,
-                                    onItemFocused = onBrowseItemFocused,
-                                    onItemConfirmed = { onItemConfirmed() },
-                                )
-                            }
-                        }
                     }
+                } else {
+                    BrowseContentPanel(
+                        category = uiState.categories.firstOrNull { category ->
+                            category.categoryId == uiState.selectedCategoryId
+                        },
+                        uiState = uiState,
+                        proportions = proportions,
+                        onBrowseViewportChanged = onBrowseViewportChanged,
+                        onBrowseItemFocused = onBrowseItemFocused,
+                        animationsEnabled = false,
+                    )
                 }
             }
         }
+    }
+}
+
+/**
+ * Browse 右侧主内容区：标题信息 + 单一 MenuItemGrid。
+ *
+ * @param category 当前分类数据。
+ * @param uiState 当前页面状态。
+ * @param proportions 当前屏幕比例令牌。
+ * @param onBrowseViewportChanged 网格可视首行变化回调。
+ * @param onBrowseItemFocused 网格卡片聚焦回调。
+ * @param animationsEnabled 是否启用网格与详情动画。
+ * @author PopoY
+ */
+@Composable
+private fun BrowseContentPanel(
+    category: com.poco.dishvision.core.model.menu.MenuCategory?,
+    uiState: MenuUiState,
+    proportions: com.poco.dishvision.core.ui.theme.ScreenProportions,
+    onBrowseViewportChanged: (Int) -> Unit,
+    onBrowseItemFocused: (String) -> Unit,
+    animationsEnabled: Boolean,
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Text(
+            text = category?.subtitle ?: "热锅现炒",
+            color = ColorTokens.Accent,
+            fontWeight = FontWeight.Medium,
+            fontSize = proportions.scaledSp(18f),
+            modifier = Modifier.testTag("browse-main-label"),
+        )
+
+        Spacer(modifier = Modifier.height(proportions.browseLabelToTitleGap))
+
+        Text(
+            text = category?.displayName ?: "招牌热炒",
+            color = ColorTokens.TextPrimary,
+            fontWeight = FontWeight.Bold,
+            fontSize = proportions.scaledSp(40f),
+            modifier = Modifier.testTag("browse-main-title"),
+        )
+
+        Spacer(modifier = Modifier.height(proportions.browseTitleToSubGap))
+
+        Text(
+            text = category?.description
+                ?: "锅气、辣香、下饭感最强的一页，先看最能代表湘味火候的现炒菜。",
+            color = ColorTokens.TextSecondary,
+            fontSize = proportions.scaledSp(18f),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .width(
+                    proportions.browseSubtitleWidth,
+                )
+                .testTag("browse-main-description"),
+        )
+
+        Spacer(modifier = Modifier.height(proportions.browseSubToGridGap))
+
+        MenuItemGrid(
+            selectedCategoryId = uiState.selectedCategoryId,
+            items = uiState.browseSceneState.visibleItems,
+            viewportRequest = uiState.browseSceneState.viewportRequest,
+            focusRequest = uiState.browseSceneState.focusRequest,
+            trackViewportChanges = animationsEnabled,
+            animationsEnabled = animationsEnabled,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            onViewportChanged = onBrowseViewportChanged,
+            onItemFocused = onBrowseItemFocused,
+        )
     }
 }
 

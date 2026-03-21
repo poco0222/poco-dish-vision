@@ -94,17 +94,23 @@ data class ScreenProportions(
 
     // ── Browse 页（分类浏览）比例尺寸 ──
 
-    /** 左侧导轨宽度，设计稿 240/1920 */
-    val browseRailWidth: Dp = screenWidth * (240f / DESIGN_WIDTH)
+    /** 左侧导轨宽度（收窄版），设计稿 200/1920 */
+    val browseRailWidth: Dp = screenWidth * (200f / DESIGN_WIDTH)
 
-    /** 主内容区宽度，设计稿 1544/1920 */
-    val browseContentWidth: Dp = screenWidth * (1544f / DESIGN_WIDTH)
-
-    /** 主内容区起始 X，设计稿 328/1920 */
-    val browseContentStartX: Dp = screenWidth * (328f / DESIGN_WIDTH)
-
-    /** 导轨到主内容区间距，设计稿 (328-48-240)/1920 = 40/1920 */
+    /** 导轨到主内容区间距，设计稿 40/1920。 */
     val browseRailToContentGap: Dp = screenWidth * (40f / DESIGN_WIDTH)
+
+    /**
+     * 主内容区宽度。
+     *
+     * 通过「总宽 - 左右安全边距 - 导轨宽 - 导轨间距」动态求得，
+     * 确保收窄左栏后额外空间全部回流到右侧菜品展示区。
+     * @author PopoY
+     */
+    val browseContentWidth: Dp = screenWidth - (screenHorizontalPadding * 2f) - browseRailWidth - browseRailToContentGap
+
+    /** 主内容区起始 X，设计稿 288/1920（48 + 200 + 40） */
+    val browseContentStartX: Dp = screenWidth * (288f / DESIGN_WIDTH)
 
     /** 主标题副文本宽度，设计稿 1180/1920 */
     val browseSubtitleWidth: Dp = screenWidth * (1180f / DESIGN_WIDTH)
@@ -127,14 +133,23 @@ data class ScreenProportions(
     /** 导轨聚焦时 scale，设计稿表现为 103% 的微幅放大 */
     val browseRailFocusedScale: Float = 1.03f
 
-    /** 菜品网格卡片图片高度，设计稿 180/1080 */
-    val browseCardImageHeight: Dp = screenHeight * (180f / DESIGN_HEIGHT)
+    /** 菜品网格卡片图片高度（精品展示加强版），设计稿 240/1080 */
+    val browseCardImageHeight: Dp = screenHeight * (240f / DESIGN_HEIGHT)
 
     /** 菜品网格水平间距，设计稿 20/1920 */
     val browseGridHorizontalGap: Dp = screenWidth * (20f / DESIGN_WIDTH)
 
     /** 菜品网格垂直间距，设计稿 20/1080 */
     val browseGridVerticalGap: Dp = screenHeight * (20f / DESIGN_HEIGHT)
+
+    /**
+     * 浏览页网格卡片缩放系数。
+     *
+     * 为卡片高度与视觉宽度提供同一缩放比，避免仅降低高度后出现“比例被拉扁”。
+     * 0.96 表示轻微收缩，保留首屏 3x3 信息密度并释放底部留白。
+     * @author PopoY
+     */
+    val browseGridCardScale: Float = 0.96f
 
     /** "分类"标签到导轨按钮列表的间距，设计稿 y(190) - y(156) - 字号行高 ≈ 14px */
     val browseRailLabelToItemsGap: Dp = screenHeight * (14f / DESIGN_HEIGHT)

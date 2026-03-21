@@ -2,36 +2,27 @@
  * @file MenuUiState.kt
  * @author PopoY
  * @date 2026-03-19
- * @description 定义菜单页 BrowseScene / FocusScene 的 UI 状态。
+ * @description 定义菜单页 Browse 单事实源（single source of truth）的 UI 状态。
  */
 package com.poco.dishvision.feature.menu
 
 import com.poco.dishvision.core.model.menu.MenuCategory
 import com.poco.dishvision.core.model.menu.MenuItem
 
-/**
- * 菜单页当前场景。
- */
-enum class MenuScene {
-    Browse,
-    Focus,
-}
+/** Browse 网格固定 3 列。 */
+internal const val BROWSE_GRID_COLUMN_COUNT = 3
 
 /**
- * 菜单页状态，聚焦于当前分类以及 BrowseScene / FocusScene 的分层 UI 数据。
+ * 菜单页状态，收敛到 Browse 单事实源。
  *
  * @property selectedCategoryId 当前选中的分类 ID。
  * @property categories 当前目录中的全部分类。
- * @property scene 当前场景。
  * @property browseSceneState BrowseScene UI 状态。
- * @property focusSceneState FocusScene UI 状态；仅在 scene=Focus 时非 null。
  */
 data class MenuUiState(
     val selectedCategoryId: String,
     val categories: List<MenuCategory>,
-    val scene: MenuScene,
     val browseSceneState: BrowseSceneState,
-    val focusSceneState: FocusSceneState? = null,
 )
 
 /**
@@ -53,14 +44,25 @@ data class BrowseSceneState(
  * BrowseScene 网格视口恢复请求。
  *
  * @property requestId 请求 ID，用于驱动一次性滚动副作用。
- * @property firstVisibleItemIndex 网格首个可见项索引。
- * @property firstVisibleItemScrollOffset 网格首个可见项滚动偏移。
+ * @property rowIndex 网格首个可见行索引（row-level anchor）。
  */
 data class BrowseViewportRequest(
     val requestId: Long,
-    val firstVisibleItemIndex: Int,
-    val firstVisibleItemScrollOffset: Int,
-)
+    val rowIndex: Int,
+) {
+
+    /**
+     * 兼容旧调用方：根据行锚点换算首可见 item 索引。
+     */
+    val firstVisibleItemIndex: Int
+        get() = rowIndex * BROWSE_GRID_COLUMN_COUNT
+
+    /**
+     * 兼容旧调用方：行锚点恢复固定使用 0 偏移。
+     */
+    val firstVisibleItemScrollOffset: Int
+        get() = 0
+}
 
 /**
  * BrowseScene 网格焦点恢复请求。
@@ -76,7 +78,7 @@ data class BrowseFocusRequest(
 )
 
 /**
- * FocusScene 状态：中央大卡 + 周围最多 7 张缩小卡。
+ * FocusScene 状态：历史类型，供已存在组件编译兼容使用，不再进入菜单运行时主链路。
  *
  * @property focusedItem 中央放大详情卡展示的菜品。
  * @property surroundingSlots 周围缩小卡槽位列表（按固定顺序: A1→A3→B1→B3→C1→C2→C3→A2）。

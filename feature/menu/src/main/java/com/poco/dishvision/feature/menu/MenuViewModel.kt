@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.poco.dishvision.core.data.repository.MenuRepository
 import com.poco.dishvision.core.model.menu.MenuCategory
-import com.poco.dishvision.core.model.menu.MenuItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +23,7 @@ import kotlinx.coroutines.launch
 /**
  * 浏览页 ViewModel，负责：
  * 1) 从仓储读取分类与菜品；
- * 2) 维护当前分类、焦点菜品与详情浮层状态。
+ * 2) 维护当前分类、焦点菜品与 Browse 行锚点恢复状态。
  *
  * @param menuRepository 菜单仓储。
  */
@@ -113,58 +112,14 @@ class MenuViewModel(
     /**
      * 记录 BrowseScene 网格当前滚动位置。
      *
-     * @param firstVisibleItemIndex 首个可见项索引。
-     * @param firstVisibleItemScrollOffset 首个可见项滚动偏移。
+     * @param rowIndex 首个可见行索引。
      */
-    fun onBrowseViewportChanged(
-        firstVisibleItemIndex: Int,
-        firstVisibleItemScrollOffset: Int,
-    ) {
+    fun onBrowseViewportChanged(rowIndex: Int) {
         interactionState.update { currentState ->
             recordBrowseViewport(
                 currentState = currentState,
                 categories = categoriesState.value,
-                firstVisibleItemIndex = firstVisibleItemIndex,
-                firstVisibleItemScrollOffset = firstVisibleItemScrollOffset,
-            )
-        }
-    }
-
-    /**
-     * 更新 FocusScene 当前中央展示菜品。
-     *
-     * @param itemId 菜品 ID。
-     */
-    fun onFocusSceneItemFocused(itemId: String) {
-        interactionState.update { currentState ->
-            recordFocusSceneItemFocus(
-                currentState = currentState,
-                categories = categoriesState.value,
-                itemId = itemId,
-            )
-        }
-    }
-
-    /**
-     * 从 BrowseScene 进入 FocusScene。
-     */
-    fun onFocusedItemConfirmed() {
-        interactionState.update { currentState ->
-            enterFocusScene(
-                currentState = currentState,
-                categories = categoriesState.value,
-            )
-        }
-    }
-
-    /**
-     * 从 FocusScene 返回 BrowseScene，并恢复浏览锚点。
-     */
-    fun dismissFocusScene() {
-        interactionState.update { currentState ->
-            exitFocusScene(
-                currentState = currentState,
-                categories = categoriesState.value,
+                rowIndex = rowIndex,
             )
         }
     }
@@ -221,11 +176,6 @@ internal fun buildMenuUiState(
         .firstOrNull { category -> category.categoryId == resolvedSelectedCategoryId }
         ?.items
         .orEmpty()
-    val resolvedFocusSceneItemId = resolveFocusedItem(
-        categories = sortedCategories,
-        selectedCategoryId = resolvedSelectedCategoryId,
-        focusedItemId = interactionState.focusSceneItemId,
-    )?.itemId
     val resolvedFocusRequest = interactionState.pendingFocusRequest
         ?.takeIf { focusRequest ->
             visibleItems.any { item -> item.itemId == focusRequest.targetItemId }
@@ -247,17 +197,11 @@ internal fun buildMenuUiState(
     return MenuUiState(
         selectedCategoryId = resolvedSelectedCategoryId,
         categories = sortedCategories,
-        scene = interactionState.scene,
         browseSceneState = BrowseSceneState(
             visibleItems = visibleItems,
             focusedItemId = resolvedBrowseFocusItemId,
             viewportRequest = interactionState.pendingViewportRequest,
             focusRequest = resolvedFocusRequest,
-        ),
-        focusSceneState = buildFocusSceneState(
-            visibleItems = visibleItems,
-            focusedItemId = resolvedFocusSceneItemId,
-            isFocusSceneVisible = interactionState.scene == MenuScene.Focus,
         ),
     )
 }
@@ -276,8 +220,7 @@ internal fun previewMenuUiState(): MenuUiState {
             categoryBrowseStates = mapOf(
                 DEFAULT_BROWSE_CATEGORY_ID to CategoryBrowseState(
                     focusedItemId = "hot-tea-chicken",
-                    firstVisibleItemIndex = 0,
-                    firstVisibleItemScrollOffset = 0,
+                    rowIndex = 0,
                 ),
             ),
         ),
@@ -285,72 +228,6 @@ internal fun previewMenuUiState(): MenuUiState {
 }
 
 /**
- * 解析当前状态下应该展示的焦点菜品。
- *
- * @param categories 分类列表。
- * @param selectedCategoryId 选中分类 ID。
- * @param focusedItemId 当前焦点菜品 ID。
- * @return 实际可解析的焦点菜品，若无则返回 null。
- */
-internal fun resolveFocusedItem(
-    categories: List<MenuCategory>,
-    selectedCategoryId: String?,
-    focusedItemId: String?,
-): MenuItem? {
-    val selectedCategory = categories.firstOrNull { category -> category.categoryId == selectedCategoryId }
-        ?: categories.firstOrNull()
-    return selectedCategory
-        ?.items
-        ?.firstOrNull { item -> item.itemId == focusedItemId }
-        ?: selectedCategory
-            ?.items
-            ?.firstOrNull()
-}
-
-/**
  * Browse mode 默认以招牌热炒分类为入口，匹配设计稿首屏。
  */
 internal const val DEFAULT_BROWSE_CATEGORY_ID = "hot-stir-fry"
-
-/** FocusStage 周围小卡最大数量 */
-private const val MAX_SURROUNDING_SLOTS = 7
-
-/**
- * 构建聚焦舞台状态。
- *
- * 当详情浮层可见且存在有效焦点菜品时，从当前分类菜品列表中选出
- * 中央大卡（focusedItem）和最多 7 张周围小卡。
- *
- * @param visibleItems 当前分类下的可见菜品。
- * @param focusedItemId 当前焦点菜品 ID。
- * @param isDetailPanelVisible 是否处于详情展示状态。
- * @return 聚焦舞台状态，若条件不满足则返回 null。
- */
-internal fun buildFocusSceneState(
-    visibleItems: List<MenuItem>,
-    focusedItemId: String?,
-    isFocusSceneVisible: Boolean,
-): FocusSceneState? {
-    if (!isFocusSceneVisible || focusedItemId == null) return null
-
-    val focusedItem = visibleItems.firstOrNull { it.itemId == focusedItemId }
-        ?: return null
-
-    // 排除中央卡后取最多 7 张周围卡，按原始列表顺序
-    val surrounding = visibleItems
-        .filter { it.itemId != focusedItemId }
-        .take(MAX_SURROUNDING_SLOTS)
-
-    // 按固定卡槽顺序分配 slotId: A1→A3→B1→B3→C1→C2→C3→A2
-    val slots = surrounding.mapIndexed { index, item ->
-        StageSlot(
-            item = item,
-            slotId = SLOT_IDS[index],
-        )
-    }
-
-    return FocusSceneState(
-        focusedItem = focusedItem,
-        surroundingSlots = slots,
-    )
-}

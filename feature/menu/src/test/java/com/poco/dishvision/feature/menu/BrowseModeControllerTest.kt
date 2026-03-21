@@ -19,17 +19,40 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class BrowseModeControllerTest {
 
+    // 需求约束：非首屏 5 分钟无操作需要回到首屏吸引态。
+    private val fiveMinuteIdleTimeoutMs = 300_000L
+
     @Test
-    fun `user input enters browse mode and idle timeout returns to attract mode`() = runTest {
+    fun `user input enters browse mode and five minute idle timeout returns to attract mode`() = runTest {
         val controller = BrowseModeController(
-            idleTimeoutMs = 15_000L,
+            idleTimeoutMs = fiveMinuteIdleTimeoutMs,
             scope = backgroundScope,
         )
 
         controller.onUserInteraction()
 
         assertEquals(UiMode.Browse, controller.mode.value)
-        advanceTimeBy(15_000L)
+        advanceTimeBy(fiveMinuteIdleTimeoutMs)
+        runCurrent()
+        assertEquals(UiMode.Attract, controller.mode.value)
+    }
+
+    @Test
+    fun `latest user interaction resets five minute idle timeout window`() = runTest {
+        val controller = BrowseModeController(
+            idleTimeoutMs = fiveMinuteIdleTimeoutMs,
+            scope = backgroundScope,
+        )
+
+        controller.onUserInteraction()
+        advanceTimeBy(240_000L)
+        controller.onUserInteraction()
+
+        advanceTimeBy(240_000L)
+        runCurrent()
+        assertEquals(UiMode.Browse, controller.mode.value)
+
+        advanceTimeBy(60_000L)
         runCurrent()
         assertEquals(UiMode.Attract, controller.mode.value)
     }

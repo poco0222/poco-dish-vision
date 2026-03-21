@@ -2,7 +2,7 @@
  * @file MenuSceneState.kt
  * @author PopoY
  * @date 2026-03-20
- * @description 定义菜单 BrowseScene / FocusScene 的交互状态与纯函数 reducer（归约器）。
+ * @description 定义菜单 Browse 单事实源（single source of truth）的交互状态与纯函数 reducer（归约器）。
  */
 package com.poco.dishvision.feature.menu
 
@@ -12,25 +12,33 @@ import com.poco.dishvision.core.model.menu.MenuCategory
  * BrowseScene 下某个分类对应的锚点状态。
  *
  * @property focusedItemId 浏览态下最后一次真实聚焦的菜品 ID。
- * @property firstVisibleItemIndex 网格首个可见项索引。
- * @property firstVisibleItemScrollOffset 网格首个可见项滚动偏移。
+ * @property rowIndex 网格首个可见行索引（row-level anchor）。
  */
 internal data class CategoryBrowseState(
     val focusedItemId: String? = null,
-    val firstVisibleItemIndex: Int = 0,
-    val firstVisibleItemScrollOffset: Int = 0,
-)
+    val rowIndex: Int = 0,
+) {
+
+    /**
+     * 兼容旧调用方：根据行锚点换算首可见 item 索引。
+     */
+    val firstVisibleItemIndex: Int
+        get() = rowIndex * BROWSE_GRID_COLUMN_COUNT
+
+    /**
+     * 兼容旧调用方：行锚点恢复固定使用 0 偏移。
+     */
+    val firstVisibleItemScrollOffset: Int
+        get() = 0
+}
 
 /**
  * 菜单页内部交互状态。
  *
- * 这里把 BrowseScene 的恢复锚点和 FocusScene 的临时焦点拆开存储，
- * 避免在 FocusScene 内切换小卡时污染返回 BrowseScene 要恢复的锚点。
+ * 菜单页运行时已收敛到 Browse 单链路，只保留分类、焦点与行锚点恢复语义。
  *
  * @property selectedCategoryId 当前选中的分类 ID。
  * @property browseFocusedItemId BrowseScene 当前锚定的菜品 ID。
- * @property focusSceneItemId FocusScene 当前中央展示的菜品 ID。
- * @property scene 当前场景。
  * @property categoryBrowseStates 各分类的浏览锚点缓存。
  * @property pendingViewportRequest 待执行的网格视口恢复请求。
  * @property pendingFocusRequest 待执行的网格焦点恢复请求。
@@ -39,8 +47,6 @@ internal data class CategoryBrowseState(
 internal data class MenuInteractionState(
     val selectedCategoryId: String? = null,
     val browseFocusedItemId: String? = null,
-    val focusSceneItemId: String? = null,
-    val scene: MenuScene = MenuScene.Browse,
     val categoryBrowseStates: Map<String, CategoryBrowseState> = emptyMap(),
     val pendingViewportRequest: BrowseViewportRequest? = null,
     val pendingFocusRequest: BrowseFocusRequest? = null,
@@ -66,7 +72,7 @@ internal fun selectBrowseCategory(
     val sortedCategories = categories.sortedBy(MenuCategory::sortOrder)
     val targetCategory = sortedCategories.firstOrNull { it.categoryId == categoryId } ?: return currentState
     val resolvedSelectedCategoryId = resolveSelectedCategoryId(sortedCategories, currentState.selectedCategoryId)
-    if (resolvedSelectedCategoryId == targetCategory.categoryId && currentState.scene == MenuScene.Browse) {
+    if (resolvedSelectedCategoryId == targetCategory.categoryId) {
         return currentState
     }
 
@@ -75,13 +81,10 @@ internal fun selectBrowseCategory(
     return stateWithNextId.copy(
         selectedCategoryId = targetCategory.categoryId,
         browseFocusedItemId = topBrowseState.focusedItemId,
-        focusSceneItemId = null,
-        scene = MenuScene.Browse,
         categoryBrowseStates = currentState.categoryBrowseStates + (targetCategory.categoryId to topBrowseState),
         pendingViewportRequest = BrowseViewportRequest(
             requestId = viewportRequestId,
-            firstVisibleItemIndex = topBrowseState.firstVisibleItemIndex,
-            firstVisibleItemScrollOffset = topBrowseState.firstVisibleItemScrollOffset,
+            rowIndex = topBrowseState.rowIndex,
         ),
         pendingFocusRequest = null,
     )
@@ -104,7 +107,7 @@ internal fun handleCategoryRailFocus(
     categories: List<MenuCategory>,
     categoryId: String,
 ): MenuInteractionState {
-    if (currentState.scene == MenuScene.Browse && currentState.pendingFocusRequest != null) {
+    if (currentState.pendingFocusRequest != null) {
         return currentState
     }
     return selectBrowseCategory(
@@ -146,7 +149,6 @@ internal fun requestBrowseItemFocus(
         ?.indexOfItem(targetItemId)
     val (focusRequestId, stateWithNextId) = allocateBrowseRequestId(selectedState)
     return stateWithNextId.copy(
-        scene = MenuScene.Browse,
         pendingFocusRequest = BrowseFocusRequest(
             requestId = focusRequestId,
             targetItemId = targetItemId,
@@ -194,15 +196,13 @@ internal fun recordBrowseItemFocus(
  *
  * @param currentState 当前交互状态。
  * @param categories 当前分类列表。
- * @param firstVisibleItemIndex 网格首个可见项索引。
- * @param firstVisibleItemScrollOffset 网格首个可见项滚动偏移。
+ * @param rowIndex 网格首个可见行索引。
  * @return 更新后的交互状态。
  */
 internal fun recordBrowseViewport(
     currentState: MenuInteractionState,
     categories: List<MenuCategory>,
-    firstVisibleItemIndex: Int,
-    firstVisibleItemScrollOffset: Int,
+    rowIndex: Int,
 ): MenuInteractionState {
     val sortedCategories = categories.sortedBy(MenuCategory::sortOrder)
     val resolvedCategoryId = resolveSelectedCategoryId(sortedCategories, currentState.selectedCategoryId)
@@ -210,119 +210,17 @@ internal fun recordBrowseViewport(
     val targetCategory = sortedCategories.firstOrNull { it.categoryId == resolvedCategoryId } ?: return currentState
     val currentBrowseState = currentState.categoryBrowseStates[resolvedCategoryId]
         ?: targetCategory.toTopBrowseState()
+    val normalizedRowIndex = rowIndex.coerceAtLeast(0)
     return currentState.copy(
         categoryBrowseStates = currentState.categoryBrowseStates + (
             resolvedCategoryId to currentBrowseState.copy(
-                firstVisibleItemIndex = firstVisibleItemIndex,
-                firstVisibleItemScrollOffset = firstVisibleItemScrollOffset,
+                rowIndex = normalizedRowIndex,
             )
         ),
         pendingViewportRequest = currentState.pendingViewportRequest
             ?.takeUnless { pendingViewport ->
-                pendingViewport.firstVisibleItemIndex == firstVisibleItemIndex &&
-                    pendingViewport.firstVisibleItemScrollOffset == firstVisibleItemScrollOffset
+                pendingViewport.rowIndex == normalizedRowIndex
             },
-    )
-}
-
-/**
- * 进入 FocusScene。
- *
- * @param currentState 当前交互状态。
- * @param categories 当前分类列表。
- * @return 更新后的交互状态。
- */
-internal fun enterFocusScene(
-    currentState: MenuInteractionState,
-    categories: List<MenuCategory>,
-): MenuInteractionState {
-    val sortedCategories = categories.sortedBy(MenuCategory::sortOrder)
-    val resolvedCategoryId = resolveSelectedCategoryId(sortedCategories, currentState.selectedCategoryId)
-        ?: return currentState
-    val targetCategory = sortedCategories.firstOrNull { it.categoryId == resolvedCategoryId } ?: return currentState
-    val targetItemId = currentState.categoryBrowseStates[resolvedCategoryId]
-        ?.focusedItemId
-        ?: currentState.browseFocusedItemId
-        ?: targetCategory.items.firstOrNull()?.itemId
-        ?: return currentState
-    if (targetCategory.items.none { it.itemId == targetItemId }) {
-        return currentState
-    }
-    return currentState.copy(
-        scene = MenuScene.Focus,
-        focusSceneItemId = targetItemId,
-        pendingViewportRequest = null,
-        pendingFocusRequest = null,
-    )
-}
-
-/**
- * 记录 FocusScene 中央展示项的变化。
- *
- * @param currentState 当前交互状态。
- * @param categories 当前分类列表。
- * @param itemId FocusScene 新聚焦的菜品 ID。
- * @return 更新后的交互状态。
- */
-internal fun recordFocusSceneItemFocus(
-    currentState: MenuInteractionState,
-    categories: List<MenuCategory>,
-    itemId: String,
-): MenuInteractionState {
-    if (currentState.scene != MenuScene.Focus) {
-        return currentState
-    }
-    val sortedCategories = categories.sortedBy(MenuCategory::sortOrder)
-    val resolvedCategoryId = resolveSelectedCategoryId(sortedCategories, currentState.selectedCategoryId)
-        ?: return currentState
-    val targetCategory = sortedCategories.firstOrNull { it.categoryId == resolvedCategoryId } ?: return currentState
-    if (targetCategory.items.none { it.itemId == itemId }) {
-        return currentState
-    }
-    return currentState.copy(
-        focusSceneItemId = itemId,
-    )
-}
-
-/**
- * 从 FocusScene 返回 BrowseScene，并恢复返回前的浏览锚点。
- *
- * @param currentState 当前交互状态。
- * @param categories 当前分类列表。
- * @return 更新后的交互状态。
- */
-internal fun exitFocusScene(
-    currentState: MenuInteractionState,
-    categories: List<MenuCategory>,
-): MenuInteractionState {
-    val sortedCategories = categories.sortedBy(MenuCategory::sortOrder)
-    val resolvedCategoryId = resolveSelectedCategoryId(sortedCategories, currentState.selectedCategoryId)
-        ?: return currentState.copy(
-            scene = MenuScene.Browse,
-            focusSceneItemId = null,
-        )
-    val targetCategory = sortedCategories.firstOrNull { it.categoryId == resolvedCategoryId } ?: return currentState
-    val browseState = currentState.categoryBrowseStates[resolvedCategoryId]
-        ?: targetCategory.toTopBrowseState()
-    val (viewportRequestId, stateAfterViewportAllocation) = allocateBrowseRequestId(currentState)
-    val (focusRequestId, stateWithNextId) = allocateBrowseRequestId(stateAfterViewportAllocation)
-    val focusRequest = browseState.focusedItemId?.let { focusedItemId ->
-        BrowseFocusRequest(
-            requestId = focusRequestId,
-            targetItemId = focusedItemId,
-            targetItemIndex = targetCategory.indexOfItem(focusedItemId),
-        )
-    }
-    return stateWithNextId.copy(
-        scene = MenuScene.Browse,
-        browseFocusedItemId = browseState.focusedItemId,
-        focusSceneItemId = null,
-        pendingViewportRequest = BrowseViewportRequest(
-            requestId = viewportRequestId,
-            firstVisibleItemIndex = browseState.firstVisibleItemIndex,
-            firstVisibleItemScrollOffset = browseState.firstVisibleItemScrollOffset,
-        ),
-        pendingFocusRequest = focusRequest,
     )
 }
 
@@ -377,7 +275,6 @@ internal fun resolveSelectedCategoryId(
 private fun MenuCategory.toTopBrowseState(): CategoryBrowseState {
     return CategoryBrowseState(
         focusedItemId = items.firstOrNull()?.itemId,
-        firstVisibleItemIndex = 0,
-        firstVisibleItemScrollOffset = 0,
+        rowIndex = 0,
     )
 }

@@ -28,7 +28,7 @@ class BrowseLayoutContractTest {
     fun helper_copy_matches_full_menu_count() {
         composeTestRule.setContent {
             PocoTheme {
-                MenuRoute()
+                MenuScreenTestHarness()
             }
         }
 
@@ -39,7 +39,7 @@ class BrowseLayoutContractTest {
     fun first_screen_shows_all_nine_signature_cards_without_scroll() {
         composeTestRule.setContent {
             PocoTheme {
-                MenuRoute()
+                MenuScreenTestHarness()
             }
         }
 
@@ -54,7 +54,7 @@ class BrowseLayoutContractTest {
     fun browse_header_exposes_helper_and_title_tags() {
         composeTestRule.setContent {
             PocoTheme {
-                MenuRoute()
+                MenuScreenTestHarness()
             }
         }
 
@@ -72,7 +72,7 @@ class BrowseLayoutContractTest {
     fun first_row_cards_expose_name_and_description_nodes() {
         composeTestRule.setContent {
             PocoTheme {
-                MenuRoute()
+                MenuScreenTestHarness()
             }
         }
 

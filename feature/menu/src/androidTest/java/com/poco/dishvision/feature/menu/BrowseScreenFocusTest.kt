@@ -36,7 +36,7 @@ class BrowseScreenFocusTest {
     fun default_category_is_selected_and_right_moves_focus_to_first_menu_item() {
         composeTestRule.setContent {
             PocoTheme {
-                MenuRoute()
+                MenuScreenTestHarness()
             }
         }
 
