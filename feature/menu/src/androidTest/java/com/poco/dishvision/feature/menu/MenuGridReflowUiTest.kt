@@ -180,23 +180,33 @@ class MenuGridReflowUiTest {
     }
 
     /**
-     * @description 中心卡聚焦后，网格区域仍必须留在导轨右侧、标题下方。
+     * @description 中心卡聚焦后，真实受影响的卡片边界仍必须留在导轨右侧、标题下方。
      * @author PopoY
      */
     @Test
-    fun grid_bounds_should_remain_to_the_right_of_rail_and_below_header_after_center_focus() {
+    fun cards_should_remain_to_the_right_of_rail_and_below_header_after_center_focus() {
         setBrowseContent()
 
         focusCategoryAndEnterGrid(categoryId = "hot-stir-fry")
         sendKey(Key.DirectionRight)
         sendKey(Key.DirectionDown)
 
-        val gridBounds = composeTestRule.onNodeWithTag("menu-item-grid").fetchSemanticsNode().boundsInRoot
         val railBounds = composeTestRule.onNodeWithTag("category-hot-stir-fry").fetchSemanticsNode().boundsInRoot
         val titleBounds = composeTestRule.onNodeWithTag("browse-main-title").fetchSemanticsNode().boundsInRoot
+        val leftRiskCardBounds = composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-3",
+        ).fetchSemanticsNode().boundsInRoot
+        val topRiskCardBounds = composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-1",
+        ).fetchSemanticsNode().boundsInRoot
+        val focusedCardBounds = composeTestRule.onNodeWithTag(
+            "menu-item-hot-stir-fry-4",
+        ).fetchSemanticsNode().boundsInRoot
 
-        assertTrue(gridBounds.left >= railBounds.right)
-        assertTrue(gridBounds.top >= titleBounds.bottom)
+        assertTrue(leftRiskCardBounds.left >= railBounds.right)
+        assertTrue(topRiskCardBounds.top >= titleBounds.bottom)
+        assertTrue(focusedCardBounds.left >= railBounds.right)
+        assertTrue(focusedCardBounds.top >= titleBounds.bottom)
     }
 
     /**

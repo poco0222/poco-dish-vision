@@ -193,6 +193,51 @@ class MenuItemGridFocusMotionTest {
     }
 
     /**
+     * @description 后续 3x3 视口里的中心聚焦也必须沿用 target-frame 主视觉体量，而不是退回 legacy 姿态。
+     * @author PopoY
+     */
+    @Test
+    fun later_viewport_center_focus_should_keep_b3_like_visual_frame() {
+        val frame = resolveRenderedFrame(
+            itemIndex = 13,
+            focusedItemIndex = 13,
+            visibleRowStart = 9,
+        )
+
+        assertTrue(frame.width.value >= (TEST_CARD_WIDTH * 1.30f).value)
+        assertTrue(frame.height.value >= (TEST_CARD_HEIGHT * 1.30f).value)
+    }
+
+    /**
+     * @description 后续 3x3 视口里的中心聚焦也必须保持顶部轻微错层与底部齐平。
+     * @author PopoY
+     */
+    @Test
+    fun later_viewport_center_focus_should_keep_top_stagger_and_bottom_baseline() {
+        val topFrames = listOf(9, 10, 11).map { itemIndex ->
+            resolveRenderedFrame(
+                itemIndex = itemIndex,
+                focusedItemIndex = 13,
+                visibleRowStart = 9,
+            )
+        }
+        val topValues = topFrames.map { frame -> frame.top.value }
+        val spread = (topValues.maxOrNull() ?: 0f) - (topValues.minOrNull() ?: 0f)
+        val bottomFrames = listOf(15, 16, 17).map { itemIndex ->
+            resolveRenderedFrame(
+                itemIndex = itemIndex,
+                focusedItemIndex = 13,
+                visibleRowStart = 9,
+            )
+        }
+
+        assertTrue(spread > 0.5f)
+        assertTrue(spread <= 12f)
+        assertEquals(bottomFrames[0].bottom.value, bottomFrames[1].bottom.value, 0.0001f)
+        assertEquals(bottomFrames[1].bottom.value, bottomFrames[2].bottom.value, 0.0001f)
+    }
+
+    /**
      * @description 中段视口里，中心焦点左邻卡应向左推挤并处于近邻层级。
      * @author PopoY
      */

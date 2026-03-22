@@ -468,6 +468,7 @@ internal fun resolveBrowseCardFocusMotion(
             visibleRows = visibleRows,
             layoutContext = layoutContext,
             layoutTarget = layoutTarget,
+            motionTokens = motionTokens,
         )
     }
 
@@ -789,6 +790,7 @@ private fun resolveBrowseCardMotionFromLayoutTarget(
     visibleRows: Int,
     layoutContext: BrowseGridLayoutContext,
     layoutTarget: BrowseCardLayoutTarget,
+    motionTokens: BrowseGridMotionTokens,
 ): BrowseCardFocusMotion {
     val alignedVisibleRowStart = resolveAlignedVisibleRowStart(
         visibleRowStart = visibleRowStart,
@@ -809,6 +811,7 @@ private fun resolveBrowseCardMotionFromLayoutTarget(
     val (pushOffsetX, pushOffsetY) = resolveBrowseFocusPushOffsets(
         cardWidth = layoutContext.cardWidth,
         cardHeight = layoutContext.cardHeight,
+        motionTokens = motionTokens,
     )
     val widthDelta = layoutTarget.width - layoutContext.cardWidth
     val heightDelta = layoutTarget.height - layoutContext.cardHeight
