@@ -127,6 +127,30 @@ private const val MOTION_CONSTRAINT_ALPHA_MIN = 0.70f
 /** 聚焦详情区最多展示 3 个 chip，避免信息过载。 */
 private const val MAX_FOCUS_CHIPS = 3
 
+/** 目标框模型：中心卡聚焦时的主卡体量倍率。 */
+private const val TARGET_FRAME_CENTER_FOCUSED_SCALE = 1.34f
+
+/** 目标框模型：顶部中卡的缩放倍率。 */
+private const val TARGET_FRAME_TOP_CENTER_SCALE = 0.90f
+
+/** 目标框模型：顶部侧卡的缩放倍率。 */
+private const val TARGET_FRAME_TOP_SIDE_SCALE = 0.86f
+
+/** 目标框模型：中排侧卡的缩放倍率。 */
+private const val TARGET_FRAME_MIDDLE_SIDE_SCALE = 0.80f
+
+/** 目标框模型：底排中卡的缩放倍率。 */
+private const val TARGET_FRAME_BOTTOM_CENTER_SCALE = 0.82f
+
+/** 目标框模型：底排侧卡的缩放倍率。 */
+private const val TARGET_FRAME_BOTTOM_SIDE_SCALE = 0.86f
+
+/** 目标框模型：顶部中卡的轻微错层比率（相对于垂直 gap）。 */
+private const val TARGET_FRAME_TOP_CENTER_STAGGER_RATIO = 0.30f
+
+/** 目标框模型：顶部侧卡的轻微错层比率（相对于垂直 gap）。 */
+private const val TARGET_FRAME_TOP_SIDE_STAGGER_RATIO = 0.12f
+
 /** 本地食物图片 drawable 资源列表，作为远程图片的 fallback */
 internal val LOCAL_FOOD_DRAWABLES = listOf(
     R.drawable.menu_food_1,
@@ -173,6 +197,53 @@ internal data class BrowseCardFocusMotion(
     val pivotX: Float = 0.5f,
     val pivotY: Float = 0.5f,
     val zIndex: Float = 0f,
+    val showExpandedDetails: Boolean = false,
+    val layoutTarget: BrowseCardLayoutTarget? = null,
+)
+
+/**
+ * Browse 网格目标框上下文。
+ *
+ * @param viewportWidth 当前 3x3 可视窗宽度。
+ * @param viewportHeight 当前 3x3 可视窗高度。
+ * @param cardWidth 基准卡片宽度。
+ * @param cardHeight 基准卡片高度。
+ * @param horizontalGap 网格水平间距。
+ * @param verticalGap 网格垂直间距。
+ * @author PopoY
+ */
+internal data class BrowseGridLayoutContext(
+    val viewportWidth: androidx.compose.ui.unit.Dp,
+    val viewportHeight: androidx.compose.ui.unit.Dp,
+    val cardWidth: androidx.compose.ui.unit.Dp,
+    val cardHeight: androidx.compose.ui.unit.Dp,
+    val horizontalGap: androidx.compose.ui.unit.Dp,
+    val verticalGap: androidx.compose.ui.unit.Dp,
+)
+
+/**
+ * Browse 卡片在目标框模型下的稳态几何结果。
+ *
+ * @param x 目标框左上角 X 坐标（相对网格视口）。
+ * @param y 目标框左上角 Y 坐标（相对网格视口）。
+ * @param width 目标框宽度。
+ * @param height 目标框高度。
+ * @param alpha 目标透明度。
+ * @param zIndex 目标层级。
+ * @param pivotX 目标缩放锚点 X。
+ * @param pivotY 目标缩放锚点 Y。
+ * @param showExpandedDetails 是否显示详情区。
+ * @author PopoY
+ */
+internal data class BrowseCardLayoutTarget(
+    val x: androidx.compose.ui.unit.Dp,
+    val y: androidx.compose.ui.unit.Dp,
+    val width: androidx.compose.ui.unit.Dp,
+    val height: androidx.compose.ui.unit.Dp,
+    val alpha: Float = 1f,
+    val zIndex: Float = 0f,
+    val pivotX: Float = 0.5f,
+    val pivotY: Float = 0.5f,
     val showExpandedDetails: Boolean = false,
 )
 
@@ -366,6 +437,66 @@ internal fun resolveBrowseCardFocusMotion(
     visibleRows: Int,
     focusedCardScale: Float = MOTION_TOKEN_FOCUSED_SCALE,
     motionTokens: BrowseGridMotionTokens = BrowseGridMotionTokens(),
+    cardWidth: androidx.compose.ui.unit.Dp = 0.dp,
+    cardHeight: androidx.compose.ui.unit.Dp = 0.dp,
+    horizontalGap: androidx.compose.ui.unit.Dp = 0.dp,
+    verticalGap: androidx.compose.ui.unit.Dp = 0.dp,
+): BrowseCardFocusMotion {
+    if (cardWidth > 0.dp && cardHeight > 0.dp) {
+        val layoutContext = BrowseGridLayoutContext(
+            viewportWidth = (cardWidth * columns) + (horizontalGap * (columns - 1)),
+            viewportHeight = (cardHeight * visibleRows) + (verticalGap * (visibleRows - 1)),
+            cardWidth = cardWidth,
+            cardHeight = cardHeight,
+            horizontalGap = horizontalGap,
+            verticalGap = verticalGap,
+        )
+        val layoutTarget = resolveBrowseCardLayoutTarget(
+            itemIndex = itemIndex,
+            focusedItemIndex = focusedItemIndex,
+            visibleRowStart = visibleRowStart,
+            columns = columns,
+            visibleRows = visibleRows,
+            layoutContext = layoutContext,
+            focusedCardScale = focusedCardScale,
+            motionTokens = motionTokens,
+        )
+        return resolveBrowseCardMotionFromLayoutTarget(
+            itemIndex = itemIndex,
+            visibleRowStart = visibleRowStart,
+            columns = columns,
+            visibleRows = visibleRows,
+            layoutContext = layoutContext,
+            layoutTarget = layoutTarget,
+        )
+    }
+
+    return resolveLegacyBrowseCardFocusMotion(
+        itemIndex = itemIndex,
+        focusedItemIndex = focusedItemIndex,
+        visibleRowStart = visibleRowStart,
+        columns = columns,
+        visibleRows = visibleRows,
+        focusedCardScale = focusedCardScale,
+        motionTokens = motionTokens,
+    )
+}
+
+/**
+ * 旧版 ratio-based 动画参数解析器。
+ *
+ * 保留它作为 fallback（后备路径），同时供新的 target-frame 模型在缺少尺寸上下文时降级使用。
+ *
+ * @author PopoY
+ */
+private fun resolveLegacyBrowseCardFocusMotion(
+    itemIndex: Int,
+    focusedItemIndex: Int?,
+    visibleRowStart: Int,
+    columns: Int,
+    visibleRows: Int,
+    focusedCardScale: Float,
+    motionTokens: BrowseGridMotionTokens,
 ): BrowseCardFocusMotion {
     if (columns <= 0 || visibleRows <= 0) {
         return BrowseCardFocusMotion()
@@ -470,6 +601,363 @@ internal fun resolveBrowseCardFocusMotion(
             else -> 0.5f
         },
         showExpandedDetails = false,
+    )
+}
+
+/**
+ * 解析 Browse 卡片在 target-frame 模型下的稳态几何结果。
+ *
+ * 中心卡聚焦时切到“主卡更大、顶部轻微错层、底部统一基线”的新模型；
+ * 其他边界/非中心态先复用 legacy 几何换算为目标框，避免一次性改坏所有方向约束。
+ *
+ * @author PopoY
+ */
+internal fun resolveBrowseCardLayoutTarget(
+    itemIndex: Int,
+    focusedItemIndex: Int?,
+    visibleRowStart: Int,
+    columns: Int,
+    visibleRows: Int,
+    layoutContext: BrowseGridLayoutContext,
+    focusedCardScale: Float = MOTION_TOKEN_FOCUSED_SCALE,
+    motionTokens: BrowseGridMotionTokens = BrowseGridMotionTokens(),
+): BrowseCardLayoutTarget {
+    if (columns <= 0 || visibleRows <= 0) {
+        return BrowseCardLayoutTarget(
+            x = 0.dp,
+            y = 0.dp,
+            width = layoutContext.cardWidth,
+            height = layoutContext.cardHeight,
+        )
+    }
+    val alignedVisibleRowStart = resolveAlignedVisibleRowStart(
+        visibleRowStart = visibleRowStart,
+        columns = columns,
+    )
+    val visibleWindowEnd = alignedVisibleRowStart + columns * visibleRows - 1
+    val columnIndex = ((itemIndex % columns) + columns) % columns
+    val rowSlot = ((itemIndex - alignedVisibleRowStart) / columns).coerceIn(0, visibleRows - 1)
+    val baseFrame = resolveBrowseBaseLayoutTarget(
+        columnIndex = columnIndex,
+        rowSlot = rowSlot,
+        layoutContext = layoutContext,
+    )
+    val pivotX = resolveBrowseCardPivotAxis(slotIndex = columnIndex, maxSlotIndex = columns - 1)
+    val pivotY = resolveBrowseCardPivotAxis(slotIndex = rowSlot, maxSlotIndex = visibleRows - 1)
+    val focusedIndex = focusedItemIndex ?: return baseFrame.copy(
+        pivotX = pivotX,
+        pivotY = pivotY,
+    )
+    val isInsideVisibleWindow = itemIndex in alignedVisibleRowStart..visibleWindowEnd
+    if (!isInsideVisibleWindow) {
+        return resolveLegacyBrowseCardLayoutTarget(
+            itemIndex = itemIndex,
+            focusedItemIndex = focusedItemIndex,
+            visibleRowStart = visibleRowStart,
+            columns = columns,
+            visibleRows = visibleRows,
+            focusedCardScale = focusedCardScale,
+            motionTokens = motionTokens,
+            layoutContext = layoutContext,
+        )
+    }
+
+    val focusedColumn = ((focusedIndex % columns) + columns) % columns
+    val focusedRowSlot = ((focusedIndex - alignedVisibleRowStart) / columns).coerceIn(0, visibleRows - 1)
+    val isCenteredFocus = columns == GRID_COLUMNS &&
+        visibleRows == GRID_VISIBLE_ROWS &&
+        focusedColumn == 1 &&
+        focusedRowSlot == 1
+
+    if (!isCenteredFocus) {
+        return resolveLegacyBrowseCardLayoutTarget(
+            itemIndex = itemIndex,
+            focusedItemIndex = focusedItemIndex,
+            visibleRowStart = visibleRowStart,
+            columns = columns,
+            visibleRows = visibleRows,
+            focusedCardScale = focusedCardScale,
+            motionTokens = motionTokens,
+            layoutContext = layoutContext,
+        )
+    }
+
+    if (itemIndex == focusedIndex) {
+        val targetScale = maxOf(TARGET_FRAME_CENTER_FOCUSED_SCALE, focusedCardScale)
+        return resolveAnchoredLayoutTarget(
+            baseTarget = baseFrame,
+            scale = targetScale,
+            pivotX = pivotX,
+            pivotY = pivotY,
+            viewportWidth = layoutContext.viewportWidth,
+            viewportHeight = layoutContext.viewportHeight,
+            alpha = 1f,
+            zIndex = 8f,
+            showExpandedDetails = true,
+        )
+    }
+
+    return when (rowSlot) {
+        0 -> {
+            val isTopCenter = columnIndex == 1
+            val scale = if (isTopCenter) {
+                TARGET_FRAME_TOP_CENTER_SCALE
+            } else {
+                TARGET_FRAME_TOP_SIDE_SCALE
+            }
+            val stagger = layoutContext.verticalGap * if (isTopCenter) {
+                TARGET_FRAME_TOP_CENTER_STAGGER_RATIO
+            } else {
+                TARGET_FRAME_TOP_SIDE_STAGGER_RATIO
+            }
+            val target = resolveAnchoredLayoutTarget(
+                baseTarget = baseFrame,
+                scale = scale,
+                pivotX = pivotX,
+                pivotY = 0f,
+                viewportWidth = layoutContext.viewportWidth,
+                viewportHeight = layoutContext.viewportHeight,
+                alpha = if (isTopCenter) 0.82f else 0.78f,
+                zIndex = if (isTopCenter) 1.6f else 1.2f,
+                showExpandedDetails = false,
+            )
+            target.copy(y = target.y + stagger)
+        }
+
+        1 -> {
+            if (columnIndex == 1) {
+                resolveLegacyBrowseCardLayoutTarget(
+                    itemIndex = itemIndex,
+                    focusedItemIndex = focusedItemIndex,
+                    visibleRowStart = visibleRowStart,
+                    columns = columns,
+                    visibleRows = visibleRows,
+                    focusedCardScale = focusedCardScale,
+                    motionTokens = motionTokens,
+                    layoutContext = layoutContext,
+                )
+            } else {
+                resolveAnchoredLayoutTarget(
+                    baseTarget = baseFrame,
+                    scale = TARGET_FRAME_MIDDLE_SIDE_SCALE,
+                    pivotX = pivotX,
+                    pivotY = 0.5f,
+                    viewportWidth = layoutContext.viewportWidth,
+                    viewportHeight = layoutContext.viewportHeight,
+                    alpha = 0.74f,
+                    zIndex = 2f,
+                    showExpandedDetails = false,
+                )
+            }
+        }
+
+        else -> {
+            val isBottomCenter = columnIndex == 1
+            val scale = if (isBottomCenter) {
+                TARGET_FRAME_BOTTOM_CENTER_SCALE
+            } else {
+                TARGET_FRAME_BOTTOM_SIDE_SCALE
+            }
+            val target = resolveAnchoredLayoutTarget(
+                baseTarget = baseFrame,
+                scale = scale,
+                pivotX = pivotX,
+                pivotY = 1f,
+                viewportWidth = layoutContext.viewportWidth,
+                viewportHeight = layoutContext.viewportHeight,
+                alpha = if (isBottomCenter) 0.76f else 0.80f,
+                zIndex = if (isBottomCenter) 1.2f else 1f,
+                showExpandedDetails = false,
+            )
+            target.copy(y = layoutContext.viewportHeight - target.height)
+        }
+    }
+}
+
+/**
+ * 把 target-frame 几何结果折算回当前组合层使用的 scale/offset/pivot 参数。
+ *
+ * 这样组合层可以继续使用现有 `graphicsLayer + offset` 渐进过渡，
+ * 但稳态几何已经由 `layoutTarget` 统一定义。
+ *
+ * @author PopoY
+ */
+private fun resolveBrowseCardMotionFromLayoutTarget(
+    itemIndex: Int,
+    visibleRowStart: Int,
+    columns: Int,
+    visibleRows: Int,
+    layoutContext: BrowseGridLayoutContext,
+    layoutTarget: BrowseCardLayoutTarget,
+): BrowseCardFocusMotion {
+    val alignedVisibleRowStart = resolveAlignedVisibleRowStart(
+        visibleRowStart = visibleRowStart,
+        columns = columns,
+    )
+    val columnIndex = ((itemIndex % columns) + columns) % columns
+    val rowSlot = ((itemIndex - alignedVisibleRowStart) / columns).coerceIn(0, visibleRows - 1)
+    val baseFrame = resolveBrowseBaseLayoutTarget(
+        columnIndex = columnIndex,
+        rowSlot = rowSlot,
+        layoutContext = layoutContext,
+    )
+    val widthScale = if (layoutContext.cardWidth > 0.dp) {
+        layoutTarget.width.value / layoutContext.cardWidth.value
+    } else {
+        1f
+    }
+    val (pushOffsetX, pushOffsetY) = resolveBrowseFocusPushOffsets(
+        cardWidth = layoutContext.cardWidth,
+        cardHeight = layoutContext.cardHeight,
+    )
+    val widthDelta = layoutTarget.width - layoutContext.cardWidth
+    val heightDelta = layoutTarget.height - layoutContext.cardHeight
+    val offsetXRatio = if (pushOffsetX > 0.dp) {
+        (
+            layoutTarget.x -
+                baseFrame.x +
+                (widthDelta * layoutTarget.pivotX)
+            ).value / pushOffsetX.value
+    } else {
+        0f
+    }
+    val offsetYRatio = if (pushOffsetY > 0.dp) {
+        (
+            layoutTarget.y -
+                baseFrame.y +
+                (heightDelta * layoutTarget.pivotY)
+            ).value / pushOffsetY.value
+    } else {
+        0f
+    }
+
+    return BrowseCardFocusMotion(
+        scale = widthScale,
+        alpha = layoutTarget.alpha,
+        offsetXRatio = offsetXRatio,
+        offsetYRatio = offsetYRatio,
+        pivotX = layoutTarget.pivotX,
+        pivotY = layoutTarget.pivotY,
+        zIndex = layoutTarget.zIndex,
+        showExpandedDetails = layoutTarget.showExpandedDetails,
+        layoutTarget = layoutTarget,
+    )
+}
+
+/**
+ * 基于 legacy motion 结果换算目标框，供边界/非中心态复用。
+ *
+ * @author PopoY
+ */
+private fun resolveLegacyBrowseCardLayoutTarget(
+    itemIndex: Int,
+    focusedItemIndex: Int?,
+    visibleRowStart: Int,
+    columns: Int,
+    visibleRows: Int,
+    focusedCardScale: Float,
+    motionTokens: BrowseGridMotionTokens,
+    layoutContext: BrowseGridLayoutContext,
+): BrowseCardLayoutTarget {
+    val legacyMotion = resolveLegacyBrowseCardFocusMotion(
+        itemIndex = itemIndex,
+        focusedItemIndex = focusedItemIndex,
+        visibleRowStart = visibleRowStart,
+        columns = columns,
+        visibleRows = visibleRows,
+        focusedCardScale = focusedCardScale,
+        motionTokens = motionTokens,
+    )
+    val alignedVisibleRowStart = resolveAlignedVisibleRowStart(
+        visibleRowStart = visibleRowStart,
+        columns = columns,
+    )
+    val columnIndex = ((itemIndex % columns) + columns) % columns
+    val rowSlot = ((itemIndex - alignedVisibleRowStart) / columns).coerceIn(0, visibleRows - 1)
+    val baseFrame = resolveBrowseBaseLayoutTarget(
+        columnIndex = columnIndex,
+        rowSlot = rowSlot,
+        layoutContext = layoutContext,
+    )
+    val (pushOffsetX, pushOffsetY) = resolveBrowseFocusPushOffsets(
+        cardWidth = layoutContext.cardWidth,
+        cardHeight = layoutContext.cardHeight,
+        motionTokens = motionTokens,
+    )
+    val width = layoutContext.cardWidth * legacyMotion.scale
+    val height = layoutContext.cardHeight * legacyMotion.scale
+    val widthDelta = width - layoutContext.cardWidth
+    val heightDelta = height - layoutContext.cardHeight
+
+    return BrowseCardLayoutTarget(
+        x = baseFrame.x + (pushOffsetX * legacyMotion.offsetXRatio) - (widthDelta * legacyMotion.pivotX),
+        y = baseFrame.y + (pushOffsetY * legacyMotion.offsetYRatio) - (heightDelta * legacyMotion.pivotY),
+        width = width,
+        height = height,
+        alpha = legacyMotion.alpha,
+        zIndex = legacyMotion.zIndex,
+        pivotX = legacyMotion.pivotX,
+        pivotY = legacyMotion.pivotY,
+        showExpandedDetails = legacyMotion.showExpandedDetails,
+    )
+}
+
+/**
+ * 解析未重排时的基础卡片目标框。
+ *
+ * @author PopoY
+ */
+private fun resolveBrowseBaseLayoutTarget(
+    columnIndex: Int,
+    rowSlot: Int,
+    layoutContext: BrowseGridLayoutContext,
+): BrowseCardLayoutTarget {
+    return BrowseCardLayoutTarget(
+        x = (layoutContext.cardWidth + layoutContext.horizontalGap) * columnIndex,
+        y = (layoutContext.cardHeight + layoutContext.verticalGap) * rowSlot,
+        width = layoutContext.cardWidth,
+        height = layoutContext.cardHeight,
+        alpha = 1f,
+        zIndex = 0f,
+        pivotX = 0.5f,
+        pivotY = 0.5f,
+        showExpandedDetails = false,
+    )
+}
+
+/**
+ * 根据 pivot 锚点生成并裁剪目标框，确保不会越出当前 3x3 视口。
+ *
+ * @author PopoY
+ */
+private fun resolveAnchoredLayoutTarget(
+    baseTarget: BrowseCardLayoutTarget,
+    scale: Float,
+    pivotX: Float,
+    pivotY: Float,
+    viewportWidth: androidx.compose.ui.unit.Dp,
+    viewportHeight: androidx.compose.ui.unit.Dp,
+    alpha: Float,
+    zIndex: Float,
+    showExpandedDetails: Boolean,
+): BrowseCardLayoutTarget {
+    val width = baseTarget.width * scale
+    val height = baseTarget.height * scale
+    val unclampedX = baseTarget.x - ((width - baseTarget.width) * pivotX)
+    val unclampedY = baseTarget.y - ((height - baseTarget.height) * pivotY)
+    val x = unclampedX.coerceIn(0.dp, maxOf(0.dp, viewportWidth - width))
+    val y = unclampedY.coerceIn(0.dp, maxOf(0.dp, viewportHeight - height))
+
+    return BrowseCardLayoutTarget(
+        x = x,
+        y = y,
+        width = width,
+        height = height,
+        alpha = alpha,
+        zIndex = zIndex,
+        pivotX = pivotX,
+        pivotY = pivotY,
+        showExpandedDetails = showExpandedDetails,
     )
 }
 
@@ -897,6 +1385,10 @@ fun MenuItemGrid(
                     columns = GRID_COLUMNS,
                     visibleRows = GRID_VISIBLE_ROWS,
                     focusedCardScale = focusedCardScale,
+                    cardWidth = cardMetrics.cardWidth,
+                    cardHeight = cardMetrics.cardHeight,
+                    horizontalGap = proportions.browseGridHorizontalGap,
+                    verticalGap = proportions.browseGridVerticalGap,
                 )
                 val cachedPose = if (animationsEnabled) poseCache[item.itemId] else null
                 LaunchedEffect(item.itemId, focusMotion, animationsEnabled) {

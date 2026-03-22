@@ -18,6 +18,7 @@ import androidx.compose.ui.test.performKeyInput
 import androidx.compose.ui.test.requestFocus
 import com.poco.dishvision.core.ui.theme.PocoTheme
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -127,6 +128,75 @@ class MenuGridReflowUiTest {
         composeTestRule.onNodeWithTag("browse-helper-copy").assertIsDisplayed()
         composeTestRule.onNodeWithTag("browse-main-title").assertIsDisplayed()
         composeTestRule.onNodeWithTag("category-home-style").assertIsDisplayed()
+    }
+
+    /**
+     * @description 中心卡聚焦后，顶部辅助卡应出现轻微错层，但错层范围必须受控。
+     * @author PopoY
+     */
+    @Test
+    fun center_focus_should_apply_capped_top_row_stagger_in_ui() {
+        setBrowseContent()
+
+        focusCategoryAndEnterGrid(categoryId = "hot-stir-fry")
+        sendKey(Key.DirectionRight)
+        sendKey(Key.DirectionDown)
+
+        val topPositions = listOf(
+            "menu-item-hot-stir-fry-0",
+            "menu-item-hot-stir-fry-1",
+            "menu-item-hot-stir-fry-2",
+        ).map { testTag ->
+            composeTestRule.onNodeWithTag(testTag).fetchSemanticsNode().boundsInRoot.top
+        }
+        val spread = (topPositions.maxOrNull() ?: 0f) - (topPositions.minOrNull() ?: 0f)
+
+        assertTrue(spread > 0.5f)
+        assertTrue(spread <= 12f)
+    }
+
+    /**
+     * @description 中心卡聚焦后，底部三张辅助卡必须共享同一底边基线。
+     * @author PopoY
+     */
+    @Test
+    fun center_focus_should_keep_bottom_support_cards_on_shared_baseline_in_ui() {
+        setBrowseContent()
+
+        focusCategoryAndEnterGrid(categoryId = "hot-stir-fry")
+        sendKey(Key.DirectionRight)
+        sendKey(Key.DirectionDown)
+
+        val bottomValues = listOf(
+            "menu-item-hot-stir-fry-6",
+            "menu-item-hot-stir-fry-7",
+            "menu-item-hot-stir-fry-8",
+        ).map { testTag ->
+            composeTestRule.onNodeWithTag(testTag).fetchSemanticsNode().boundsInRoot.bottom
+        }
+
+        assertEquals(bottomValues[0], bottomValues[1], 0.5f)
+        assertEquals(bottomValues[1], bottomValues[2], 0.5f)
+    }
+
+    /**
+     * @description 中心卡聚焦后，网格区域仍必须留在导轨右侧、标题下方。
+     * @author PopoY
+     */
+    @Test
+    fun grid_bounds_should_remain_to_the_right_of_rail_and_below_header_after_center_focus() {
+        setBrowseContent()
+
+        focusCategoryAndEnterGrid(categoryId = "hot-stir-fry")
+        sendKey(Key.DirectionRight)
+        sendKey(Key.DirectionDown)
+
+        val gridBounds = composeTestRule.onNodeWithTag("menu-item-grid").fetchSemanticsNode().boundsInRoot
+        val railBounds = composeTestRule.onNodeWithTag("category-hot-stir-fry").fetchSemanticsNode().boundsInRoot
+        val titleBounds = composeTestRule.onNodeWithTag("browse-main-title").fetchSemanticsNode().boundsInRoot
+
+        assertTrue(gridBounds.left >= railBounds.right)
+        assertTrue(gridBounds.top >= titleBounds.bottom)
     }
 
     /**
